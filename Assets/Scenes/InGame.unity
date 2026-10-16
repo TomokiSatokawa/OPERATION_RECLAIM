@@ -1864,7 +1864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Player.CameraController
   _player: {fileID: 1636034708}
-  _rotationSpeed: 3
+  _rotationSpeed: 0.1
 --- !u!4 &1669810258 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2899422035419094908, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}

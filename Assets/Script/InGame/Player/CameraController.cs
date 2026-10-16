@@ -10,9 +10,9 @@ namespace InGame.Player
 
         private float _currentRotation;
 
-        private void Update()
+        private void FixedUpdate()
         {
-            _currentRotation += InputManager.Look.x * _rotationSpeed * Time.deltaTime;
+            _currentRotation += InputManager.Look.x * _rotationSpeed;
             _player.transform.rotation = Quaternion.Euler(0, _currentRotation, 0);
         }
     }
