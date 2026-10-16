@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 998193cfd84c8bc46817a076460d6dc8, type: 3}
+  m_Name: StateMotionData
+  m_EditorClassIdentifier: Assembly-CSharp::StateMotionData
+  _motionGroups:
+  - _motionType: 0
+    _idleClip:
+      rid: 3847071660778193191
+    _walkForwardClip:
+      rid: 3847071660778193225
+    _walkRightClip:
+      rid: 3847071660778193226
+    _walkLeftClip:
+      rid: 3847071660778193227
+    _walkBackClip:
+      rid: 3847071660778193228
+    _runClip:
+      rid: 3847071660778193193
+  - _motionType: 1
+    _idleClip:
+      rid: 3847071660778193306
+    _walkForwardClip:
+      rid: 3847071660778193307
+    _walkRightClip:
+      rid: 3847071660778193308
+    _walkLeftClip:
+      rid: 3847071660778193309
+    _walkBackClip:
+      rid: 3847071660778193310
+    _runClip:
+      rid: 3847071660778193311
+  references:
+    version: 2
+    RefIds:
+    - rid: 3847071660778193191
+      type: {class: BasicMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 0
+    - rid: 3847071660778193193
+      type: {class: BasicMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 5
+    - rid: 3847071660778193225
+      type: {class: BasicMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 1
+    - rid: 3847071660778193226
+      type: {class: BasicMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 2
+    - rid: 3847071660778193227
+      type: {class: BasicMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 3
+    - rid: 3847071660778193228
+      type: {class: BasicMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 4
+    - rid: 3847071660778193306
+      type: {class: SwordMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 0
+    - rid: 3847071660778193307
+      type: {class: SwordMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 1
+    - rid: 3847071660778193308
+      type: {class: SwordMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 2
+    - rid: 3847071660778193309
+      type: {class: SwordMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 3
+    - rid: 3847071660778193310
+      type: {class: SwordMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 4
+    - rid: 3847071660778193311
+      type: {class: SwordMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 5
