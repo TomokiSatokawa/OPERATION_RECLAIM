@@ -757,6 +757,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1636034708}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &734237213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 734237214}
+  m_Layer: 0
+  m_Name: ShotPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &734237214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734237213}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.44576877, y: 0.56891793, z: -0.5722864, w: -0.38744152}
+  m_LocalPosition: {x: 0.000114761715, y: -0.00061391434, z: -0.43452466}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1925416992}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &745603847 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2072040086291044643, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
@@ -1791,6 +1822,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4519716788627816, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1732306726}
+    - targetCorrespondingSourceObject: {fileID: 4519716788627816, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 734237214}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
 --- !u!4 &1458199442 stripped
@@ -1950,6 +1984,7 @@ GameObject:
   - component: {fileID: 1636034709}
   - component: {fileID: 1636034711}
   - component: {fileID: 1636034712}
+  - component: {fileID: 1636034713}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2046,6 +2081,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Player.CameraController
   _player: {fileID: 1636034708}
   _rotationSpeed: 0.1
+--- !u!114 &1636034713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636034707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d01d25c6b433674886db870ffdfb69f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RifleController
+  _mainCamera: {fileID: 1922853098}
+  _bulletPrefab: {fileID: 8503042438991784427, guid: da2b0ba34038fcf45983d669fec9cfd2, type: 3}
+  _bulletClonePosition: {fileID: 734237214}
+  _rayMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _rayDirection: 100
+  _bulletDistance: 100
 --- !u!4 &1669810258 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2899422035419094908, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
