@@ -48,6 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Player.Rifle.BulletController
   _moveSpeed: 0.5
   _deleteDistance: 1
+  _rayDistance: 1
+  _rayMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _bulletHole: {fileID: 7942318127120524119, guid: ddc9f465775ec3e4e8cca7f115482199, type: 3}
 --- !u!96 &8380687029116701619
 TrailRenderer:
   serializedVersion: 4
