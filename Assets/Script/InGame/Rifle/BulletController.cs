@@ -21,9 +21,9 @@ namespace InGame.Player.Rifle
             this.transform.up = direction;
 
             //ˆÚ“®(
-            this.transform.position += this.transform.up * _moveSpeed;
+            this.transform.position +=    this.transform.up * _moveSpeed * Time.fixedDeltaTime;
 
-            if((_targetPosition - this.transform.position).sqrMagnitude <  _deleteDistance * _deleteDistance)
+            if ((_targetPosition - this.transform.position).sqrMagnitude <  _deleteDistance * _deleteDistance)
             {
                 Destroy(this.gameObject);
             }

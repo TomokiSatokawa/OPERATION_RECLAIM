@@ -6,7 +6,7 @@ namespace InGame.Player.Rifle
     /// <summary>
     /// èeÇÃÉfÅ[É^ä«óù
     /// </summary>
-    public class RifleDataContainer : MonoBehaviour
+    public class RifleData : MonoBehaviour
     {
         [SerializeField] private Vector3 _localPosition;
         [SerializeField] private Transform _rightHandRig;

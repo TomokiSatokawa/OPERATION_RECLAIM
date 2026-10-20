@@ -20,7 +20,7 @@ namespace InGame.UI
             _rifleEquipper.RifleSubject.Subscribe(UpdateRifle).RegisterTo(destroyCancellationToken);
         }
 
-        private void UpdateRifle(RifleDataContainer rifle)
+        private void UpdateRifle(RifleData rifle)
         {
             _bulletCountDisposable?.Dispose();
 

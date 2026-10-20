@@ -10,7 +10,7 @@ public class RifleController : MonoBehaviour
     [SerializeField] private BulletController _bulletPrefab;
     [SerializeField] private RifleEquipper _rifleEquipper;
     [SerializeField] private LayerMask _rayMask;
-    [SerializeField] private float _rayDirection;
+    [SerializeField] private float _rayDistance;
     [SerializeField] private float _bulletDistance;
 
     private void Start()
@@ -22,18 +22,19 @@ public class RifleController : MonoBehaviour
     private void Shot()
     {
         //écíeêî0ÇÃèÍçáÇÕë≈ÇΩÇ»Ç¢
-        if (_rifleEquipper.CurrentRifle.RemainingBulletCount.CurrentValue <= 0) return;
+        var currentRifle = _rifleEquipper.CurrentRifle;
+        if (currentRifle.RemainingBulletCount.CurrentValue <= 0) return;
 
         //ÉäÉçÅ[ÉhíÜÇÕë≈ÇΩÇ»Ç¢
-        if (_rifleEquipper.CurrentRifle.Reloading.CurrentValue) return;
+        if (currentRifle.Reloading.CurrentValue) return;
 
         //íeÇî≠éÀÇ∑ÇÈ
-        var shotPos = _rifleEquipper.CurrentRifle.ShotPosition;
-        var bullet = Instantiate(_bulletPrefab,shotPos.position,shotPos.rotation);
+        var shotPos = currentRifle.ShotPosition;
+        var bullet = Instantiate(_bulletPrefab, shotPos.position, shotPos.rotation);
         bullet.SetData(GetRayPosition());
 
         //écíeêîÇå∏ÇÁÇ∑
-        _rifleEquipper.CurrentRifle.RemoveBulletCount();
+        currentRifle.RemoveBulletCount();
     }
 
     private void Reload()
@@ -44,9 +45,9 @@ public class RifleController : MonoBehaviour
     private Vector3 GetRayPosition()
     {
         var ray = new Ray(_mainCamera.transform.position, _mainCamera.transform.forward);
-        Debug.DrawRay(ray.origin, ray.direction * _rayDirection);
+        Debug.DrawRay(ray.origin, ray.direction * _rayDistance);
 
-        if (!Physics.Raycast(ray, out var hit, _rayDirection, _rayMask))
+        if (!Physics.Raycast(ray, out var hit, _rayDistance, _rayMask))
             return ray.origin + ray.direction * _bulletDistance;
 
         return hit.point;

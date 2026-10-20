@@ -5,24 +5,24 @@ using UnityEngine;
 
 public class RifleEquipper : MonoBehaviour
 {
-    [SerializeField] private RifleDataContainer _riflePrefab;
+    [SerializeField] private RifleData _riflePrefab;
     [SerializeField] private Transform _cloneParent;
     [SerializeField] private TragetFollow _rightHandRigTarget;
     [SerializeField] private TragetFollow _leftHandRigTarget;
     [SerializeField] private TragetFollow _lookRigTarget;
 
-    private RifleDataContainer _currentRifle;
-    public RifleDataContainer CurrentRifle => _currentRifle;
+    private RifleData _currentRifle;
+    public RifleData CurrentRifle => _currentRifle;
 
-    private Subject<RifleDataContainer> _currentRifleSubject = new();
-    public Observable<RifleDataContainer> RifleSubject => _currentRifleSubject;
+    private Subject<RifleData> _currentRifleSubject = new();
+    public Observable<RifleData> RifleSubject => _currentRifleSubject;
 
     private void Start()
     {
         Equipment(_riflePrefab);
     }
 
-    private void Equipment(RifleDataContainer riflePrefab)
+    private void Equipment(RifleData riflePrefab)
     {
         if (_currentRifle != null) return;
 

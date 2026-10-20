@@ -9,7 +9,7 @@ namespace InGame.UI
     {
         [SerializeField] private Image _gage;
 
-        private RifleDataContainer _currentRifle;
+        private RifleData _currentRifle;
 
         private void Update()
         {
@@ -19,7 +19,7 @@ namespace InGame.UI
             }
         }
 
-        public void SetReloading(bool reloading, RifleDataContainer rifleData)
+        public void SetReloading(bool reloading, RifleData rifleData)
         {
             if (!reloading)
             {
