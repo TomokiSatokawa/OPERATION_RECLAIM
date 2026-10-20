@@ -1,5 +1,6 @@
 using InGame.Player.Motion;
 using InGame.Player.Rifle;
+using R3;
 using UnityEngine;
 
 public class RifleEquipper : MonoBehaviour
@@ -12,6 +13,9 @@ public class RifleEquipper : MonoBehaviour
 
     private RifleDataContainer _currentRifle;
     public RifleDataContainer CurrentRifle => _currentRifle;
+
+    private Subject<RifleDataContainer> _currentRifleSubject = new();
+    public Observable<RifleDataContainer> RifleSubject => _currentRifleSubject;
 
     private void Start()
     {
@@ -27,5 +31,7 @@ public class RifleEquipper : MonoBehaviour
         _rightHandRigTarget.SetTarget(_currentRifle.RightHandRig);
         _leftHandRigTarget.SetTarget(_currentRifle.LeftHandRig);
         _lookRigTarget.SetTarget(_currentRifle.LookRig);
+
+        _currentRifleSubject.OnNext(_currentRifle);
     }
 }

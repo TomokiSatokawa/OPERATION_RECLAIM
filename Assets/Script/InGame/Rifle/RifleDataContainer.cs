@@ -1,3 +1,4 @@
+using R3;
 using UnityEngine;
 
 namespace InGame.Player.Rifle
@@ -23,41 +24,42 @@ namespace InGame.Player.Rifle
         public int MaxBulletCount => _maxBulletCount;
         public float ReloadDuration => _reloadDuration;
 
-        private int _remainingBulletCount;
-        public int RemainingBulletCount => _remainingBulletCount;
+        private ReactiveProperty<int> _remainingBulletCount = new();
+        public ReadOnlyReactiveProperty<int> RemainingBulletCount => _remainingBulletCount;
 
-        public bool IsReloading { get; private set; }
+        private ReactiveProperty<bool> _reloading = new(false);
+        public ReadOnlyReactiveProperty<bool> Reloading => _reloading;  
         public float ReloadTimer { get; private set; }
 
         private void Start ()
         {
-            _remainingBulletCount = _maxBulletCount;
+            _remainingBulletCount.Value = _maxBulletCount;
         }
 
         private void Update()
         {
-            if (IsReloading)
+            if (_reloading.Value)
             {
                 ReloadTimer -= Time.deltaTime;
 
                 if(ReloadTimer <= 0f)
                 {
-                    IsReloading = false;
-                    _remainingBulletCount = _maxBulletCount;
+                    _reloading.Value = false;
+                    _remainingBulletCount.Value = _maxBulletCount;
                 }
             }
         }
 
         public void Reload()
         {
-            if (IsReloading) return;
-            IsReloading = true;
+            if (_reloading.Value) return;
+            _reloading.Value = true;
             ReloadTimer = _reloadDuration;
         }
 
         public void RemoveBulletCount(int count = 1)
         {
-            _remainingBulletCount -= count;
+            _remainingBulletCount.Value -= count;
         }
     }
 }

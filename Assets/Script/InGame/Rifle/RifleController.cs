@@ -5,7 +5,7 @@ using R3;
 using UnityEngine;
 
 public class RifleController : MonoBehaviour
-{
+{ 
     [SerializeField] private Transform _mainCamera;
     [SerializeField] private BulletController _bulletPrefab;
     [SerializeField] private RifleEquipper _rifleEquipper;
@@ -22,7 +22,10 @@ public class RifleController : MonoBehaviour
     private void Shot()
     {
         //écíeêî0ÇÃèÍçáÇÕë≈ÇΩÇ»Ç¢
-        if (_rifleEquipper.CurrentRifle.RemainingBulletCount <= 0) return;
+        if (_rifleEquipper.CurrentRifle.RemainingBulletCount.CurrentValue <= 0) return;
+
+        //ÉäÉçÅ[ÉhíÜÇÕë≈ÇΩÇ»Ç¢
+        if (_rifleEquipper.CurrentRifle.Reloading.CurrentValue) return;
 
         //íeÇî≠éÀÇ∑ÇÈ
         var shotPos = _rifleEquipper.CurrentRifle.ShotPosition;
