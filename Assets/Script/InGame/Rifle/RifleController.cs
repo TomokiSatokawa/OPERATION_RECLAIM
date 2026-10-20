@@ -8,7 +8,7 @@ public class RifleController : MonoBehaviour
 {
     [SerializeField] private Transform _mainCamera;
     [SerializeField] private BulletController _bulletPrefab;
-    [SerializeField] private Transform _bulletClonePosition;
+    [SerializeField] private RifleEquipper _rifleEquipper;
     [SerializeField] private LayerMask _rayMask;
     [SerializeField] private float _rayDirection;
     [SerializeField] private float _bulletDistance;
@@ -16,12 +16,26 @@ public class RifleController : MonoBehaviour
     private void Start()
     {
         InputManager.Attack.Where(x => x).Subscribe(_ => Shot()).RegisterTo(destroyCancellationToken);
+        InputManager.Reload.Subscribe(_ => Reload()).RegisterTo(destroyCancellationToken);
     }
 
     private void Shot()
     {
-        var bullet = Instantiate(_bulletPrefab,_bulletClonePosition.position,_bulletClonePosition.rotation);
+        //écíeêî0ÇÃèÍçáÇÕë≈ÇΩÇ»Ç¢
+        if (_rifleEquipper.CurrentRifle.RemainingBulletCount <= 0) return;
+
+        //íeÇî≠éÀÇ∑ÇÈ
+        var shotPos = _rifleEquipper.CurrentRifle.ShotPosition;
+        var bullet = Instantiate(_bulletPrefab,shotPos.position,shotPos.rotation);
         bullet.SetData(GetRayPosition());
+
+        //écíeêîÇå∏ÇÁÇ∑
+        _rifleEquipper.CurrentRifle.RemoveBulletCount();
+    }
+
+    private void Reload()
+    {
+        _rifleEquipper.CurrentRifle.Reload();
     }
 
     private Vector3 GetRayPosition()

@@ -5,12 +5,19 @@ namespace InGame.Player.Motion
 
     public class TragetFollow : MonoBehaviour
     {
-        [SerializeField] private Transform _traget;
+        [SerializeField] private Transform _target;
 
         private void Update()
         {
-            this.transform.position = _traget.position;
-            this.transform.rotation = _traget.rotation;
+            if (_target == null) return;
+
+            this.transform.position = _target.position;
+            this.transform.rotation = _target.rotation;
+        }
+
+        public void SetTarget(Transform target)
+        {
+            _target = target;
         }
     }
 }
