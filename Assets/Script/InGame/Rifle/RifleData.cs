@@ -28,10 +28,10 @@ namespace InGame.Player.Rifle
         public ReadOnlyReactiveProperty<int> RemainingBulletCount => _remainingBulletCount;
 
         private ReactiveProperty<bool> _reloading = new(false);
-        public ReadOnlyReactiveProperty<bool> Reloading => _reloading;  
+        public ReadOnlyReactiveProperty<bool> Reloading => _reloading;
         public float ReloadTimer { get; private set; }
 
-        private void Start ()
+        private void Start()
         {
             _remainingBulletCount.Value = _maxBulletCount;
         }
@@ -42,7 +42,7 @@ namespace InGame.Player.Rifle
             {
                 ReloadTimer -= Time.deltaTime;
 
-                if(ReloadTimer <= 0f)
+                if (ReloadTimer <= 0f)
                 {
                     _reloading.Value = false;
                     _remainingBulletCount.Value = _maxBulletCount;
