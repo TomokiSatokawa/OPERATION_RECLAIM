@@ -484,8 +484,9 @@ GameObject:
   - component: {fileID: 5028894751107507225}
   - component: {fileID: 9166838241038455919}
   - component: {fileID: 8793132780587511512}
+  - component: {fileID: 3890267785948624979}
   m_Layer: 5
-  m_Name: Condition
+  m_Name: WaitCondition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -550,6 +551,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3890267785948624979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5485068257485267725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46345563f471a244b98045b1b80ce9fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Graph.WaitConditionView
+  _duration: {fileID: 5044850739999811399}
 --- !u!1 &5694151305998284498
 GameObject:
   m_ObjectHideFlags: 0

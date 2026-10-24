@@ -19,7 +19,7 @@ namespace Graph
             }
         }
 
-        public override WaitCondition Create()
+        protected override WaitCondition CreateCondition()
         {
             return new(Duration);
         }
