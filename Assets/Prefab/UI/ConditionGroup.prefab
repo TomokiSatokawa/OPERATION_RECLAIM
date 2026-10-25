@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Graph.ConditionGroupView
   _addButton: {fileID: 8277190793952042551}
   _content: {fileID: 2678400924979096679}
+  _prefabData: {fileID: 11400000, guid: 1e30f17609330bc40b338951f56e0619, type: 2}
 --- !u!1 &2871240387084564203
 GameObject:
   m_ObjectHideFlags: 0

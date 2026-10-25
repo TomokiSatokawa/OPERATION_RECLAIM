@@ -1,17 +1,14 @@
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 
+[System.Serializable]
 public class ConditionGroup : MonoBehaviour
 {
-    private List<ConditionBase> _conditions;
-    
-    public void AddCondition(ConditionBase condition)
-    {
-        _conditions.Add(condition);
-    }
+    [SerializeField] private ConditionBase[] _conditions;
+    public ReadOnlyArray<ConditionBase> Conditions => _conditions;
 
-    public void RemoveCondition(ConditionBase condition)
+    public void SetConditions(ConditionBase[] conditions)
     {
-        _conditions.Remove(condition);
+        _conditions = conditions;
     }
 }

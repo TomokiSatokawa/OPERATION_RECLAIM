@@ -4,6 +4,7 @@ using UnityEngine;
 public class NodeFactory : MonoBehaviour
 {
     [SerializeField] private NodeConnector _connector;
+    [SerializeField] private ConditionGroupGenerator _generator;
     [SerializeField] private Transform _content;
     [SerializeField] private RectTransform _parentTransform;
     [SerializeField] private Camera _canvasCamera;
@@ -23,6 +24,7 @@ public class NodeFactory : MonoBehaviour
         }
 
         clonedNode.Rect.anchoredPosition = position;
-        clonedNode.Initialize(_connector);
+        clonedNode.Initialize(_connector, _generator);
+        GraphDataContainer.SaveNode(clonedNode);
     }
 }

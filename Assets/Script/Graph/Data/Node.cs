@@ -26,12 +26,13 @@ namespace Graph
                 _rectTransform = GetComponent<RectTransform>();
         }
 
-        public void Initialize(NodeConnector connector)
+        public void Initialize(NodeConnector connector,ConditionGroupGenerator conditionGroup)
         {
             foreach(var output in _outputs)
-            {
-                output.Initialize(connector);
-            }
+                output.Initialize(connector, conditionGroup);
+
+            foreach (var input in _inputs)
+                input.Initialize();
         }
 
         /// <summary>

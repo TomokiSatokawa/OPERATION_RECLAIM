@@ -11,7 +11,12 @@ namespace Graph
         {
             get
             {
-                return float.Parse(_duration.text);
+                if (string.IsNullOrWhiteSpace(_duration.text))
+                {
+
+                    return 0;
+                }
+                    return float.Parse(_duration.text);
             }
             set
             {
@@ -21,7 +26,12 @@ namespace Graph
 
         protected override WaitCondition CreateCondition()
         {
-            return new(Duration);
+            return new(nameof(WaitConditionView),Duration);
+        }
+
+        protected override void SetConditionData(WaitCondition condition)
+        {
+            _duration.text = condition.Duration.ToString();
         }
     }
 }

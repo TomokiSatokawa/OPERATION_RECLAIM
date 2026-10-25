@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Common
@@ -40,6 +41,12 @@ namespace Common
             }
             folderList.AddRange(prefabList);
             return folderList;
+        }
+
+        public T FindData(string path)
+        {
+            var data = _datas.FirstOrDefault(x => x.Data.GetType().Name == path);
+            return data.Data;
         }
     }
 

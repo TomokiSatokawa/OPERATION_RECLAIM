@@ -2,12 +2,16 @@ using UnityEngine;
 
 namespace Graph
 {
+    [System.Serializable]
     public class WaitCondition : ConditionBase
     {
-        private float _duration;
+        [SerializeField] private float _duration;
 
-        public WaitCondition(float duration)
+        public float Duration => _duration;
+
+        public WaitCondition(string path, float duration)
         {
+            _path = path;
             _duration = duration;
         }
     }
