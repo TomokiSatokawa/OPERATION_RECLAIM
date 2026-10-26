@@ -1,4 +1,6 @@
+using InGame.Player.Rifle;
 using PlayerInput;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace InGame.Player
@@ -7,8 +9,17 @@ namespace InGame.Player
     {
         [SerializeField] private Transform _player;
         [SerializeField] private float _rotationSpeed;
+        [SerializeField] private CinemachineOrbitalFollow _camera;
+        [SerializeField] private RifleRotation _rifleRotation;
 
         private float _currentRotation;
+
+        private void Update()
+        {
+            var verticalValue = _camera.VerticalAxis.Value;
+            var range = _camera.VerticalAxis.Range;
+            _rifleRotation.SetCameraValue(range.x, range.y, verticalValue);
+        }
 
         private void FixedUpdate()
         {
