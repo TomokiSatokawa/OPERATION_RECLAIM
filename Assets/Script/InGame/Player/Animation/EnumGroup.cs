@@ -44,9 +44,9 @@ namespace Common
     }
 
     [Serializable]
-    public class SwordMotion : EnumGroupBase<SwordAnimationType>
+    public class PlayerRifleMotion : EnumGroupBase<PlayerRifleAnimationType>
     {
-        public override EnumID Create(SwordAnimationType type)
+        public override EnumID Create(PlayerRifleAnimationType type)
         {
             _type = type;
             return Create();
@@ -54,9 +54,9 @@ namespace Common
     }
 
     [Serializable]
-    public class EmoteMotion : EnumGroupBase<EmoteAnimationType>
+    public class EnemyRifleMotion : EnumGroupBase<EnemyRifleAnimationType>
     {
-        public override EnumID Create(EmoteAnimationType type)
+        public override EnumID Create(EnemyRifleAnimationType type)
         {
             _type = type;
             return Create();

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 998193cfd84c8bc46817a076460d6dc8, type: 3}
-  m_Name: StateMotionData
+  m_Name: PlayerStateMotionData
   m_EditorClassIdentifier: Assembly-CSharp::StateMotionData
   _motionGroups:
   - _motionType: 0
@@ -28,17 +28,17 @@ MonoBehaviour:
       rid: 3847071660778193193
   - _motionType: 1
     _idleClip:
-      rid: 3847071660778193306
+      rid: 3847071919208661327
     _walkForwardClip:
-      rid: 3847071660778193307
+      rid: 3847071919208661328
     _walkRightClip:
-      rid: 3847071660778193308
+      rid: 3847071919208661329
     _walkLeftClip:
-      rid: 3847071660778193309
+      rid: 3847071919208661331
     _walkBackClip:
-      rid: 3847071660778193310
+      rid: 3847071919208661333
     _runClip:
-      rid: 3847071660778193311
+      rid: 3847071919208661334
   references:
     version: 2
     RefIds:
@@ -66,27 +66,27 @@ MonoBehaviour:
       type: {class: BasicMotion, ns: Common, asm: Assembly-CSharp}
       data:
         _type: 4
-    - rid: 3847071660778193306
-      type: {class: SwordMotion, ns: Common, asm: Assembly-CSharp}
+    - rid: 3847071919208661327
+      type: {class: PlayerRifleMotion, ns: Common, asm: Assembly-CSharp}
       data:
         _type: 0
-    - rid: 3847071660778193307
-      type: {class: SwordMotion, ns: Common, asm: Assembly-CSharp}
+    - rid: 3847071919208661328
+      type: {class: PlayerRifleMotion, ns: Common, asm: Assembly-CSharp}
       data:
         _type: 1
-    - rid: 3847071660778193308
-      type: {class: SwordMotion, ns: Common, asm: Assembly-CSharp}
+    - rid: 3847071919208661329
+      type: {class: PlayerRifleMotion, ns: Common, asm: Assembly-CSharp}
       data:
         _type: 2
-    - rid: 3847071660778193309
-      type: {class: SwordMotion, ns: Common, asm: Assembly-CSharp}
+    - rid: 3847071919208661331
+      type: {class: PlayerRifleMotion, ns: Common, asm: Assembly-CSharp}
       data:
         _type: 3
-    - rid: 3847071660778193310
-      type: {class: SwordMotion, ns: Common, asm: Assembly-CSharp}
+    - rid: 3847071919208661333
+      type: {class: PlayerRifleMotion, ns: Common, asm: Assembly-CSharp}
       data:
         _type: 4
-    - rid: 3847071660778193311
-      type: {class: SwordMotion, ns: Common, asm: Assembly-CSharp}
+    - rid: 3847071919208661334
+      type: {class: PlayerRifleMotion, ns: Common, asm: Assembly-CSharp}
       data:
         _type: 5

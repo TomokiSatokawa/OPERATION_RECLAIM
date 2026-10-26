@@ -190,7 +190,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-  _swordClip:
+  _playerRifleClip:
   - _name: 0
     _clip: {fileID: -203655887218126122, guid: d893500eddbe5ba4089d968f4c1bd24b, type: 3}
     _avatarMaskData: 0
@@ -365,5 +365,63 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-  _emoteClip: []
+  _enemyRifleClip:
+  - _name: 0
+    _clip: {fileID: -203655887218126122, guid: feed9c4493f42c243bdeaf1e3b3b1670, type: 3}
+    _avatarMaskData: 0
+    _blendData:
+      Duration: 0.3
+      Curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  - _name: 1
+    _clip: {fileID: -203655887218126122, guid: 2820a1f0e9945054d84812d9ad08971e, type: 3}
+    _avatarMaskData: 0
+    _blendData:
+      Duration: 0.3
+      Curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
   _footmanClip: []

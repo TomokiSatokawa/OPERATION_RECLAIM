@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 998193cfd84c8bc46817a076460d6dc8, type: 3}
+  m_Name: EnemyStateMotionData
+  m_EditorClassIdentifier: Assembly-CSharp::StateMotionData
+  _motionGroups:
+  - _motionType: 2
+    _idleClip:
+      rid: 3847071919208661320
+    _walkForwardClip:
+      rid: 3847071919208661321
+    _walkRightClip:
+      rid: 3847071919208661323
+    _walkLeftClip:
+      rid: 3847071919208661324
+    _walkBackClip:
+      rid: 3847071919208661325
+    _runClip:
+      rid: 3847071919208661326
+  references:
+    version: 2
+    RefIds:
+    - rid: 3847071919208661320
+      type: {class: EnemyRifleMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 0
+    - rid: 3847071919208661321
+      type: {class: EnemyRifleMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 1
+    - rid: 3847071919208661323
+      type: {class: EnemyRifleMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 0
+    - rid: 3847071919208661324
+      type: {class: EnemyRifleMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 0
+    - rid: 3847071919208661325
+      type: {class: EnemyRifleMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 0
+    - rid: 3847071919208661326
+      type: {class: EnemyRifleMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 0

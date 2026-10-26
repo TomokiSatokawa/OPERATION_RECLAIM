@@ -11,8 +11,8 @@ namespace InGame.Player.Motion
     {
         [SerializeField] private AvatarMaskData[] _avatarMaskData;
         [SerializeField] private AnimationData<BasicAnimationType>[] _basicClip;
-        [SerializeField] private AnimationData<SwordAnimationType>[] _swordClip;
-        [SerializeField] private AnimationData<EmoteAnimationType>[] _emoteClip;
+        [SerializeField] private AnimationData<PlayerRifleAnimationType>[] _playerRifleClip;
+        [SerializeField] private AnimationData<EnemyRifleAnimationType>[] _enemyRifleClip;
         [SerializeField] private AnimationData<FootmanAnimationType>[] _footmanClip;
 
         private Dictionary<EnumID, IReadOnlyAnimationData> _animationDictionary = new();
@@ -23,8 +23,8 @@ namespace InGame.Player.Motion
             if (_animationDictionary.Count > 0) return;
 
             AddDictionary(new BasicMotion(), _basicClip);
-            AddDictionary(new SwordMotion(), _swordClip);
-            AddDictionary(new EmoteMotion(), _emoteClip);
+            AddDictionary(new PlayerRifleMotion(), _playerRifleClip);
+            AddDictionary(new EnemyRifleMotion(), _enemyRifleClip);
             AddDictionary(new FootmanMotion(), _footmanClip);
         }
 
@@ -116,14 +116,14 @@ namespace InGame.Player.Motion
         Idol, Forward, Right, Left, Back, Run
     }
 
-    public enum SwordAnimationType : byte
+    public enum PlayerRifleAnimationType : byte
     {
         Idol, Forward, Right, Left, Back, Run
     }
 
-    public enum EmoteAnimationType : byte
+    public enum EnemyRifleAnimationType : byte
     {
-        SwordEquipment,
+        Idol, Forward,
     }
 
     public enum FootmanAnimationType : byte
