@@ -15,6 +15,8 @@ MonoBehaviour:
   _avatarMaskData:
   - _maskType: 0
     _mask: {fileID: 31900000, guid: 341172fc2bc0c5544988253c4d6bb882, type: 2}
+  - _maskType: 1
+    _mask: {fileID: 31900000, guid: 441bd5d0ff097b3409cc95dba01f023e, type: 2}
   _basicClip:
   - _name: 0
     _clip: {fileID: -203655887218126122, guid: 5b243dc005e61f84b89ce29cded81d87, type: 3}
@@ -339,6 +341,35 @@ MonoBehaviour:
   - _name: 5
     _clip: {fileID: -203655887218126122, guid: 8e8a10902264a8d40bcdb8a0b02f2179, type: 3}
     _avatarMaskData: 0
+    _blendData:
+      Duration: 0.3
+      Curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  - _name: 6
+    _clip: {fileID: -203655887218126122, guid: a330bc725731bcd4685ed304bafa2516, type: 3}
+    _avatarMaskData: 1
     _blendData:
       Duration: 0.3
       Curve:

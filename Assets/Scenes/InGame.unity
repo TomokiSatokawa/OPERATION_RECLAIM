@@ -447,6 +447,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1982196634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &108671866
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 108671867}
+  - component: {fileID: 108671868}
+  m_Layer: 0
+  m_Name: Point (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &108671867
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108671866}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.28, y: 0, z: -11.12}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &108671868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108671866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: 1.5, y: 0, z: 0}
 --- !u!1 &111498792
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +816,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.Rig
   m_Weight: 1
   m_Effectors: []
+--- !u!1 &156130109
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 156130110}
+  m_Layer: 0
+  m_Name: CoverPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &156130110
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 156130109}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.95126, y: 1.25242, z: -9.09678}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 941412893}
+  - {fileID: 1865080161}
+  - {fileID: 437886242}
+  - {fileID: 947079433}
+  - {fileID: 108671867}
+  - {fileID: 615132568}
+  - {fileID: 219540397}
+  - {fileID: 1557941617}
+  - {fileID: 833779713}
+  - {fileID: 1838711257}
+  - {fileID: 1748444659}
+  - {fileID: 1761640567}
+  - {fileID: 1915083386}
+  - {fileID: 989330352}
+  - {fileID: 994528827}
+  - {fileID: 1076589234}
+  - {fileID: 889167029}
+  - {fileID: 1982788607}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &175738142
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,6 +1004,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Player.Motion.TragetFollow
   _target: {fileID: 0}
+--- !u!1 &219540396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 219540397}
+  - component: {fileID: 219540398}
+  m_Layer: 0
+  m_Name: Point (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &219540397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219540396}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.3290653, z: -0, w: 0.9443072}
+  m_LocalPosition: {x: -5.8283505, y: 0, z: -18.856537}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 38.424, z: 0}
+--- !u!114 &219540398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219540396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: 1.5, y: 0, z: 0}
 --- !u!4 &246970552 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3667946887678727147, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
@@ -1168,6 +1307,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &437886241
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 437886242}
+  - component: {fileID: 437886243}
+  m_Layer: 0
+  m_Name: Point (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &437886242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437886241}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.41, y: 0, z: 0.276}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &437886243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437886241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: 1.5, y: 0, z: 0}
 --- !u!4 &441994295 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8169382868667117632, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
@@ -1302,6 +1486,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8447082967072642302, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
   m_PrefabInstance: {fileID: 1406103527}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &615132567
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 615132568}
+  - component: {fileID: 615132569}
+  m_Layer: 0
+  m_Name: Point (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &615132568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615132567}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.2800002, y: 0, z: -12.946}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &615132569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615132567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: 1.5, y: 0, z: 0}
 --- !u!1 &638004446
 GameObject:
   m_ObjectHideFlags: 0
@@ -1725,6 +1954,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8255111157037086696, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
   m_PrefabInstance: {fileID: 1406103527}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &833779712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 833779713}
+  - component: {fileID: 833779714}
+  m_Layer: 0
+  m_Name: Point (8)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &833779713
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833779712}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.3290653, z: -0, w: 0.9443072}
+  m_LocalPosition: {x: -11.68, y: 0, z: -13.98}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 38.424, z: 0}
+--- !u!114 &833779714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833779712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: -1.5, y: 0, z: 0}
 --- !u!4 &849677729 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1092408308860062549, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
@@ -1975,6 +2249,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.Rig
   m_Weight: 1
   m_Effectors: []
+--- !u!1 &889167028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 889167029}
+  - component: {fileID: 889167030}
+  m_Layer: 0
+  m_Name: Point (16)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &889167029
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889167028}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.02712006, z: -0, w: 0.9996322}
+  m_LocalPosition: {x: -2.63, y: 0, z: -24.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: -3.108, z: 0}
+--- !u!114 &889167030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889167028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: 1.5, y: 0, z: 0}
 --- !u!4 &898612060 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -5665043316445423941, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
@@ -1985,6 +2304,96 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -3945598086791027091, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
   m_PrefabInstance: {fileID: 1406103527}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &941412892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 941412893}
+  - component: {fileID: 941412894}
+  m_Layer: 0
+  m_Name: Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &941412893
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941412892}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.641, y: 0, z: 0.276}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &941412894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941412892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: -1.5, y: 0, z: 0}
+--- !u!1 &947079432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 947079433}
+  - component: {fileID: 947079434}
+  m_Layer: 0
+  m_Name: Point (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &947079433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947079432}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.41, y: 0, z: -1.55}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &947079434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947079432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: 1.5, y: 0, z: 0}
 --- !u!4 &953697079 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3480699329000672020, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
@@ -2045,6 +2454,96 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6655383506977046455, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
   m_PrefabInstance: {fileID: 1406103527}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &989330351
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 989330352}
+  - component: {fileID: 989330353}
+  m_Layer: 0
+  m_Name: Point (13)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &989330352
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989330351}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9159074, z: -0, w: 0.40138972}
+  m_LocalPosition: {x: -20.722626, y: 0, z: -21.80243}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 132.67, z: 0}
+--- !u!114 &989330353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989330351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: 1.5, y: 0, z: 0}
+--- !u!1 &994528826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 994528827}
+  - component: {fileID: 994528828}
+  m_Layer: 0
+  m_Name: Point (14)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &994528827
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994528826}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.02712006, z: -0, w: 0.9996322}
+  m_LocalPosition: {x: -10.14, y: 0, z: -24.45}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: -3.108, z: 0}
+--- !u!114 &994528828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994528826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: -1.5, y: 0, z: 0}
 --- !u!4 &1005995763 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6341119541397085964, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
@@ -2138,6 +2637,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.UI.BulletCountView
   _remainingBulletCount: {fileID: 1107850852}
+--- !u!1 &1076589233
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1076589234}
+  - component: {fileID: 1076589235}
+  m_Layer: 0
+  m_Name: Point (15)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1076589234
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076589233}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.02712006, z: -0, w: 0.9996322}
+  m_LocalPosition: {x: -10.040993, y: 0, z: -26.273312}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: -3.108, z: 0}
+--- !u!114 &1076589235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076589233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: -1.5, y: 0, z: 0}
 --- !u!4 &1102442676 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -6897756558726502734, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
@@ -2811,8 +3355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.EnemyStateMachine
   _enemyState:
-  - rid: 3847071954846089313
-  - rid: 3847071954846089332
+  - rid: 3847071962832306269
   _player: {fileID: 1636034708}
   _agent: {fileID: 1332809774}
   _animation: {fileID: 1604025349}
@@ -2820,13 +3363,10 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3847071954846089313
-      type: {class: PatrolState, ns: InGame.Enemy.State, asm: Assembly-CSharp}
+    - rid: 3847071962832306269
+      type: {class: AttackState, ns: InGame.Enemy.State, asm: Assembly-CSharp}
       data:
-        _waypointGroup: {fileID: 1982196633}
-    - rid: 3847071954846089332
-      type: {class: ChaseState, ns: InGame.Enemy.State, asm: Assembly-CSharp}
-      data: 
+        _stopDistance: 0
 --- !u!114 &1332809776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3662,6 +4202,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2563496969622287784, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
   m_PrefabInstance: {fileID: 1406103527}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1557941616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1557941617}
+  - component: {fileID: 1557941618}
+  m_Layer: 0
+  m_Name: Point (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1557941617
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557941616}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.3290653, z: -0, w: 0.9443072}
+  m_LocalPosition: {x: -6.963175, y: 0, z: -20.287086}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 38.424, z: 0}
+--- !u!114 &1557941618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557941616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: 1.5, y: 0, z: 0}
 --- !u!4 &1564590280 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3153535790306996272, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
@@ -5125,11 +5710,21 @@ MonoBehaviour:
   _mainCamera: {fileID: 1922853098}
   _bulletPrefab: {fileID: 8503042438991784427, guid: da2b0ba34038fcf45983d669fec9cfd2, type: 3}
   _rifleEquipper: {fileID: 1636034714}
+  _animationPlayer: {fileID: 1406103531}
+  _reloadAnimation:
+    rid: 3847071954846089335
   _rayMask:
     serializedVersion: 2
     m_Bits: 4294967295
   _rayDistance: 0
   _bulletDistance: 100
+  references:
+    version: 2
+    RefIds:
+    - rid: 3847071954846089335
+      type: {class: PlayerRifleMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 6
 --- !u!114 &1636034714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5180,11 +5775,101 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -7219772299731422950, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
   m_PrefabInstance: {fileID: 1406103527}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1748444658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1748444659}
+  - component: {fileID: 1748444660}
+  m_Layer: 0
+  m_Name: Point (10)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1748444659
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748444658}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9159074, z: -0, w: 0.40138972}
+  m_LocalPosition: {x: -13.73, y: 0, z: -18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 132.67, z: 0}
+--- !u!114 &1748444660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748444658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: -1.5, y: 0, z: 0}
 --- !u!4 &1756448524 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 234480625599603528, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
   m_PrefabInstance: {fileID: 1406103527}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1761640566
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1761640567}
+  - component: {fileID: 1761640568}
+  m_Layer: 0
+  m_Name: Point (11)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1761640567
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761640566}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9159074, z: -0, w: 0.40138972}
+  m_LocalPosition: {x: -15.072626, y: 0, z: -16.762428}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 132.67, z: 0}
+--- !u!114 &1761640568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761640566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: -1.5, y: 0, z: 0}
 --- !u!4 &1763567986 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -972137825769415166, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
@@ -5195,6 +5880,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
   m_PrefabInstance: {fileID: 1406103527}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1838711256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1838711257}
+  - component: {fileID: 1838711258}
+  m_Layer: 0
+  m_Name: Point (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1838711257
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838711256}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.3290653, z: -0, w: 0.9443072}
+  m_LocalPosition: {x: -12.814824, y: 0, z: -15.410549}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 38.424, z: 0}
+--- !u!114 &1838711258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838711256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: -1.5, y: 0, z: 0}
 --- !u!1 &1838851759
 GameObject:
   m_ObjectHideFlags: 0
@@ -5630,6 +6360,51 @@ MonoBehaviour:
       m_Bits: 1
     MaximumRaycast: 10
     Damping: 0.5
+--- !u!1 &1865080160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1865080161}
+  - component: {fileID: 1865080162}
+  m_Layer: 0
+  m_Name: Point (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1865080161
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865080160}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.641, y: 0, z: -1.55}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1865080162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865080160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: -1.5, y: 0, z: 0}
 --- !u!1 &1914368460
 GameObject:
   m_ObjectHideFlags: 0
@@ -5742,6 +6517,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1914368460}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1915083385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1915083386}
+  - component: {fileID: 1915083387}
+  m_Layer: 0
+  m_Name: Point (12)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1915083386
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915083385}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9159074, z: -0, w: 0.40138972}
+  m_LocalPosition: {x: -19.38, y: 0, z: -23.04}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: 132.67, z: 0}
+--- !u!114 &1915083387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915083385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: 1.5, y: 0, z: 0}
 --- !u!1 &1922853095
 GameObject:
   m_ObjectHideFlags: 0
@@ -6269,6 +7089,51 @@ Transform:
   - {fileID: 268209597}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1982788606
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1982788607}
+  - component: {fileID: 1982788608}
+  m_Layer: 0
+  m_Name: Point (17)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1982788607
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982788606}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.02712006, z: -0, w: 0.9996322}
+  m_LocalPosition: {x: -2.5309932, y: 0, z: -26.123314}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 156130110}
+  m_LocalEulerAnglesHint: {x: 0, y: -3.108, z: 0}
+--- !u!114 &1982788608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982788606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b287f93057fc644912e70c58a872c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.CoverPoint
+  _peekOffset: {x: 1.5, y: 0, z: 0}
 --- !u!1 &2042481087
 GameObject:
   m_ObjectHideFlags: 0
@@ -6579,3 +7444,4 @@ SceneRoots:
   - {fileID: 175738145}
   - {fileID: 1332809772}
   - {fileID: 1982196634}
+  - {fileID: 156130110}

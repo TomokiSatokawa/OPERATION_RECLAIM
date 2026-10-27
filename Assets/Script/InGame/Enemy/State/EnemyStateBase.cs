@@ -11,8 +11,11 @@ namespace InGame.Enemy.State
     [System.Serializable]
     public abstract class EnemyStateBase
     {
+        [SerializeField] private float _stopDistance = 3f;
+
         public void Enter(EnemyStateContext context)
         {
+            context.Agent.stoppingDistance = _stopDistance;
             OnEnter(context);
         }
 

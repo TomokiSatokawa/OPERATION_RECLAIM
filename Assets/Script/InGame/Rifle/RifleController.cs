@@ -1,4 +1,6 @@
 using System.Linq;
+using Common;
+using Common.Motion;
 using InGame.Player.Rifle;
 using PlayerInput;
 using R3;
@@ -9,6 +11,8 @@ public class RifleController : MonoBehaviour
     [SerializeField] private Transform _mainCamera;
     [SerializeField] private BulletController _bulletPrefab;
     [SerializeField] private RifleEquipper _rifleEquipper;
+    [SerializeField] private AnimationPlayer _animationPlayer;
+    [SerializeReference] private EnumGroupBase _reloadAnimation;
     [SerializeField] private LayerMask _rayMask;
     [SerializeField] private float _rayDistance;
     [SerializeField] private float _bulletDistance;
@@ -40,6 +44,7 @@ public class RifleController : MonoBehaviour
     private void Reload()
     {
         _rifleEquipper.CurrentRifle.Reload();
+        _animationPlayer.PlayOneShot(_reloadAnimation);
     }
 
     private Vector3 GetRayPosition()
