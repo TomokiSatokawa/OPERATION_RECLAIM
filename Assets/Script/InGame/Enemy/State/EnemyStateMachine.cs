@@ -1,4 +1,5 @@
 using Common.Motion;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,6 +12,7 @@ namespace InGame.Enemy.State
         [SerializeField] private Transform _player;
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private AnimationPlayer _animation;
+        [SerializeField] private EnemyPerception _perception;
 
         private EnemyStateContext _context;
         private EnemyStateBase _currentState;
@@ -24,14 +26,38 @@ namespace InGame.Enemy.State
                 Player = _player,
                 Enemy = this.transform,
                 Agent = _agent,
-                AnimationPlayer = _animation
+                AnimationPlayer = _animation,
+                Perception = _perception,
             };
+
+            ChangeState(_currentState);
         }
 
-        // Update is called once per frame
-        void Update()
+        private void Update()
         {
-            _currentState?.OnUpdate(_context);
+            _currentState?.Update(_context);
+
+            if(_currentState?.CanExit(_context) ?? false)
+            {
+                foreach(var state in  _enemyState)
+                {
+                    if (state == _currentState) 
+                        continue;
+
+                    if(state.CanTransition(_context))
+                    {
+                        ChangeState(state);
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void ChangeState(EnemyStateBase state)
+        {
+            _currentState?.Exit(_context);
+            _currentState = state;
+            _currentState?.Enter(_context);
         }
     }
 }

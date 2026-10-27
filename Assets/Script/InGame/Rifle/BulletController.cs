@@ -1,3 +1,4 @@
+using InGame.Common;
 using UnityEngine;
 
 namespace InGame.Player.Rifle
@@ -7,6 +8,7 @@ namespace InGame.Player.Rifle
     {
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _deleteDistance;
+        [SerializeField,Min(1)] private int _damageAmount;
 
         [SerializeField] private float _rayDistance;
         [SerializeField] private LayerMask _rayMask;
@@ -30,6 +32,11 @@ namespace InGame.Player.Rifle
 
             var hitObject = HitCheck();
             if (hitObject == null) return;
+
+            if(hitObject.Value.transform.root .TryGetComponent(out IDamageable damageable))
+            {
+                damageable.Damage(_damageAmount);
+            }
 
             CreateBulletHole(hitObject.Value);
             Destroy(this.gameObject);
