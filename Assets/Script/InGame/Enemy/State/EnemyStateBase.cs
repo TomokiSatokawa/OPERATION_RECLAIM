@@ -1,3 +1,5 @@
+ï»¿using System;
+using System.Threading;
 using Common.Motion;
 using UnityEngine;
 using UnityEngine.AI;
@@ -5,17 +7,21 @@ using UnityEngine.AI;
 namespace InGame.Enemy.State
 {
     /// <summary>
-    /// “GState‚ÌŠî’êƒNƒ‰ƒXBŠO•”‚©‚ç‚ÌŒÄ‚Ño‚µŒû(Enter/Update/Exit“™)‚ğŒöŠJ‚µA
-    /// ‹ï‘Ì“I‚Èˆ—‚ÍŒp³æ‚ªOnXxx‚ğƒI[ƒo[ƒ‰ƒCƒh‚µ‚ÄÀ‘•‚·‚é
+    /// æ•µStateã®åŸºåº•ã‚¯ãƒ©ã‚¹ã€‚å¤–éƒ¨ã‹ã‚‰ã®å‘¼ã³å‡ºã—å£(Enter/Update/Exitç­‰)ã‚’å…¬é–‹ã—ã€
+    /// å…·ä½“çš„ãªå‡¦ç†ã¯ç¶™æ‰¿å…ˆãŒOnXxxã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦å®Ÿè£…ã™ã‚‹
     /// </summary>
     [System.Serializable]
     public abstract class EnemyStateBase
     {
         [SerializeField] private float _stopDistance = 3f;
 
+      
+         public string RequestChangeState { get; protected set; }
+
         public void Enter(EnemyStateContext context)
         {
             context.Agent.stoppingDistance = _stopDistance;
+            RequestChangeState = null;
             OnEnter(context);
         }
 
@@ -31,24 +37,30 @@ namespace InGame.Enemy.State
         }
 
         public abstract bool CanTransition(EnemyStateContext context);
-
-        public abstract bool CanExit(EnemyStateContext context);
-
         protected abstract void OnEnter(EnemyStateContext context);
         protected abstract void OnUpdate(EnemyStateContext context);
         protected abstract void OnExit(EnemyStateContext context);
 
         private void UpdateMoveAmount(EnemyStateContext context)
         {
-            context.AnimationPlayer.Tick(
-                context.Agent.velocity.sqrMagnitude <= 0.01f ? Vector2.zero : Vector2.up);
+            Vector3 velocity = context.Agent.velocity;
+            if (velocity.sqrMagnitude <= 0.01f)
+            {
+                context.AnimationPlayer.Tick(Vector2.zero);
+                return; 
+            }
+
+            // ãƒ¯ãƒ¼ãƒ«ãƒ‰é€Ÿåº¦ã‚’æ•µã®ãƒ­ãƒ¼ã‚«ãƒ«ç©ºé–“ã¸(x:å³, z:å‰)
+            Vector3 local = context.Enemy.InverseTransformDirection(velocity);
+
+            context.AnimationPlayer.Tick(new Vector2(local.z,local.x));
         }
 
         protected bool HasArrived(EnemyStateContext context)
         {
             var agent = context.Agent;
 
-            // Œo˜HŒvZ’†‚Íc‹——£‚ª•s³Šm‚È‚Ì‚Å“’…ˆµ‚¢‚É‚µ‚È‚¢
+            // çµŒè·¯è¨ˆç®—ä¸­ã¯æ®‹è·é›¢ãŒä¸æ­£ç¢ºãªã®ã§åˆ°ç€æ‰±ã„ã«ã—ãªã„
             if (agent.pathPending)
                 return false;
 
@@ -57,7 +69,7 @@ namespace InGame.Enemy.State
     }
 
     /// <summary>
-    /// State‚Ìˆ—‚É•K—v‚ÈQÆ‚ğ‚Ü‚Æ‚ß‚½ƒRƒ“ƒeƒLƒXƒg
+    /// Stateã®å‡¦ç†ã«å¿…è¦ãªå‚ç…§ã‚’ã¾ã¨ã‚ãŸã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
     /// </summary>
     public struct EnemyStateContext
     {

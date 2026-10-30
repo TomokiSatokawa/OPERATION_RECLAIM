@@ -9,7 +9,7 @@ namespace InGame.Enemy.State
     {
         private const float EyeHeight = 1.5f;
         private const float MaxSearchDistance = 20f;
-
+            
         public static CoverPoint FindBestCover(Vector3 enemyPosition, Transform player, Component requester)
         {
             CoverPoint best = null;

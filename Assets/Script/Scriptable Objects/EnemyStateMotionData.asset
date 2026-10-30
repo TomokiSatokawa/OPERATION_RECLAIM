@@ -40,11 +40,11 @@ MonoBehaviour:
     - rid: 3847071919208661323
       type: {class: EnemyRifleMotion, ns: Common, asm: Assembly-CSharp}
       data:
-        _type: 0
+        _type: 2
     - rid: 3847071919208661324
       type: {class: EnemyRifleMotion, ns: Common, asm: Assembly-CSharp}
       data:
-        _type: 0
+        _type: 3
     - rid: 3847071919208661325
       type: {class: EnemyRifleMotion, ns: Common, asm: Assembly-CSharp}
       data:

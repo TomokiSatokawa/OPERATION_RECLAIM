@@ -123,7 +123,7 @@ namespace InGame.Player.Motion
 
     public enum EnemyRifleAnimationType : byte
     {
-        Idol, Forward,
+        Idol, Forward, Right, Left,
     }
 
     public enum FootmanAnimationType : byte

@@ -9,6 +9,7 @@ namespace InGame.Enemy.State
     [System.Serializable]
     public class ChaseState : EnemyStateBase
     {
+        [SerializeField] private float _attackRange = 8f;
         private const float NavMeshSampleDistance = 2f;
 
         protected override void OnEnter(EnemyStateContext context)
@@ -27,18 +28,22 @@ namespace InGame.Enemy.State
             }
 
             context.Agent.SetDestination(GetChaseDestination(context));
-        }
-
-        public override bool CanExit(EnemyStateContext context)
-        {
-            // Perception が無い場合は追跡できないため、終了を許可する
-            if (context.Perception == null)
-                return true;
 
             // 見失っていて、予測の終点まで到達したら終了する
-            return !context.Perception.CanSeeTarget
+            if (!context.Perception.CanSeeTarget
                 && context.Perception.IsPredictionExpired
-                && HasArrived(context);
+                && HasArrived(context))
+            {
+                Debug.Log("ChangeState");
+                RequestChangeState = nameof(PatrolState);
+                return;
+            }
+
+            if (context.Perception.CanSeeTarget && IsInAttackRange(context))
+            {
+                RequestChangeState = nameof(AttackState);
+                return;
+            }
         }
 
         public override bool CanTransition(EnemyStateContext context)
@@ -69,6 +74,13 @@ namespace InGame.Enemy.State
 
             Debug.Log("記憶");
             return context.Perception.LastKnownPosition;
+        }
+
+        private bool IsInAttackRange(EnemyStateContext context)
+        {
+            Vector3 toPlayer = context.Player.position - context.Agent.transform.position;
+            toPlayer.y = 0f;
+            return toPlayer.sqrMagnitude <= _attackRange * _attackRange;
         }
     }
 }

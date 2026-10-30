@@ -34,17 +34,15 @@ namespace InGame.Enemy.State
                 _currentIndex = (_currentIndex + 1) % _waypointGroup.Points.Count;
                 MoveToCurrentPoint(context);
             }
+
+            if (context.Perception.CanSeeTarget)
+                RequestChangeState = nameof(ChaseState);
         }
 
 
         protected override void OnExit(EnemyStateContext context)
         {
 
-        }
-
-        public override bool CanExit(EnemyStateContext context)
-        {
-            return true;
         }
 
         public override bool CanTransition(EnemyStateContext context)

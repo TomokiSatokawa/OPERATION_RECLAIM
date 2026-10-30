@@ -37,14 +37,14 @@ namespace InGame.Enemy.State
         {
             _currentState?.Update(_context);
 
-            if(_currentState?.CanExit(_context) ?? false)
+            if (_currentState != null && !string.IsNullOrWhiteSpace(_currentState.RequestChangeState))
             {
-                foreach(var state in  _enemyState)
+                foreach (var state in _enemyState)
                 {
-                    if (state == _currentState) 
+                    if (state == _currentState)
                         continue;
 
-                    if(state.CanTransition(_context))
+                    if (_currentState.RequestChangeState == state.GetType().Name)
                     {
                         ChangeState(state);
                         break;

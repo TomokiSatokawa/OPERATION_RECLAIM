@@ -15,6 +15,9 @@ namespace InGame.Enemy.State
             Hide,
             PeekAndShoot
         }
+        [SerializeField] private float _lostDuration = 0.5f; 
+        [SerializeField] private float _attackRange = 8f;
+        [SerializeField] private float _exitRangeMargin = 2f;
 
         private const float ArriveTolerance = 0.2f;
         private const float HideDurationMin = 1.5f;
@@ -27,9 +30,12 @@ namespace InGame.Enemy.State
         private CoverPoint _currentCover;
         private float _timer;
         private float _fireTimer;
+        private float _lostTimer;
 
         protected override void OnEnter(EnemyStateContext context)
         {
+            context.Agent.updateRotation = false;
+
             _currentCover = CoverSelector.FindBestCover(
                 context.Agent.transform.position, context.Player, context.Agent);
 
@@ -40,7 +46,6 @@ namespace InGame.Enemy.State
 
             ChangeSubState(AttackSubState.MoveToCover, context);
         }
-
         protected override void OnUpdate(EnemyStateContext context)
         {
             switch (_subState)
@@ -58,6 +63,13 @@ namespace InGame.Enemy.State
                     Debug.LogError($"[AttackState] 未対応のサブステート: {_subState}");
                     break;
             }
+
+            UpdateLostTimer(context);
+
+            if (TryRequestChase(context))
+            {
+                return;
+            }
         }
 
         protected override void OnExit(EnemyStateContext context)
@@ -69,11 +81,23 @@ namespace InGame.Enemy.State
             }
 
             context.Agent.ResetPath();
+
+            context.Agent.updateRotation = true;
         }
 
-        public override bool CanExit(EnemyStateContext context)
+        private void UpdateLostTimer(EnemyStateContext context)
         {
-            return true;
+            Vector3 attackPosition = _currentCover != null
+                ? _currentCover.PeekPosition
+                : context.Agent.transform.position;
+
+            if (CoverSelector.HasLineOfSight(attackPosition, context.Player))
+            {
+                _lostTimer = 0f;
+                return;
+            }
+
+            _lostTimer += Time.deltaTime;
         }
 
         public override bool CanTransition(EnemyStateContext context)
@@ -195,6 +219,62 @@ namespace InGame.Enemy.State
         {
             return !agent.pathPending
                 && agent.remainingDistance <= agent.stoppingDistance + ArriveTolerance;
+        }
+
+        private bool TryRequestChase(EnemyStateContext context)
+        {
+            // 射程外へ離れた(入る距離より余裕を持たせ、境界のばたつきを防ぐ)
+            if (!IsWithinRange(context, _attackRange + _exitRangeMargin))
+            {
+                Debug.Log("[AttackState] 追跡へ戻る: 射程外");
+                RequestChangeState = nameof(ChaseState);
+                return true;
+            }
+
+            if (_lostTimer < _lostDuration)
+            {
+                return false;
+            }
+
+            // 射線が通らない状態が続いた。先に別のカバーへの乗り換えを試す
+            if (TrySwitchCover(context))
+            {
+                Debug.Log("[AttackState] カバーを乗り換え");
+                return false;
+            }
+
+            Debug.Log("[AttackState] 追跡へ戻る: 射線喪失・乗り換え先なし");
+            RequestChangeState = nameof(ChaseState);
+            return true;
+        }
+
+        private bool TrySwitchCover(EnemyStateContext context)
+        {
+            CoverPoint next = CoverSelector.FindBestCover(
+                context.Agent.transform.position, context.Player, context.Agent);
+
+            if (next == null || next == _currentCover)
+            {
+                return false;
+            }
+
+            if (_currentCover != null)
+            {
+                _currentCover.Release(context.Agent);
+            }
+
+            _currentCover = next;
+            _currentCover.TryReserve(context.Agent);
+            _lostTimer = 0f;
+            ChangeSubState(AttackSubState.MoveToCover, context);
+            return true;
+        }
+
+        private static bool IsWithinRange(EnemyStateContext context, float range)
+        {
+            Vector3 toPlayer = context.Player.position - context.Agent.transform.position;
+            toPlayer.y = 0f;
+            return toPlayer.sqrMagnitude <= range * range;
         }
     }
 }
