@@ -26,6 +26,8 @@ MonoBehaviour:
       rid: 3847071660778193228
     _runClip:
       rid: 3847071660778193193
+    _dieClip:
+      rid: 3847072022073180268
   - _motionType: 1
     _idleClip:
       rid: 3847071919208661327
@@ -39,6 +41,8 @@ MonoBehaviour:
       rid: 3847071919208661333
     _runClip:
       rid: 3847071919208661334
+    _dieClip:
+      rid: 3847072022073180269
   references:
     version: 2
     RefIds:
@@ -90,3 +94,11 @@ MonoBehaviour:
       type: {class: PlayerRifleMotion, ns: Common, asm: Assembly-CSharp}
       data:
         _type: 5
+    - rid: 3847072022073180268
+      type: {class: BasicMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 6
+    - rid: 3847072022073180269
+      type: {class: BasicMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 6

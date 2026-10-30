@@ -7571,6 +7571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Common.HealthControl
   _maxHp: 1
+  _animationPlayer: {fileID: 1604025349}
 --- !u!114 &1332809778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10740,6 +10741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Common.HealthControl
   _maxHp: 1
+  _animationPlayer: {fileID: 1406103531}
 --- !u!1 &1658471212
 GameObject:
   m_ObjectHideFlags: 0

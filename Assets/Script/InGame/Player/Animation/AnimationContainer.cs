@@ -113,7 +113,7 @@ namespace InGame.Player.Motion
 
     public enum BasicAnimationType : byte
     {
-        Idol, Forward, Right, Left, Back, Run
+        Idol, Forward, Right, Left, Back, Run,Die
     }
 
     public enum PlayerRifleAnimationType : byte
@@ -123,7 +123,7 @@ namespace InGame.Player.Motion
 
     public enum EnemyRifleAnimationType : byte
     {
-        Idol, Forward, Right, Left,
+        Idol, Forward, Right, Left,Die
     }
 
     public enum FootmanAnimationType : byte

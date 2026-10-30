@@ -17,6 +17,7 @@ public class StateMotionData : ScriptableObject
         [SerializeReference] private EnumGroupBase _walkLeftClip;
         [SerializeReference] private EnumGroupBase _walkBackClip;
         [SerializeReference] private EnumGroupBase _runClip;
+        [SerializeReference] private EnumGroupBase _dieClip;
 
         public MotionType Type => _motionType;
         public EnumGroupBase IdleClip => _idleClip; 
@@ -25,6 +26,7 @@ public class StateMotionData : ScriptableObject
         public EnumGroupBase WalkLeftClip => _walkLeftClip;
         public EnumGroupBase WalkBackClip => _walkBackClip;
         public EnumGroupBase RunClip => _runClip;
+        public EnumGroupBase DieClip => _dieClip;
     }
 
     public MotionGroup GetMotionGroup(MotionType type)

@@ -1,3 +1,6 @@
+using System;
+using Common;
+using Common.Motion;
 using UnityEngine;
 
 namespace InGame.Common
@@ -5,7 +8,9 @@ namespace InGame.Common
     public class HealthControl : MonoBehaviour, IDamageable
     {
         [SerializeField] private int _maxHp;
+        [SerializeField] private AnimationPlayer _animationPlayer;
 
+        public event Action OnDie;
         private int _hp;
         public int HP => _hp;
 
@@ -15,8 +20,14 @@ namespace InGame.Common
 
             if(_hp <= 0)
             {
-                Debug.Log($"Kill {this.gameObject.name}");
+                Die();
             } 
+        }
+
+        private void Die()
+        {
+            _animationPlayer.PlayDie();
+            OnDie?.Invoke();
         }
     }
 

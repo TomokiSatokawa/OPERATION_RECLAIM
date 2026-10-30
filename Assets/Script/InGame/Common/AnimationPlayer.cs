@@ -5,6 +5,7 @@ using InGame.Player.Motion;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
+using static InGame.Player.Motion.AnimationContainer;
 
 namespace Common.Motion
 {
@@ -22,6 +23,7 @@ namespace Common.Motion
          private BlendMixer _horizontalBlend;
         private BlendMixer _verticalBlend;
         private BlendMixer _axisBlend;
+        private StateMotionData.MotionGroup _currentGroup;
         private enum AnimationLayer
         {
             Base, TopLayer
@@ -95,18 +97,18 @@ namespace Common.Motion
 
         public void UpdateBaseClip(MotionType type)
         {
-            var group = _stateMotionData.GetMotionGroup(type);
+            _currentGroup = _stateMotionData.GetMotionGroup(type);
 
-            if (group == null)
+            if (_currentGroup == null)
                 return;
 
-            var idle = AnimationClipPlayable.Create(_graph, _container.GetAnimation(group.IdleClip).Clip);
-            var idle2 = AnimationClipPlayable.Create(_graph, _container.GetAnimation(group.IdleClip).Clip);
-            var walkForward = AnimationClipPlayable.Create(_graph, _container.GetAnimation(group.WalkForwardClip).Clip);
-            var walkRight = AnimationClipPlayable.Create(_graph, _container.GetAnimation(group.WalkRightClip).Clip);
-            var walkLeft = AnimationClipPlayable.Create(_graph, _container.GetAnimation(group.WalkLeftClip).Clip);
-            var walkBack = AnimationClipPlayable.Create(_graph, _container.GetAnimation(group.WalkBackClip).Clip);
-            var run = AnimationClipPlayable.Create(_graph, _container.GetAnimation(group.RunClip).Clip);
+            var idle = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_currentGroup.IdleClip).Clip);
+            var idle2 = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_currentGroup.IdleClip).Clip);
+            var walkForward = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_currentGroup.WalkForwardClip).Clip);
+            var walkRight = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_currentGroup.WalkRightClip).Clip);
+            var walkLeft = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_currentGroup.WalkLeftClip).Clip);
+            var walkBack = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_currentGroup.WalkBackClip).Clip);
+            var run = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_currentGroup.RunClip).Clip);
 
             TryDisconnect(_horizontalMixer, 0);
             TryDisconnect(_horizontalMixer, 1);
@@ -141,6 +143,48 @@ namespace Common.Motion
         public void StopPlayOneShot()
         {
             _currentPlayOneShot?.OnStop();
+        }
+
+        public void PlayDie()
+        {
+            PlayDieAsync().Forget();
+        }
+
+        private async UniTask PlayDieAsync()
+        {
+            var animationData = _container.GetAnimation(_currentGroup.DieClip);
+
+            var playable = AnimationClipPlayable.Create(_graph, animationData.Clip);
+
+            TryDisconnect(_layerMixer, (int)AnimationLayer.TopLayer);
+            _layerMixer.ConnectInput((int)AnimationLayer.TopLayer, playable, 0);
+            _layerMixer.SetInputWeight((int)AnimationLayer.TopLayer, 0f);
+
+            // MaskÇê›íË
+            var mask = _container.GetMask(animationData.AvatarMaskType);
+            _layerMixer.SetLayerMaskFromAvatarMask((int)AnimationLayer.TopLayer, mask);
+
+            float elapsedTime = 0f;
+            float blendDuration = animationData.Blend.Duration;
+
+            if (blendDuration <= 0f)
+            {
+                _layerMixer.SetInputWeight((int)AnimationLayer.TopLayer, 1f);
+                return;
+            }
+
+            while (elapsedTime < blendDuration)
+            {
+                float progress = Mathf.Clamp01(elapsedTime / blendDuration);
+
+                _layerMixer.SetInputWeight((int)AnimationLayer.TopLayer, progress);
+
+                elapsedTime += Time.deltaTime;
+                await UniTask.Yield(destroyCancellationToken);
+            }
+
+            // ç≈å„Ç…ïKÇ∏1Ç…Ç∑ÇÈ
+            _layerMixer.SetInputWeight((int)AnimationLayer.TopLayer, 1f);
         }
 
         private async UniTask PlayOneShotAsync(EnumGroupBase groupBase, AnimationPlaybackState playbackState)

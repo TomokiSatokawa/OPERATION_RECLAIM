@@ -26,6 +26,8 @@ MonoBehaviour:
       rid: 3847071919208661325
     _runClip:
       rid: 3847071919208661326
+    _dieClip:
+      rid: 3847072022073180267
   references:
     version: 2
     RefIds:
@@ -53,3 +55,7 @@ MonoBehaviour:
       type: {class: EnemyRifleMotion, ns: Common, asm: Assembly-CSharp}
       data:
         _type: 0
+    - rid: 3847072022073180267
+      type: {class: EnemyRifleMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 4
