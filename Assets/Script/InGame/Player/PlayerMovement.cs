@@ -1,10 +1,14 @@
 using PlayerInput;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private Transform _camera;
     [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private LayerMask _groundMask;
+    [SerializeField] private Vector3 _groundRayOffset;
+    [SerializeField] private float _groundRayDistance;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _dashSpeed;
     public bool IgnoreInput;
@@ -27,8 +31,14 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 cameraInput = GetCameraDirection(moveInput);
 
-        _velocity = cameraInput * moveSpeed;
+        Vector3 groundDirection = cameraInput;
+        var hit = GroundRayHit();
+        if (hit.HasValue)
+        {
+            groundDirection = Vector3.ProjectOnPlane(cameraInput, hit.Value.normal);
+        }
 
+        _velocity = groundDirection * moveSpeed;
         var dashAmount = 0f;
 
         if (moveInput.y > 0f)
@@ -36,6 +46,19 @@ public class PlayerMovement : MonoBehaviour
 
         MoveAmount = moveInput + Vector2.up * dashAmount;
         _rigidbody.linearVelocity = _velocity;
+    }
+
+    private RaycastHit? GroundRayHit()
+    {
+        Ray ray = new Ray(transform.position + _groundRayOffset, -Vector3.up);
+        Debug.DrawRay(ray.origin, ray.direction * _groundRayDistance);
+
+        if (Physics.Raycast(ray, out var hit, _groundRayDistance, _groundMask))
+        {
+            return hit;
+        }
+
+        return null;
     }
 
     private Vector3 GetCameraDirection(Vector2 input)

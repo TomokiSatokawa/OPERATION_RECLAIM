@@ -59,5 +59,10 @@ namespace InGame.Enemy.State
                 _owner = null;
             }
         }
+
+        public void SetPeekPosition(Vector3 worldPosition)
+        {
+            _peekOffset = transform.InverseTransformPoint(worldPosition);
+        }
     }
 }
