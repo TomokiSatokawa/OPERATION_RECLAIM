@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace InGame.Enemy.State
+namespace InGame.Enemy.StateMachine
 {
     /// <summary>
     /// 遮蔽地点のデータと予約状態を保持する。自身の位置が「隠れる位置」

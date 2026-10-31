@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace InGame.Enemy.State
+namespace InGame.Enemy.StateMachine
 {
     /// <summary>
     /// ターゲットを追跡するステート。視界内ならPlayerの位置、見失った後は予測位置へ向かう
@@ -60,6 +60,7 @@ namespace InGame.Enemy.State
         {
             if (context.Perception.CanSeeTarget)
             {
+                context.Icon.UpdateType(EnemyIcon.IconType.Battle);
                 return context.Player.position;
             }
 
@@ -67,9 +68,11 @@ namespace InGame.Enemy.State
             Vector3 predicted = context.Perception.PredictedPosition;
             if (NavMesh.SamplePosition(predicted, out NavMeshHit hit, NavMeshSampleDistance, NavMesh.AllAreas))
             {
+                context.Icon.UpdateType(EnemyIcon.IconType.Vigilance);
                 return hit.position;
             }
 
+            context.Icon.UpdateType(EnemyIcon.IconType.Battle);
             return context.Perception.LastKnownPosition;
         }
 

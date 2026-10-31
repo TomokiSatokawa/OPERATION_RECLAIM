@@ -3,7 +3,7 @@ using InGame.Common;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace InGame.Enemy.State
+namespace InGame.Enemy.StateMachine
 {
 
     public class EnemyStateMachine : MonoBehaviour
@@ -14,6 +14,7 @@ namespace InGame.Enemy.State
         [SerializeField] private AnimationPlayer _animation;
         [SerializeField] private EnemyPerception _perception;
         [SerializeField] private HealthControl _healthControl;
+        [SerializeField] private EnemyIcon _icon;
 
         private EnemyStateContext _context;
         private EnemyStateBase _currentState;
@@ -29,6 +30,7 @@ namespace InGame.Enemy.State
                 Agent = _agent,
                 AnimationPlayer = _animation,
                 Perception = _perception,
+                Icon = _icon,
             };
 
             ChangeState(_currentState);

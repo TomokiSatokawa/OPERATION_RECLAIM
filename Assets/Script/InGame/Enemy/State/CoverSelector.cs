@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace InGame.Enemy.State
+namespace InGame.Enemy.StateMachine
 {
     /// <summary>
     /// Playerに対して有効な遮蔽地点を評価し、最適な1点を選ぶ

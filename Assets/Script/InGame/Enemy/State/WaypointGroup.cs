@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace InGame.Enemy.State
+namespace InGame.Enemy.StateMachine
 {
     public class WaypointGroup : MonoBehaviour
     {

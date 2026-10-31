@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using UnityEditor;
 #endif
 
-namespace InGame.Enemy.State
+namespace InGame.Enemy.StateMachine
 {
     /// <summary>
     /// 遮蔽物コライダーの周囲をサンプリングし、CoverPointを子オブジェクトとして自動生成するツール

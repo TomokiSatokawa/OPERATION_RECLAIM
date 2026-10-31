@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace InGame.Enemy.State
+namespace InGame.Enemy.StateMachine
 {
     /// <summary>
     /// 遮蔽物へ移動し、隠れる・身を出して撃つを繰り返す攻撃ステート
@@ -44,6 +44,7 @@ namespace InGame.Enemy.State
                 _currentCover.TryReserve(context.Agent);
             }
 
+            context.Icon.UpdateType(EnemyIcon.IconType.Battle);
             ChangeSubState(AttackSubState.MoveToCover, context);
         }
         protected override void OnUpdate(EnemyStateContext context)

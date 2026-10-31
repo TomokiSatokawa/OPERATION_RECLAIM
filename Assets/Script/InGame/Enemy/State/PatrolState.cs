@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace InGame.Enemy.State
+namespace InGame.Enemy.StateMachine
 {
     [System.Serializable]
     public class PatrolState : EnemyStateBase
@@ -21,6 +21,7 @@ namespace InGame.Enemy.State
                 return;
 
             context.Agent.isStopped = false;
+            context.Icon.UpdateType(EnemyIcon.IconType.None);
             MoveToCurrentPoint(context);
         }
 
