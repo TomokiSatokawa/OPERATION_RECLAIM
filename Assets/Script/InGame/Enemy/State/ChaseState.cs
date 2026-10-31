@@ -34,7 +34,6 @@ namespace InGame.Enemy.State
                 && context.Perception.IsPredictionExpired
                 && HasArrived(context))
             {
-                Debug.Log("ChangeState");
                 RequestChangeState = nameof(PatrolState);
                 return;
             }
@@ -54,13 +53,13 @@ namespace InGame.Enemy.State
 
         protected override void OnExit(EnemyStateContext context)
         {
+            context.Agent.ResetPath();
         }
 
         private Vector3 GetChaseDestination(EnemyStateContext context)
         {
             if (context.Perception.CanSeeTarget)
             {
-                Debug.Log("Œ©‚¦‚Ä‚¢‚é");
                 return context.Player.position;
             }
 
@@ -68,11 +67,9 @@ namespace InGame.Enemy.State
             Vector3 predicted = context.Perception.PredictedPosition;
             if (NavMesh.SamplePosition(predicted, out NavMeshHit hit, NavMeshSampleDistance, NavMesh.AllAreas))
             {
-                Debug.Log("—\‘ª");
                 return hit.position;
             }
 
-            Debug.Log("‹L‰¯");
             return context.Perception.LastKnownPosition;
         }
 

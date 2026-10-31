@@ -42,7 +42,7 @@ namespace InGame.Enemy.State
 
         protected override void OnExit(EnemyStateContext context)
         {
-
+            context.Agent.ResetPath();
         }
 
         public override bool CanTransition(EnemyStateContext context)

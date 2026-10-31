@@ -1,5 +1,5 @@
 using Common.Motion;
-using Unity.VisualScripting;
+using InGame.Common;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,6 +13,7 @@ namespace InGame.Enemy.State
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private AnimationPlayer _animation;
         [SerializeField] private EnemyPerception _perception;
+        [SerializeField] private HealthControl _healthControl;
 
         private EnemyStateContext _context;
         private EnemyStateBase _currentState;
@@ -31,6 +32,8 @@ namespace InGame.Enemy.State
             };
 
             ChangeState(_currentState);
+
+            _healthControl.OnDie += () => ChangeState(null);
         }
 
         private void Update()
@@ -55,6 +58,7 @@ namespace InGame.Enemy.State
 
         private void ChangeState(EnemyStateBase state)
         {
+            Debug.Log($"{_currentState?.GetType().Name} => {state?.GetType().Name}");
             _currentState?.Exit(_context);
             _currentState = state;
             _currentState?.Enter(_context);

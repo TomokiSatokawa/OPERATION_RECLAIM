@@ -1,4 +1,3 @@
-//AI
 using System;
 using UnityEngine;
 
@@ -15,17 +14,21 @@ namespace InGame.Enemy
         private const float MaxViewAngle = 360f;
         private const float DefaultEyeHeight = 1.6f;
         private const float DefaultTargetHeight = 1.0f;
+        private const float DefaultCastRadius = 0.2f;
         private const float DefaultAwarenessRadius = 2f;
         private const float DefaultLostGraceTime = 0.5f;
+        private const float CastExtraDistance = 0.5f;
         private const float HalfRatio = 0.5f;
         private const float MinDistance = 0.0001f;
         private const float MinDirectionSqrMagnitude = 0.0001f;
         private const float GizmoSphereRadius = 0.3f;
         private const float GizmoForwardLength = 2f;
+        private const int MaxHitCount = 16;
 
         // TODO: 原因調査用。確認後に削除する
         private const string ReasonOutOfRange = "距離外";
         private const string ReasonOutOfAngle = "視野角外";
+        private const string ReasonNoHit = "対象未検出";
         private const string ReasonBlocked = "遮蔽物あり";
         private const string ReasonVisible = "視界内";
 
@@ -37,7 +40,14 @@ namespace InGame.Enemy
         [SerializeField, Range(MinViewAngle, MaxViewAngle)] private float _viewAngle = DefaultViewAngle;
         [SerializeField] private Vector3 _eyeOffset = new Vector3(0f, DefaultEyeHeight, 0f);
         [SerializeField] private Vector3 _targetOffset = new Vector3(0f, DefaultTargetHeight, 0f);
+
+        [Header("Sight Cast")]
+        [Tooltip("視線を遮る物のレイヤー")]
         [SerializeField] private LayerMask _obstacleMask;
+        [Tooltip("ターゲット(Player)のレイヤー。視線の判定でヒット対象にする")]
+        [SerializeField] private LayerMask _targetMask;
+        [Tooltip("視線として飛ばす球の半径(太い視線の太さ)")]
+        [SerializeField] private float _castRadius = DefaultCastRadius;
 
         [Header("Awareness")]
         [Tooltip("この距離以内なら視野角を無視して感知する(遮蔽物は考慮する)")]
@@ -51,6 +61,8 @@ namespace InGame.Enemy
         // TODO: 原因調査用。確認後に削除する
         [Header("Debug")]
         [SerializeField] private bool _isDebugLogEnabled;
+
+        private readonly RaycastHit[] _hitBuffer = new RaycastHit[MaxHitCount];
 
         private TargetPositionPredictor _predictor;
         private bool _needsCapture;
@@ -106,10 +118,7 @@ namespace InGame.Enemy
 
         private void Start()
         {
-            if (_target == null)
-            {
-                Debug.LogError($"[EnemyPerception] ターゲットが未設定です。 object={name}");
-            }
+            ValidateSettings();
         }
 
         private void Update()
@@ -123,7 +132,7 @@ namespace InGame.Enemy
         }
 
 #if UNITY_EDITOR
-        private void OnDrawGizmosSelected()
+        private void OnDrawGizmos()
         {
             Vector3 eye = GetEyePosition();
             float halfAngle = _viewAngle * HalfRatio;
@@ -184,6 +193,24 @@ namespace InGame.Enemy
             TimeSinceLastSeen = 0f;
             _needsCapture = false;
             _predictor?.Reset();
+        }
+
+        private void ValidateSettings()
+        {
+            if (_target == null)
+            {
+                Debug.LogError($"[EnemyPerception] ターゲットが未設定です。 object={name}");
+            }
+
+            if (_targetMask.value == 0)
+            {
+                Debug.LogError($"[EnemyPerception] _targetMask が未設定です。Playerを検出できません。 object={name}");
+            }
+
+            if (_castRadius <= 0f)
+            {
+                Debug.LogError($"[EnemyPerception] _castRadius が0以下です。 value={_castRadius} object={name}");
+            }
         }
 
         private void UpdateVisibility()
@@ -271,17 +298,66 @@ namespace InGame.Enemy
                 }
             }
 
-            if (Physics.Raycast(eye, toTarget / distance, out RaycastHit hit, distance, _obstacleMask,
-                    QueryTriggerInteraction.Ignore))
+            return IsTargetNearestHit(eye, toTarget / distance, distance);
+        }
+
+        // 太さのある視線を飛ばし、最初にヒットしたものがターゲットなら見えている
+        private bool IsTargetNearestHit(Vector3 eye, Vector3 direction, float distance)
+        {
+            int castMask = _obstacleMask.value | _targetMask.value;
+            int hitCount = Physics.SphereCastNonAlloc(eye, _castRadius, direction, _hitBuffer,
+                distance + CastExtraDistance, castMask, QueryTriggerInteraction.Ignore);
+
+
+            if (!TryGetNearestHit(hitCount, out RaycastHit nearest))
+            {
+                LogVisibility(ReasonNoHit, $"hitCount={hitCount} distance={distance:F2}");
+                return false;
+            }
+
+            var hitObject = nearest.transform.root.gameObject;
+
+            if (!IsTarget(hitObject.transform))
             {
                 LogVisibility(ReasonBlocked,
-                    $"hit={hit.collider.name} layer={LayerMask.LayerToName(hit.collider.gameObject.layer)} " +
-                    $"hitDistance={hit.distance:F2} distance={distance:F2}");
+                    $"hit={hitObject.name} object={hitObject.name} " +
+                    $"hitDistance={nearest.distance:F2} distance={distance:F2}");
                 return false;
             }
 
             LogVisibility(ReasonVisible, $"distance={distance:F2}");
             return true;
+        }
+
+        // 自分自身のコライダーを除き、最も近いヒットを返す
+        private bool TryGetNearestHit(int hitCount, out RaycastHit nearest)
+        {
+            nearest = default;
+            bool isFound = false;
+            float nearestDistance = float.MaxValue;
+
+            for (int i = 0; i < hitCount; i++)
+            {
+                RaycastHit hit = _hitBuffer[i];
+                if (hit.transform.IsChildOf(transform))
+                {
+                    continue;
+                }
+
+                if (hit.distance < nearestDistance)
+                {
+                    nearest = hit;
+                    nearestDistance = hit.distance;
+                    isFound = true;
+                }
+            }
+
+            return isFound;
+        }
+
+        private bool IsTarget(Transform hitTransform)
+        {
+            return hitTransform == _target || hitTransform.IsChildOf(_target);
         }
 
         // 水平方向のみで正面とのなす角を求める
@@ -301,7 +377,6 @@ namespace InGame.Enemy
             return transform.position + transform.rotation * _eyeOffset;
         }
 
-        // TODO: 原因調査用。確認後に削除する(理由が変わった時だけ出力する)
         private void LogVisibility(string reason, string detail)
         {
             if (!_isDebugLogEnabled || reason == _debugLastReason)
