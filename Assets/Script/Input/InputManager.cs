@@ -105,36 +105,41 @@ namespace PlayerInput
                 _inventory.OnNext(Unit.Default);
         }
 
-        public static void SetPlayerEnabled(bool enabled)
+        public static void SetMoveEnabled(bool enabled)
         {
-            if (enabled)
-                _gameInput.Player.Enable();
-            else
-                _gameInput.Player.Disable();
-
-            SetLookEnabled(enabled);
-        }
-
-        public static void SetUIEnabled(bool enabled)
-        {
-            if (enabled)
-                _gameInput.UI.Enable();
-            else
-                _gameInput.UI.Disable();
+            SetEnabled(_gameInput.Player.Move,enabled);
+            SetEnabled(_gameInput.Player.Dash,enabled);
+            SetEnabled(_gameInput.Player.Jump,enabled);
         }
 
         public static void SetLookEnabled(bool enabled)
         {
-            if (enabled)
-            {
-                _gameInput.Player.Look.Enable();
-            }
-            else
-            {
-
-                _gameInput.Player.Look.Disable();
-            }
+            SetEnabled(_gameInput.Player.Look, enabled);
             _camera.enabled = enabled;
+        }
+
+        public static void SetActionEnabled(bool enabled)
+        {
+            SetEnabled(_gameInput.Player.Attack, enabled);
+            SetEnabled(_gameInput.Player.Reload, enabled);
+        }
+
+        public static void SetInteractEnabled(bool enabled)
+        {
+            SetEnabled(_gameInput.Player.Interact, enabled);
+        }
+
+        public static void SetUIEnabled(bool enabled)
+        {
+
+        }
+
+        private static void SetEnabled(InputAction action, bool enabled)
+        {
+            if (enabled)
+                action.Enable();
+            else
+                action.Disable();
         }
 
         private void OnEnable()

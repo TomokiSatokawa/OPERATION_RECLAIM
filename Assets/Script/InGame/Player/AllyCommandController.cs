@@ -40,7 +40,7 @@ namespace InGame.Player
         {
             Debug.Log("Oepn");
             _radialMenu.Panel.OnActive();
-            _playerManager.SetPlayerStatus(PlayerManager.PlayerStatus.Locked);
+            _playerManager.SetPlayerStatus(PlayerManager.PlayerStatus.CameraLocked);
             MousePointerControl.Free();
         }
     }
