@@ -9182,9 +9182,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.EnemyStateMachine
   _enemyState:
-  - rid: 3847071962832306297
-  - rid: 3847071962832306282
-  - rid: 3847071962832306289
+  - rid: 7286859407848636501
+  - rid: 7286859407848636502
+  - rid: 7286859407848636503
   _player: {fileID: 1636034708}
   _agent: {fileID: 1332809774}
   _animation: {fileID: 1604025349}
@@ -9194,23 +9194,23 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3847071962832306282
-      type: {class: ChaseState, ns: InGame.Enemy.State, asm: Assembly-CSharp}
-      data:
-        _stopDistance: 3
-        _attackRange: 8
-    - rid: 3847071962832306289
-      type: {class: AttackState, ns: InGame.Enemy.State, asm: Assembly-CSharp}
-      data:
-        _stopDistance: 0
-        _lostDuration: 0.5
-        _attackRange: 8
-        _exitRangeMargin: 2
-    - rid: 3847071962832306297
-      type: {class: PatrolState, ns: InGame.Enemy.State, asm: Assembly-CSharp}
+    - rid: 7286859407848636501
+      type: {class: PatrolState, ns: InGame.Enemy.StateMachine, asm: Assembly-CSharp}
       data:
         _stopDistance: 3
         _waypointGroup: {fileID: 1982196633}
+    - rid: 7286859407848636502
+      type: {class: ChaseState, ns: InGame.Enemy.StateMachine, asm: Assembly-CSharp}
+      data:
+        _stopDistance: 3
+        _attackRange: 8
+    - rid: 7286859407848636503
+      type: {class: AttackState, ns: InGame.Enemy.StateMachine, asm: Assembly-CSharp}
+      data:
+        _stopDistance: 3
+        _lostDuration: 0.5
+        _attackRange: 8
+        _exitRangeMargin: 2
 --- !u!114 &1332809776
 MonoBehaviour:
   m_ObjectHideFlags: 0

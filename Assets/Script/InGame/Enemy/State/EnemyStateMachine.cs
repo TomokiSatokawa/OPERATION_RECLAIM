@@ -16,14 +16,11 @@ namespace InGame.Enemy.StateMachine
         [SerializeField] private HealthControl _healthControl;
         [SerializeField] private EnemyIcon _icon;
 
-        private EnemyStateContext _context;
-        private EnemyStateBase _currentState;
+        private StateMachineBase<EnemyStateBase,EnemyStateContext> _stateMachine;
 
         private void Start()
         {
-            _currentState = _enemyState[0];
-
-            _context = new()
+            var  context = new EnemyStateContext()
             {
                 Player = _player,
                 Enemy = this.transform,
@@ -33,37 +30,13 @@ namespace InGame.Enemy.StateMachine
                 Icon = _icon,
             };
 
-            ChangeState(_currentState);
-
-            _healthControl.OnDie += () => ChangeState(null);
+            _stateMachine = new(_enemyState, context);
+            _healthControl.OnDie += () => _stateMachine.StopState();
         }
 
         private void Update()
         {
-            _currentState?.Update(_context);
-
-            if (_currentState != null && !string.IsNullOrWhiteSpace(_currentState.RequestChangeState))
-            {
-                foreach (var state in _enemyState)
-                {
-                    if (state == _currentState)
-                        continue;
-
-                    if (_currentState.RequestChangeState == state.GetType().Name)
-                    {
-                        ChangeState(state);
-                        break;
-                    }
-                }
-            }
-        }
-
-        private void ChangeState(EnemyStateBase state)
-        {
-            Debug.Log($"{_currentState?.GetType().Name} => {state?.GetType().Name}");
-            _currentState?.Exit(_context);
-            _currentState = state;
-            _currentState?.Enter(_context);
+            _stateMachine .Update();
         }
     }
 }
