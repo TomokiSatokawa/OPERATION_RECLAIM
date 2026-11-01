@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,6 +12,7 @@ namespace Common.UI
     public class RadialMenu : MonoBehaviour
     {
         [Header("Radial")]
+        [SerializeField] private PanelControl _panel;   
         [SerializeField] private Option[] _options;
         [SerializeField] private Image _radialPrefab;
         [SerializeField] private RectTransform _content;
@@ -20,7 +22,8 @@ namespace Common.UI
         [SerializeField] private float _popUpDuration;
         [SerializeField] private Ease _ease;
 
-
+        public event Action<int> OnClick;
+        public PanelControl Panel => _panel;
         private Image[] _clonedPrefab;
         private Camera _canvasCamera;
         private int _selectedIndex = -1;
@@ -41,6 +44,16 @@ namespace Common.UI
         {
             if (_clonedPrefab == null || _clonedPrefab.Length == 0) return;
 
+            Select();
+
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                OnClick?.Invoke(_selectedIndex);
+            }
+        }
+
+        private void Select()
+        {
             var index = GetSelectedIndex();
             if (index == _selectedIndex) return;
 

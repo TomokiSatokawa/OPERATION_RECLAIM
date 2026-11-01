@@ -1,5 +1,6 @@
 using System;
 using R3;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,12 +8,14 @@ namespace PlayerInput
 {
     public class InputManager : MonoBehaviour
     {
+        [SerializeField] private CinemachineInputAxisController _cinemachineAxis;
         public static Vector2 Move { get; private set; }
         public static Vector2 Look { get; private set; }
         public static float Dash { get; private set; }
 
         private static ReactiveProperty<bool> _attack = new();
         private static ReactiveProperty<bool> _interact = new();
+        private static ReactiveProperty<bool> _command = new();
         private static Subject<Unit> _reload = new();
         private static Subject<Unit> _inventory = new();
         private static Subject<Unit> _nextTab = new();
@@ -20,15 +23,18 @@ namespace PlayerInput
 
         public static ReadOnlyReactiveProperty<bool> Attack => _attack;
         public static ReadOnlyReactiveProperty<bool> Interact => _interact;
+        public static ReadOnlyReactiveProperty <bool> Command => _command;
         public static Observable<Unit> Reload => _reload;
         public static Observable<Unit> Inventory => _inventory;
         public static Observable<Unit> NextTab => _nextTab;
         public static Observable<Unit> PreviousTab => _previousTab;
 
         private static @InputSystem_Actions _gameInput;
+        private static CinemachineInputAxisController _camera;
 
         private void Awake()
         {
+            _camera = _cinemachineAxis;
             _gameInput = new();
 
             SetAction(_gameInput.Player.Move, OnMove);
@@ -37,6 +43,7 @@ namespace PlayerInput
             SetAction(_gameInput.Player.Interact, OnInteract);
             SetAction(_gameInput.Player.Dash, OnDash);
             SetAction(_gameInput.Player.Reload, OnReload);
+            SetAction(_gameInput.Common.Command, OnCommand);
         }
 
         private void SetAction(InputAction action, Action<InputAction.CallbackContext> callback)
@@ -68,6 +75,11 @@ namespace PlayerInput
         public void OnInteract(InputAction.CallbackContext context)
         {
             _interact.Value = context.ReadValueAsButton();
+        }
+
+        public void OnCommand(InputAction.CallbackContext context)
+        {
+            _command.Value = context.ReadValueAsButton();
         }
 
         public void OnReload(InputAction.CallbackContext context)
@@ -122,16 +134,21 @@ namespace PlayerInput
 
                 _gameInput.Player.Look.Disable();
             }
+            _camera.enabled = enabled;
         }
 
         private void OnEnable()
         {
             _gameInput.Player.Enable();
+            _gameInput.UI.Enable();
+            _gameInput.Common.Enable();
         }
 
         private void OnDisable()
         {
             _gameInput.Player.Disable();
+            _gameInput.UI.Disable();
+            _gameInput.Common.Disable();
         }
     }
 }

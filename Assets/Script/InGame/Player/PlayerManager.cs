@@ -1,5 +1,6 @@
 using PlayerInput;
 using R3;
+using UnityEngine;
 
 public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 {
@@ -16,6 +17,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
     public void SetPlayerStatus(PlayerStatus status)
     {
         _currentStatus = status;
+        Debug.Log($"[PlayerManager] Change Status PlayerStatus:{status}");
 
         switch (_currentStatus)
         {

@@ -2385,6 +2385,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 379491124}
+  - component: {fileID: 379491127}
+  - component: {fileID: 379491126}
   - component: {fileID: 379491125}
   m_Layer: 5
   m_Name: RadialMenu
@@ -2424,6 +2426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b59b4d3d8928e042abb8893d78c7dcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Common.UI.RadialMenu
+  _panel: {fileID: 379491126}
   _options:
   - Name: 
   - Name: 
@@ -2439,6 +2442,38 @@ MonoBehaviour:
   _popUpSize: 1.2
   _popUpDuration: 0.3
   _ease: 9
+--- !u!114 &379491126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379491123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec4180d85933fb46aad7393c6f6cde0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Common.UI.PanelControl
+  _rectTransform: {fileID: 379491124}
+  _canvasGroup: {fileID: 379491127}
+  _activeAction:
+    m_PersistentCalls:
+      m_Calls: []
+  _hiddenAction:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!225 &379491127
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379491123}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &391975101
 GameObject:
   m_ObjectHideFlags: 0
@@ -2553,6 +2588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af83c7bcd099744ebfd1305d118d134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInput.InputManager
+  _cinemachineAxis: {fileID: 1856421487}
 --- !u!4 &412314884
 Transform:
   m_ObjectHideFlags: 0
@@ -12477,6 +12513,7 @@ GameObject:
   - component: {fileID: 1636034713}
   - component: {fileID: 1636034714}
   - component: {fileID: 1636034715}
+  - component: {fileID: 1636034716}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -12641,6 +12678,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Common.HealthControl
   _maxHp: 1
   _animationPlayer: {fileID: 1406103531}
+--- !u!114 &1636034716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636034707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5c4b757b13a1904fad7deaaa7340e53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Player.AllyCommandController
+  _radialMenu: {fileID: 379491125}
+  _playerManager: {fileID: 1636034711}
 --- !u!1 &1658471212
 GameObject:
   m_ObjectHideFlags: 0
