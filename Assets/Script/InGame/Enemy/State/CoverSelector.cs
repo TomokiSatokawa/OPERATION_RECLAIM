@@ -39,6 +39,34 @@ namespace InGame.Enemy.StateMachine
             return best;
         }
 
+        /// <summary>
+        /// ˆê”Ô‹ß‚¢CoverPoint‚ð•Ô‚·
+        /// </summary>
+        public static CoverPoint FindNearestCover(Vector3 position, Component requester)
+        {
+            CoverPoint nearest = null;
+            float nearestSqrDistance = MaxSearchDistance * MaxSearchDistance;
+
+            foreach (CoverPoint cover in CoverPoint.AllPoints)
+            {
+                if (!cover.IsAvailableFor(requester))
+                {
+                    continue;
+                }
+
+                float sqrDistance = (cover.HidePosition - position).sqrMagnitude;
+                if (sqrDistance >= nearestSqrDistance)
+                {
+                    continue;
+                }
+
+                nearest = cover;
+                nearestSqrDistance = sqrDistance;
+            }
+
+            return nearest;
+        }
+
         public static bool HasLineOfSight(Vector3 from, Transform target)
         {
             Vector3 eyeFrom = from + Vector3.up * EyeHeight;

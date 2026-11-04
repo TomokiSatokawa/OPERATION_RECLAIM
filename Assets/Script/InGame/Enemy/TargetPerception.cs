@@ -1,12 +1,16 @@
+//AI
 using System;
+using System.Collections.Generic;
+using InGame.Common;
 using UnityEngine;
 
 namespace InGame.Enemy
 {
     /// <summary>
-    /// 敵の視界判定と、ターゲットを見失った際の位置予測の呼び出しを管理するクラス
+    /// 敵の視界判定と、ターゲットを見失った際の位置予測の呼び出しを管理するクラス。
+    /// 複数のターゲット(グループ)を対象にし、視線判定は一定間隔でまとめて行う
     /// </summary>
-    public class EnemyPerception : MonoBehaviour
+    public class TargetPerception : MonoBehaviour
     {
         private const float DefaultViewDistance = 15f;
         private const float DefaultViewAngle = 110f;
@@ -17,6 +21,7 @@ namespace InGame.Enemy
         private const float DefaultCastRadius = 0.2f;
         private const float DefaultAwarenessRadius = 2f;
         private const float DefaultLostGraceTime = 0.5f;
+        private const float DefaultCheckInterval = 0.1f;
         private const float CastExtraDistance = 0.5f;
         private const float HalfRatio = 0.5f;
         private const float MinDistance = 0.0001f;
@@ -33,7 +38,8 @@ namespace InGame.Enemy
         private const string ReasonVisible = "視界内";
 
         [Header("Target")]
-        [SerializeField] private Transform _target;
+        [SerializeField] private TeamType _targetTeam;
+        private IReadOnlyList<Transform> _targets;
 
         [Header("Vision")]
         [SerializeField] private float _viewDistance = DefaultViewDistance;
@@ -49,6 +55,10 @@ namespace InGame.Enemy
         [Tooltip("視線として飛ばす球の半径(太い視線の太さ)")]
         [SerializeField] private float _castRadius = DefaultCastRadius;
 
+        [Header("Performance")]
+        [Tooltip("視界判定を行う間隔(秒)。大きいほど軽いが反応が遅れる。0なら毎フレーム判定する")]
+        [SerializeField, Min(0f)] private float _checkInterval = DefaultCheckInterval;
+
         [Header("Awareness")]
         [Tooltip("この距離以内なら視野角を無視して感知する(遮蔽物は考慮する)")]
         [SerializeField] private float _awarenessRadius = DefaultAwarenessRadius;
@@ -58,17 +68,23 @@ namespace InGame.Enemy
         [Header("Prediction")]
         [SerializeField] private TargetPredictionSettings _predictionSettings = new TargetPredictionSettings();
 
-        // TODO: 原因調査用。確認後に削除する
+        // TODO: 原因調査用。確認後に削除する_targetTeam
         [Header("Debug")]
         [SerializeField] private bool _isDebugLogEnabled;
 
         private readonly RaycastHit[] _hitBuffer = new RaycastHit[MaxHitCount];
+        private readonly List<Transform> _visibleTargets = new List<Transform>();
+
+        // TODO: 原因調査用。確認後に削除する
+        private readonly Dictionary<Transform, string> _debugLastReasons = new Dictionary<Transform, string>();
 
         private TargetPositionPredictor _predictor;
+        private Transform _currentTarget;
+        private float _nextCheckTime;
+        private bool _hasVisibleTarget;
         private bool _needsCapture;
-        private string _debugLastReason;
 
-        /// <summary>ターゲットが現在見えているか</summary>
+        /// <summary>ターゲットが現在見えているか(グループの誰か1人でも見えていればtrue)</summary>
         public bool CanSeeTarget { get; private set; }
 
         /// <summary>ターゲットを一度でも見て、位置を記憶しているか</summary>
@@ -80,8 +96,11 @@ namespace InGame.Enemy
         /// <summary>最後にターゲットを見てからの経過時間(猶予時間を含む)</summary>
         public float TimeSinceLastSeen { get; private set; }
 
-        /// <summary>現在のターゲット</summary>
-        public Transform Target => _target;
+        /// <summary>現在注目しているターゲット(見えている間は見え続けている1人、見失った後は最後に見た1人)</summary>
+        public Transform Target => _currentTarget;
+
+        /// <summary>直近の判定で見えていたターゲットの一覧(判定間隔ごとに更新される)</summary>
+        public IReadOnlyList<Transform> VisibleTargets => _visibleTargets;
 
         /// <summary>見失ってからの経過時間に応じた予測位置(NavMesh上)</summary>
         public Vector3 PredictedPosition
@@ -114,18 +133,27 @@ namespace InGame.Enemy
         private void Awake()
         {
             _predictor = new TargetPositionPredictor(_predictionSettings);
+
+            // 個体ごとに判定タイミングをずらし、同じフレームに処理が集中するのを防ぐ
+            _nextCheckTime = Time.time + UnityEngine.Random.Range(0f, _checkInterval);
         }
 
         private void Start()
         {
-            ValidateSettings();
+            //ValidateSettings();
         }
 
         private void Update()
         {
-            if (_target == null)
+            _targets = TeamUnitDatabase.GetUnit(_targetTeam);
+            if (_targets == null || _targets.Count == 0)
             {
                 return;
+            }
+
+            if (TryBeginCheck())
+            {
+                RefreshVisibleTargets();
             }
 
             UpdateVisibility();
@@ -156,11 +184,17 @@ namespace InGame.Enemy
                 return;
             }
 
-            // TODO: 原因調査用。目からターゲットへの線(見える:緑 / 見えない:マゼンタ)
-            if (_target != null)
+            // TODO: 原因調査用。目から各ターゲットへの線(見える:緑 / 見えない:マゼンタ)
+            for (int i = 0; i < _targets.Count; i++)
             {
-                Gizmos.color = CanSeeTarget ? Color.green : Color.magenta;
-                Gizmos.DrawLine(eye, _target.position + _targetOffset);
+                Transform target = _targets[i];
+                if (target == null)
+                {
+                    continue;
+                }
+
+                Gizmos.color = _visibleTargets.Contains(target) ? Color.green : Color.magenta;
+                Gizmos.DrawLine(eye, target.position + _targetOffset);
             }
 
             if (!HasLastKnownPosition)
@@ -178,13 +212,6 @@ namespace InGame.Enemy
         }
 #endif
 
-        /// <summary>ターゲットを差し替え、記憶していた位置と速度をリセットする</summary>
-        public void SetTarget(Transform newTarget)
-        {
-            _target = newTarget;
-            ClearMemory();
-        }
-
         /// <summary>最後に見た位置などの記憶をリセットする</summary>
         public void ClearMemory()
         {
@@ -192,14 +219,25 @@ namespace InGame.Enemy
             HasLastKnownPosition = false;
             TimeSinceLastSeen = 0f;
             _needsCapture = false;
+            _hasVisibleTarget = false;
+            _currentTarget = null;
+            _visibleTargets.Clear();
             _predictor?.Reset();
         }
 
         private void ValidateSettings()
         {
-            if (_target == null)
+            if (_targets.Count == 0)
             {
                 Debug.LogError($"[EnemyPerception] ターゲットが未設定です。 object={name}");
+            }
+
+            for (int i = 0; i < _targets.Count; i++)
+            {
+                if (_targets[i] == null)
+                {
+                    Debug.LogError($"[EnemyPerception] ターゲットにnullが含まれています。 index={i} object={name}");
+                }
             }
 
             if (_targetMask.value == 0)
@@ -213,15 +251,87 @@ namespace InGame.Enemy
             }
         }
 
+        // 判定間隔が経過していれば次の判定時刻を進めてtrueを返す
+        private bool TryBeginCheck()
+        {
+            if (Time.time < _nextCheckTime)
+            {
+                return false;
+            }
+
+            _nextCheckTime = Time.time + _checkInterval;
+            return true;
+        }
+
+        // グループ全員を判定して、見えているターゲットの一覧と注目ターゲットを更新する(重い処理)
+        private void RefreshVisibleTargets()
+        {
+            _visibleTargets.Clear();
+
+            Vector3 eye = GetEyePosition();
+            Transform nearest = null;
+            float nearestDistance = float.MaxValue;
+            bool isCurrentVisible = false;
+
+            for (int i = 0; i < _targets.Count; i++)
+            {
+                Transform target = _targets[i];
+                if (target == null)
+                {
+                    continue;
+                }
+
+                if (!CheckVisibility(target, eye, out float distance))
+                {
+                    continue;
+                }
+
+                _visibleTargets.Add(target);
+
+                if (target == _currentTarget)
+                {
+                    isCurrentVisible = true;
+                }
+
+                if (distance < nearestDistance)
+                {
+                    nearest = target;
+                    nearestDistance = distance;
+                }
+            }
+
+            _hasVisibleTarget = _visibleTargets.Count > 0;
+            if (!_hasVisibleTarget)
+            {
+                return;
+            }
+
+            // 今のターゲットが見え続けている間は切り替えず、近さが拮抗した時のちらつきを防ぐ
+            SelectTarget(isCurrentVisible ? _currentTarget : nearest);
+        }
+
+        private void SelectTarget(Transform next)
+        {
+            if (next == _currentTarget)
+            {
+                return;
+            }
+
+            // 別のターゲットの位置で速度を計算しないよう、予測の観測をやり直す
+            _currentTarget = next;
+            _predictor.Reset();
+        }
+
+        // キャッシュした判定結果をもとに、毎フレーム状態を更新する(軽い処理)
         private void UpdateVisibility()
         {
             bool wasSeen = CanSeeTarget;
-            bool isVisible = CheckVisibility();
+            bool isVisible = _hasVisibleTarget && _currentTarget != null;
 
             if (isVisible)
             {
                 // 見えている間だけ速度と旋回を観測する(見えない間の動きは予測に使わない)
-                _predictor.Track(_target.position, Time.deltaTime);
+                _predictor.Track(_currentTarget.position, Time.deltaTime);
                 CanSeeTarget = true;
                 RememberTarget();
                 if (!wasSeen)
@@ -261,21 +371,20 @@ namespace InGame.Enemy
 
         private void RememberTarget()
         {
-            LastKnownPosition = _target.position;
+            LastKnownPosition = _currentTarget.position;
             HasLastKnownPosition = true;
             TimeSinceLastSeen = 0f;
             _needsCapture = true;
         }
 
-        private bool CheckVisibility()
+        private bool CheckVisibility(Transform target, Vector3 eye, out float distance)
         {
-            Vector3 eye = GetEyePosition();
-            Vector3 toTarget = _target.position + _targetOffset - eye;
-            float distance = toTarget.magnitude;
+            Vector3 toTarget = target.position + _targetOffset - eye;
+            distance = toTarget.magnitude;
 
             if (distance > _viewDistance)
             {
-                LogVisibility(ReasonOutOfRange,
+                LogVisibility(target, ReasonOutOfRange,
                     $"distance={distance:F2} viewDistance={_viewDistance:F2}");
                 return false;
             }
@@ -292,40 +401,39 @@ namespace InGame.Enemy
                 float angle = GetHorizontalAngle(toTarget);
                 if (angle > _viewAngle * HalfRatio)
                 {
-                    LogVisibility(ReasonOutOfAngle,
+                    LogVisibility(target, ReasonOutOfAngle,
                         $"angle={angle:F1} halfViewAngle={_viewAngle * HalfRatio:F1} forward={transform.forward}");
                     return false;
                 }
             }
 
-            return IsTargetNearestHit(eye, toTarget / distance, distance);
+            return IsTargetNearestHit(target, eye, toTarget / distance, distance);
         }
 
-        // 太さのある視線を飛ばし、最初にヒットしたものがターゲットなら見えている
-        private bool IsTargetNearestHit(Vector3 eye, Vector3 direction, float distance)
+        // 太さのある視線を飛ばし、最初にヒットしたものが対象のターゲットなら見えている
+        private bool IsTargetNearestHit(Transform target, Vector3 eye, Vector3 direction, float distance)
         {
             int castMask = _obstacleMask.value | _targetMask.value;
             int hitCount = Physics.SphereCastNonAlloc(eye, _castRadius, direction, _hitBuffer,
                 distance + CastExtraDistance, castMask, QueryTriggerInteraction.Ignore);
 
-
             if (!TryGetNearestHit(hitCount, out RaycastHit nearest))
             {
-                LogVisibility(ReasonNoHit, $"hitCount={hitCount} distance={distance:F2}");
+                LogVisibility(target, ReasonNoHit, $"hitCount={hitCount} distance={distance:F2}");
                 return false;
             }
 
             var hitObject = nearest.transform.root.gameObject;
 
-            if (!IsTarget(hitObject.transform))
+            if (!IsTarget(hitObject.transform, target))
             {
-                LogVisibility(ReasonBlocked,
-                    $"hit={hitObject.name} object={hitObject.name} " +
+                LogVisibility(target, ReasonBlocked,
+                    $"hit={hitObject.name} " +
                     $"hitDistance={nearest.distance:F2} distance={distance:F2}");
                 return false;
             }
 
-            LogVisibility(ReasonVisible, $"distance={distance:F2}");
+            LogVisibility(target, ReasonVisible, $"distance={distance:F2}");
             return true;
         }
 
@@ -355,9 +463,9 @@ namespace InGame.Enemy
             return isFound;
         }
 
-        private bool IsTarget(Transform hitTransform)
+        private bool IsTarget(Transform hitTransform, Transform target)
         {
-            return hitTransform == _target || hitTransform.IsChildOf(_target);
+            return hitTransform == target || hitTransform.IsChildOf(target);
         }
 
         // 水平方向のみで正面とのなす角を求める
@@ -377,15 +485,21 @@ namespace InGame.Enemy
             return transform.position + transform.rotation * _eyeOffset;
         }
 
-        private void LogVisibility(string reason, string detail)
+        // TODO: 原因調査用。確認後に削除する
+        private void LogVisibility(Transform target, string reason, string detail)
         {
-            if (!_isDebugLogEnabled || reason == _debugLastReason)
+            if (!_isDebugLogEnabled)
             {
                 return;
             }
 
-            _debugLastReason = reason;
-            Debug.Log($"[EnemyPerception] {reason} {detail} object={name}");
+            if (_debugLastReasons.TryGetValue(target, out string lastReason) && lastReason == reason)
+            {
+                return;
+            }
+
+            _debugLastReasons[target] = reason;
+            Debug.Log($"[EnemyPerception] {reason} {detail} target={target.name} object={name}");
         }
     }
 }

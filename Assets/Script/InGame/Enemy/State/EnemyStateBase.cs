@@ -73,7 +73,7 @@ namespace InGame.Enemy.StateMachine
         public Transform Enemy;
         public NavMeshAgent Agent;
         public AnimationPlayer AnimationPlayer;
-        public EnemyPerception Perception;
+        public TargetPerception Perception;
         public EnemyIcon Icon;
     }
 }

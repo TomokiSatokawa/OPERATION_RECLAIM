@@ -35,7 +35,7 @@ public class RifleController : MonoBehaviour
         //’e‚ğ”­Ë‚·‚é
         var shotPos = currentRifle.ShotPosition;
         var bullet = Instantiate(_bulletPrefab, shotPos.position, shotPos.rotation);
-        bullet.SetData(GetRayPosition());
+        bullet.SetData(GetRayPosition(), TeamType.Player);
 
         //c’e”‚ğŒ¸‚ç‚·
         currentRifle.RemoveBulletCount();

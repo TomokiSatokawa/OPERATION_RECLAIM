@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace InGame.Common
@@ -16,6 +17,18 @@ namespace InGame.Common
             if (_states.Length > 0)
             {
                 ChangeState(_states[0]);
+            }
+        }
+
+        public void RequestChangeState(Type type)
+        {
+            foreach(var state in _states)
+            {
+                if (type == state.GetType())
+                {
+                    ChangeState(state);
+                    return;
+                }
             }
         }
 

@@ -9,7 +9,9 @@ namespace InGame.Common
     {
         [SerializeField] private int _maxHp;
         [SerializeField] private AnimationPlayer _animationPlayer;
+        [SerializeField] private TeamType _teamType;
 
+        public TeamType Team => _teamType;
         public event Action OnDie;
         private int _hp;
         public int HP => _hp;
@@ -34,6 +36,7 @@ namespace InGame.Common
     public interface IDamageable
     {
         public int HP { get; }
+        public TeamType Team { get; }
         public void Damage(int damageAmount);
     }
 }

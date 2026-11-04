@@ -38,7 +38,7 @@ namespace InGame.Enemy
 
             var shotPos = currentRifle.ShotPosition;
             var bullet = Instantiate(_bulletPrefab, shotPos.position, shotPos.rotation);
-            bullet.SetData(GetRayPosition());
+            bullet.SetData(GetRayPosition(), TeamType.Enemy);
         }
 
         private Vector3 GetRayPosition()

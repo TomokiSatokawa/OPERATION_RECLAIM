@@ -1,8 +1,8 @@
 using System;
 using DG.Tweening;
+using InGame.Common;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace Common.UI
 {
@@ -12,9 +12,9 @@ namespace Common.UI
     public class RadialMenu : MonoBehaviour
     {
         [Header("Radial")]
-        [SerializeField] private PanelControl _panel;   
-        [SerializeField] private Option[] _options;
-        [SerializeField] private Image _radialPrefab;
+        [SerializeField] private PanelControl _panel;
+        public Option[] Options;
+        [SerializeField] private RadialMenuContents _radialPrefab;
         [SerializeField] private RectTransform _content;
         [SerializeField] private float _interval;
         [Header("Animation")]
@@ -24,14 +24,16 @@ namespace Common.UI
 
         public event Action<int> OnClick;
         public PanelControl Panel => _panel;
-        private Image[] _clonedPrefab;
+        private RadialMenuContents[] _clonedPrefab;
         private Camera _canvasCamera;
         private int _selectedIndex = -1;
 
         [System.Serializable]
         public class Option
         {
+            public string Type;
             public string Name;
+            public Sprite Icon;
         }
 
         private void Start()
@@ -59,12 +61,12 @@ namespace Common.UI
 
             if (_selectedIndex >= 0)
             {
-                _clonedPrefab[_selectedIndex].rectTransform.DOKill();
-                _clonedPrefab[_selectedIndex].rectTransform.DOScale(1f, _popUpDuration).SetEase(_ease);
+                _clonedPrefab[_selectedIndex].Rect.DOKill();
+                _clonedPrefab[_selectedIndex].Rect.DOScale(1f, _popUpDuration).SetEase(_ease);
             }
 
             _selectedIndex = index;
-            _clonedPrefab[index].rectTransform.DOScale(_popUpSize, _popUpDuration).SetEase(_ease);
+            _clonedPrefab[index].Rect.DOScale(_popUpSize, _popUpDuration).SetEase(_ease);
         }
 
         private void InitializeCamera()
@@ -82,19 +84,21 @@ namespace Common.UI
 
         private void CreateRadial()
         {
-            if (_options == null || _options.Length == 0) return;
+            if (Options == null || Options.Length == 0) return;
 
-            _clonedPrefab = new Image[_options.Length];
-            var fillAmount = 1f / _options.Length - _interval;
-            var rotation = 360f / _options.Length;
+            _clonedPrefab = new RadialMenuContents[Options.Length];
+            var fillAmount = 1f / Options.Length - _interval;
+            var rotation = 360f / Options.Length;
             for (int i = 0; i < _clonedPrefab.Length; i++)
             {
-                var image = Instantiate(_radialPrefab, _content);
+                var contents = Instantiate(_radialPrefab, _content);
 
-                image.fillAmount = fillAmount;
-                image.rectTransform.eulerAngles = Vector3.forward * rotation * i;
+                contents.Image.fillAmount = fillAmount;
+                contents.Image.rectTransform.eulerAngles = Vector3.forward * rotation * i;
+                contents.gameObject.name = $"Contents:{Options[i].Type}";
+                contents.SetData(Options[i]);
 
-                _clonedPrefab[i] = image;
+                _clonedPrefab[i] = contents;
             }
         }
 
@@ -118,14 +122,14 @@ namespace Common.UI
         //AI
         private float GetFirstSegmentCenterAngle()
         {
-            var image = _clonedPrefab[0];
+            var contents = _clonedPrefab[0];
 
             // fillOriginは Bottom=0, Right=1, Top=2, Left=3。上を0度・反時計回りの角度に変換する
-            var originAngle = (180f + 90f * image.fillOrigin) % 360f;
-            var halfArc = image.fillAmount * 360f * 0.5f;
+            var originAngle = (180f + 90f * contents.Image.fillOrigin) % 360f;
+            var halfArc = contents.Image.fillAmount * 360f * 0.5f;
 
             // 時計回りの塗りは起点から負方向、反時計回りは正方向に伸びる
-            return image.fillClockwise ? originAngle - halfArc : originAngle + halfArc;
+            return contents.Image.fillClockwise ? originAngle - halfArc : originAngle + halfArc;
         }
     }
 }

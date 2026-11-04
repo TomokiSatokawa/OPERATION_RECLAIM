@@ -12,7 +12,7 @@ namespace InGame.Enemy.StateMachine
         [SerializeField] private Transform _player;
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private AnimationPlayer _animation;
-        [SerializeField] private EnemyPerception _perception;
+        [SerializeField] private TargetPerception _perception;
         [SerializeField] private HealthControl _healthControl;
         [SerializeField] private EnemyIcon _icon;
 

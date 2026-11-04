@@ -18,7 +18,6 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
     public void SetPlayerStatus(PlayerStatus status)
     {
         _currentStatus = status;
-        Debug.Log($"[PlayerManager] Change Status PlayerStatus:{status}");
 
         InputManager.SetMoveEnabled(CheckFlag(status,PlayerStatus.Move));
         InputManager.SetLookEnabled(CheckFlag(status, PlayerStatus.Look));
