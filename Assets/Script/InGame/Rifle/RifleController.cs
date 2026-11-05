@@ -5,6 +5,7 @@ using InGame.Player.Rifle;
 using PlayerInput;
 using R3;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RifleController : MonoBehaviour
 { 
@@ -12,7 +13,9 @@ public class RifleController : MonoBehaviour
     [SerializeField] private BulletController _bulletPrefab;
     [SerializeField] private RifleEquipper _rifleEquipper;
     [SerializeField] private AnimationPlayer _animationPlayer;
+    [SerializeField] private PoseOverridePlayer  _reloadOverride;
     [SerializeReference] private EnumGroupBase _reloadAnimation;
+    [SerializeReference] private EnumGroupBase _shotAnimation;
     [SerializeField] private LayerMask _rayMask;
     [SerializeField] private float _rayDistance;
     [SerializeField] private float _bulletDistance;
@@ -39,12 +42,13 @@ public class RifleController : MonoBehaviour
 
         //écíeêîÇå∏ÇÁÇ∑
         currentRifle.RemoveBulletCount();
+        _reloadOverride.PlayOneShot(_shotAnimation);
     }
 
     private void Reload()
     {
         _rifleEquipper.CurrentRifle.Reload();
-        _animationPlayer.PlayOneShot(_reloadAnimation);
+        _reloadOverride.PlayOneShot(_reloadAnimation);
     }
 
     private Vector3 GetRayPosition()

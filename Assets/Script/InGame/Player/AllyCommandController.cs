@@ -79,6 +79,9 @@ namespace InGame.Player
 
         /// <summary> ‰‡Œì </summary>
         ProvideSupport,
+
+        /// <summary> ‘Ò‹@ </summary>
+        Idle,
         
     }
     [System.Serializable]

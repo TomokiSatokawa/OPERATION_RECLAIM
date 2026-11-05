@@ -212,7 +212,7 @@ namespace InGame.Enemy.StateMachine
 
         private void Fire(EnemyStateContext context)
         {
-            Debug.Log("UŒ‚!!");
+            //Debug.Log("UŒ‚!!");
             // TODO: ’e‚Ì”­ËAAnimationPlayer‚Å‚ÌËŒ‚ƒ‚[ƒVƒ‡ƒ“Ä¶
         }
 

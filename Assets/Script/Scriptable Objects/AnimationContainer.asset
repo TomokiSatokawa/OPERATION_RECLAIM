@@ -47,6 +47,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 1
     _clip: {fileID: -203655887218126122, guid: 25e20f65edb371d4985a999b2cb60e20, type: 3}
     _avatarMaskData: 0
@@ -76,6 +77,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 2
     _clip: {fileID: -203655887218126122, guid: ee4080e99b7ca474aa36dc98a846daa5, type: 3}
     _avatarMaskData: 0
@@ -105,6 +107,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 3
     _clip: {fileID: -203655887218126122, guid: a15edd79efcb81649b716b78df5e2156, type: 3}
     _avatarMaskData: 0
@@ -134,6 +137,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 4
     _clip: {fileID: -203655887218126122, guid: 25e20f65edb371d4985a999b2cb60e20, type: 3}
     _avatarMaskData: 0
@@ -163,6 +167,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 5
     _clip: {fileID: -203655887218126122, guid: 0dc80bed6ce48a748b9bf3df1e446b0c, type: 3}
     _avatarMaskData: 0
@@ -192,6 +197,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 6
     _clip: {fileID: -203655887218126122, guid: 985f00f175f6b794eb43958a12d29372, type: 3}
     _avatarMaskData: 0
@@ -221,6 +227,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   _playerRifleClip:
   - _name: 0
     _clip: {fileID: -203655887218126122, guid: d893500eddbe5ba4089d968f4c1bd24b, type: 3}
@@ -251,6 +258,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 1
     _clip: {fileID: -203655887218126122, guid: bf3ecbf2bfd26454cb8601fbcc1d8871, type: 3}
     _avatarMaskData: 0
@@ -280,6 +288,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 2
     _clip: {fileID: -203655887218126122, guid: 869f5506095eef84cad564575c6608e4, type: 3}
     _avatarMaskData: 0
@@ -309,6 +318,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 1
   - _name: 3
     _clip: {fileID: -203655887218126122, guid: 6ba86a2b5ea3f504383f2e1cf4c22bf8, type: 3}
     _avatarMaskData: 0
@@ -338,6 +348,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 4
     _clip: {fileID: -203655887218126122, guid: 38c42b9236803f44da014b5089b1be81, type: 3}
     _avatarMaskData: 0
@@ -367,6 +378,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 5
     _clip: {fileID: -203655887218126122, guid: 8e8a10902264a8d40bcdb8a0b02f2179, type: 3}
     _avatarMaskData: 0
@@ -396,6 +408,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 6
     _clip: {fileID: -203655887218126122, guid: a330bc725731bcd4685ed304bafa2516, type: 3}
     _avatarMaskData: 1
@@ -425,6 +438,37 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 1.5
+  - _name: 7
+    _clip: {fileID: -203655887218126122, guid: 4c6b01c708f5b91419b8f379d86d5258, type: 3}
+    _avatarMaskData: 1
+    _blendData:
+      Duration: 0.3
+      Curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    _speed: 1.5
   _enemyRifleClip:
   - _name: 0
     _clip: {fileID: -203655887218126122, guid: feed9c4493f42c243bdeaf1e3b3b1670, type: 3}
@@ -455,6 +499,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 1
     _clip: {fileID: -203655887218126122, guid: 2820a1f0e9945054d84812d9ad08971e, type: 3}
     _avatarMaskData: 0
@@ -484,6 +529,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 2
     _clip: {fileID: -203655887218126122, guid: 28718b57d5d60b349bcc59189bc01712, type: 3}
     _avatarMaskData: 0
@@ -513,6 +559,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 3
     _clip: {fileID: -203655887218126122, guid: 0c4b05bd3e5b44c4f9bf3ff57adcb329, type: 3}
     _avatarMaskData: 0
@@ -542,6 +589,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   - _name: 4
     _clip: {fileID: -203655887218126122, guid: bffb092f5bc0d4341ba0b7114efee85c, type: 3}
     _avatarMaskData: 0
@@ -571,4 +619,5 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    _speed: 0
   _footmanClip: []

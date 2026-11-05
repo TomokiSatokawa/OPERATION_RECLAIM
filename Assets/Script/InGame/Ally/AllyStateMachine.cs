@@ -39,10 +39,13 @@ namespace InGame.Ally
             switch (type)
             {
                 case AllyCommandType.Follow:
-                    _stateMachine.RequestChangeState(typeof(AllyFollowState));
+                    _stateMachine?.RequestChangeState(typeof(AllyFollowState));
                     break;
                 case AllyCommandType.Hide:
-                    _stateMachine.RequestChangeState(typeof(AllyHideState));
+                    _stateMachine?.RequestChangeState(typeof(AllyHideState));
+                    break;
+                case AllyCommandType.Idle:
+                    _stateMachine?.RequestChangeState(typeof(AllyIdleState));
                     break;
             }
         }

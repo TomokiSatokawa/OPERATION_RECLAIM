@@ -2893,6 +2893,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3416645848903667243, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: _camera
       value: 
@@ -4676,6 +4680,10 @@ PrefabInstance:
     - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: m_Name
       value: Enemy (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3416645848903667243, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: _camera
@@ -7651,6 +7659,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ally (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1189892605092398508, guid: 792854589715e854eb177f0df0281107, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2743518810354485803, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.8900013
@@ -8445,6 +8457,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1406103532}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1406103534}
   m_SourcePrefab: {fileID: 100100000, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
 --- !u!4 &1406103528 stripped
 Transform:
@@ -8644,6 +8659,21 @@ MonoBehaviour:
   - {fileID: 907002281}
   - {fileID: 1927467630}
   - {fileID: 1845342253}
+--- !u!114 &1406103534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406103529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddcfa5ec66eefaf44b1b407823f536e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReloadOverride
+  _animator: {fileID: 1406103530}
+  _container: {fileID: 11400000, guid: 923ce58ec712fb84d99be080a3507a5d, type: 2}
+  _freezeBase: 0
 --- !u!4 &1419562706 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8725540660313892278, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
@@ -10001,6 +10031,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ally (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 1189892605092398508, guid: 792854589715e854eb177f0df0281107, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2743518810354485803, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.8900013
@@ -10720,12 +10754,15 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 8503042438991784427, guid: da2b0ba34038fcf45983d669fec9cfd2, type: 3}
   _rifleEquipper: {fileID: 1636034714}
   _animationPlayer: {fileID: 1406103531}
+  _reloadOverride: {fileID: 1406103534}
   _reloadAnimation:
     rid: 3847071954846089335
+  _shotAnimation:
+    rid: 7286859495147569265
   _rayMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  _rayDistance: 0
+  _rayDistance: 50
   _bulletDistance: 100
   references:
     version: 2
@@ -10734,6 +10771,10 @@ MonoBehaviour:
       type: {class: PlayerRifleMotion, ns: Common, asm: Assembly-CSharp}
       data:
         _type: 6
+    - rid: 7286859495147569265
+      type: {class: PlayerRifleMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 7
 --- !u!114 &1636034714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10793,6 +10834,9 @@ MonoBehaviour:
     Icon: {fileID: 0}
   - Type: 4
     Name: "\u63F4\u8B77"
+    Icon: {fileID: 0}
+  - Type: 5
+    Name: "\u5F85\u6A5F"
     Icon: {fileID: 0}
   _state:
   - {fileID: 790601702}
@@ -10880,6 +10924,10 @@ PrefabInstance:
     - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: m_Name
       value: Enemy (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3416645848903667243, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: _camera
@@ -11090,6 +11138,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ally (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1189892605092398508, guid: 792854589715e854eb177f0df0281107, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2743518810354485803, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.890001
@@ -11204,6 +11256,10 @@ PrefabInstance:
     - target: {fileID: 1189892605092398508, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_Name
       value: Ally (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1189892605092398508, guid: 792854589715e854eb177f0df0281107, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2743518810354485803, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11532,6 +11588,10 @@ PrefabInstance:
     - target: {fileID: 1189892605092398508, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_Name
       value: Ally (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1189892605092398508, guid: 792854589715e854eb177f0df0281107, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2743518810354485803, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11985,6 +12045,10 @@ PrefabInstance:
     - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: m_Name
       value: Enemy (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3416645848903667243, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: _camera
@@ -13360,6 +13424,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3416645848903667243, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: _camera
       value: 
@@ -13894,6 +13962,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3416645848903667243, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: _camera
       value: 
@@ -14087,6 +14159,10 @@ PrefabInstance:
     - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: m_Name
       value: Enemy (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3416645848903667243, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: _camera
@@ -14651,6 +14727,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ally
       objectReference: {fileID: 0}
+    - target: {fileID: 1189892605092398508, guid: 792854589715e854eb177f0df0281107, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2743518810354485803, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17.89
@@ -14719,6 +14799,10 @@ PrefabInstance:
     - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3416645848903667243, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: _camera

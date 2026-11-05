@@ -5,7 +5,6 @@ using InGame.Player.Motion;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
-using static InGame.Player.Motion.AnimationContainer;
 
 namespace Common.Motion
 {
@@ -20,7 +19,7 @@ namespace Common.Motion
         private CancellationTokenSource _topLayerToken;
         private AnimationPlaybackState _currentPlayOneShot;
 
-         private BlendMixer _horizontalBlend;
+        private BlendMixer _horizontalBlend;
         private BlendMixer _verticalBlend;
         private BlendMixer _axisBlend;
         private StateMotionData.MotionGroup _currentGroup;
@@ -39,7 +38,7 @@ namespace Common.Motion
         {
             _container.Initialize();
 
-            _graph = PlayableGraph.Create("PlayerAnimation");
+            _graph = PlayableGraph.Create($"PlayerAnimation {gameObject.name}");
 
             //レイヤーミキサー
             _layerMixer = AnimationLayerMixerPlayable.Create(_graph, Enum.GetNames(typeof(AnimationLayer)).Length);
@@ -90,7 +89,7 @@ namespace Common.Motion
             float vertical = Mathf.Abs(moveAmount.y);
             float total = horizontal + vertical;
 
-            float target = total > 0f   ? vertical / total : 0.5f;
+            float target = total > 0f ? vertical / total : 0.5f;
 
             _axisBlend.Tick(_axisMixer, target);
         }
@@ -127,6 +126,7 @@ namespace Common.Motion
             _verticalMixer.ConnectInput(1, idle2, 0);
             _verticalMixer.ConnectInput(2, walkForward, 0);
             _verticalMixer.ConnectInput(3, run, 0);
+
         }
 
         public IReadOnlyAnimationPlaybackState PlayOneShot(EnumGroupBase groupBase)
@@ -136,7 +136,7 @@ namespace Common.Motion
             _topLayerToken?.Dispose();
             _topLayerToken = new CancellationTokenSource();
             var playbackState = new AnimationPlaybackState();
-            PlayOneShotAsync(groupBase, playbackState).Forget();
+            PlayOneShotAsync(groupBase, playbackState,_topLayerToken.Token).Forget();
             return playbackState;
         }
 
@@ -147,6 +147,7 @@ namespace Common.Motion
 
         public void PlayDie()
         {
+            _topLayerToken?.Cancel();
             PlayDieAsync().Forget();
         }
 
@@ -155,6 +156,7 @@ namespace Common.Motion
             var animationData = _container.GetAnimation(_currentGroup.DieClip);
 
             var playable = AnimationClipPlayable.Create(_graph, animationData.Clip);
+            playable.SetSpeed(animationData.Speed);
 
             TryDisconnect(_layerMixer, (int)AnimationLayer.TopLayer);
             _layerMixer.ConnectInput((int)AnimationLayer.TopLayer, playable, 0);
@@ -187,7 +189,7 @@ namespace Common.Motion
             _layerMixer.SetInputWeight((int)AnimationLayer.TopLayer, 1f);
         }
 
-        private async UniTask PlayOneShotAsync(EnumGroupBase groupBase, AnimationPlaybackState playbackState)
+        private async UniTask PlayOneShotAsync(EnumGroupBase groupBase, AnimationPlaybackState playbackState, CancellationToken token)
         {
             var animationData = _container.GetAnimation(groupBase);
             var playable = AnimationClipPlayable.Create(_graph, animationData.Clip);
@@ -206,7 +208,7 @@ namespace Common.Motion
             float clipLength = animationData.Clip.length;
             float blendDuration = animationData.Blend.Duration;
 
-            _currentPlayOneShot.StopAnimation += () =>
+            playbackState.StopAnimation += () =>
             {
                 elapsedTime = clipLength - blendDuration;
             };
@@ -238,33 +240,41 @@ namespace Common.Motion
                         _layerMixer.SetInputWeight((int)AnimationLayer.TopLayer, 1f);
                     }
 
-                    await UniTask.Yield(cancellationToken: _topLayerToken.Token);
+                    await UniTask.Yield(cancellationToken: token);
                     elapsedTime += Time.deltaTime;
                     playbackState.Time = elapsedTime;
                 }
             }
             catch (OperationCanceledException)
             {
-
+                // 新しい再生が TopLayer を使っているので触らない
+                playbackState.IsPlaying = false;
+                return;
             }
 
-            //元に戻す
-            TryDisconnect(_layerMixer, (int)AnimationLayer.TopLayer);
-            _layerMixer.SetInputWeight((int)AnimationLayer.TopLayer, 0f);
+            // 自分がまだ最新のときだけ片付ける
+            if (_currentPlayOneShot == playbackState)
+            {
+                TryDisconnect(_layerMixer, (int)AnimationLayer.TopLayer);
+                _layerMixer.SetInputWeight((int)AnimationLayer.TopLayer, 0f);
+            }
             playbackState.IsPlaying = false;
         }
 
         private void TryDisconnect(Playable playable, int inputPot)
         {
-            if (playable.GetInput(inputPot).IsValid())
-                playable.DisconnectInput(inputPot);
+            var input = playable.GetInput(inputPot);
+            if (!input.IsValid()) return;
+
+            playable.DisconnectInput(inputPot);
+            input.Destroy();
         }
     }
 
     [Serializable]
     public class BlendMixer
     {
-      private BlendData _blendData;
+        private BlendData _blendData;
 
         private float _blendPosition;
         private float _blendStart;
@@ -273,7 +283,7 @@ namespace Common.Motion
 
         private int _inputCount;
 
-        public BlendMixer(BlendData blendData,int inputCount)
+        public BlendMixer(BlendData blendData, int inputCount)
         {
             _blendData = blendData;
             _inputCount = inputCount;

@@ -70,6 +70,7 @@ namespace InGame.Player.Motion
             public AnimationClip Clip { get; }
             public AvatarMaskType AvatarMaskType { get; }
             public BlendData Blend { get; }
+            public float Speed { get; }
         }
 
         [System.Serializable]
@@ -79,11 +80,13 @@ namespace InGame.Player.Motion
             [SerializeField] private AnimationClip _clip;
             [SerializeField] private AvatarMaskType _avatarMaskData;
             [SerializeField] private BlendData _blendData;
+            [SerializeField,Min(1f)] private float _speed = 1f;
 
             public T Name => _name;
             public AnimationClip Clip => _clip;
             public AvatarMaskType AvatarMaskType => _avatarMaskData;
             public BlendData Blend => _blendData;
+            public float Speed => _speed;
 
 
         }
@@ -118,7 +121,7 @@ namespace InGame.Player.Motion
 
     public enum PlayerRifleAnimationType : byte
     {
-        Idol, Forward, Right, Left, Back, Run,Reload
+        Idol, Forward, Right, Left, Back, Run,Reload,Shot
     }
 
     public enum EnemyRifleAnimationType : byte

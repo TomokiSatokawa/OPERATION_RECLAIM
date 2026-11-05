@@ -47,8 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Player.Rifle.BulletController
   _moveSpeed: 50
-  _deleteDistance: 1
-  _rayDistance: 1
+  _deleteDistance: 3
+  _damageAmount: 10
+  _rayDistance: 3
   _rayMask:
     serializedVersion: 2
     m_Bits: 4294967295

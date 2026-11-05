@@ -16,19 +16,13 @@ namespace InGame.Enemy
         [SerializeField] private float _interval;
 
         private float _nextShotTime;
-      
-        void Start()
-        {
-            
-        }
 
-        // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (Time.time > _nextShotTime)
             {
                 _nextShotTime += _interval;
-                Shot();
+                //Shot();
             }
         }
 
