@@ -10679,9 +10679,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   _groundRayOffset: {x: 0, y: 0, z: -0.1}
-  _groundRayDistance: 1
+  _groundRayDistance: 0.1
   _moveSpeed: 2
   _dashSpeed: 5
+  _gravityPower: 9.85
   IgnoreInput: 0
 --- !u!54 &1636034710
 Rigidbody:

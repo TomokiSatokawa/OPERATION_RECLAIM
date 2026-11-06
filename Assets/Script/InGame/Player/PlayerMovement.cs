@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _groundRayDistance;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _dashSpeed;
+    [SerializeField] private float _gravityPower;
     public bool IgnoreInput;
     private Vector3 _velocity;
     public Vector2 MoveAmount { get; private set; }
@@ -36,9 +37,14 @@ public class PlayerMovement : MonoBehaviour
         if (hit.HasValue)
         {
             groundDirection = Vector3.ProjectOnPlane(cameraInput, hit.Value.normal);
+            _velocity = groundDirection * moveSpeed;
+        }
+        else
+        {
+            _velocity = -Vector3.up * _gravityPower;
+            moveInput = Vector2.zero;
         }
 
-        _velocity = groundDirection * moveSpeed;
         var dashAmount = 0f;
 
         if (moveInput.y > 0f)
