@@ -17,7 +17,7 @@ namespace InGame.Player.Motion
             _type = type;
         }
 
-        public static EnumID Create<T>(EnumGroupBase<T> group, T type)
+        public static EnumID Create<T>(IReadOnlyEnumGroup<T> group, T type)
             where T : Enum
         {
             return new EnumID(

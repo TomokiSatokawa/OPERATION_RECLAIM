@@ -48,7 +48,7 @@ namespace Common.UI
 
             Select();
 
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+            if (_panel.IsActive && Mouse.current.leftButton.wasPressedThisFrame)
             {
                 OnClick?.Invoke(_selectedIndex);
             }

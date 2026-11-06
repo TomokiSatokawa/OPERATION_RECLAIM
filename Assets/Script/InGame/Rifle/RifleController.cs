@@ -1,6 +1,7 @@
 using System.Linq;
 using Common;
 using Common.Motion;
+using InGame.Player.Motion;
 using InGame.Player.Rifle;
 using PlayerInput;
 using R3;
