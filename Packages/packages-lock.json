@@ -28,6 +28,16 @@
       "dependencies": {},
       "hash": "5fadcb6564f0c6e988641e2e4a4aba4b6b1caafe"
     },
+    "com.t0m0.corekit": {
+      "version": "https://github.com/TomokiSatokawa/CoreKitLibrary.git?path=/Packages/com.t0m0.corekit",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.inputsystem": "1.14.0",
+        "com.cysharp.unitask": "2.5.11"
+      },
+      "hash": "e25ca93a8f8b517f64d9959330f94239e630d13c"
+    },
     "com.unity.ai.navigation": {
       "version": "2.0.10",
       "depth": 0,
