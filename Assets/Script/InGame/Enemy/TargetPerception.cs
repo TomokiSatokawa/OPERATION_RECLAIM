@@ -7,45 +7,23 @@ using UnityEngine;
 namespace InGame.Enemy
 {
     /// <summary>
-    /// 敵の視界判定と、ターゲットを見失った際の位置予測の呼び出しを管理するクラス。
-    /// 複数のターゲット(グループ)を対象にし、視線判定は一定間隔でまとめて行う
+    /// 敵の視覚・聴覚によるターゲットの認識を管理するクラス。
+    /// ターゲットごとに「直視 / 予測 / 方向のみ / 見失った」の段階を持ち、認識中のターゲットを取得できる
     /// </summary>
     public class TargetPerception : MonoBehaviour
     {
-        private const float DefaultViewDistance = 15f;
-        private const float DefaultViewAngle = 110f;
-        private const float MinViewAngle = 1f;
-        private const float MaxViewAngle = 360f;
-        private const float DefaultEyeHeight = 1.6f;
-        private const float DefaultTargetHeight = 1.0f;
-        private const float DefaultCastRadius = 0.2f;
-        private const float DefaultAwarenessRadius = 2f;
-        private const float DefaultLostGraceTime = 0.5f;
-        private const float DefaultCheckInterval = 0.1f;
-        private const float CastExtraDistance = 0.5f;
-        private const float HalfRatio = 0.5f;
-        private const float MinDistance = 0.0001f;
-        private const float MinDirectionSqrMagnitude = 0.0001f;
-        private const float GizmoSphereRadius = 0.3f;
-        private const float GizmoForwardLength = 2f;
         private const int MaxHitCount = 16;
-
-        // TODO: 原因調査用。確認後に削除する
-        private const string ReasonOutOfRange = "距離外";
-        private const string ReasonOutOfAngle = "視野角外";
-        private const string ReasonNoHit = "対象未検出";
-        private const string ReasonBlocked = "遮蔽物あり";
-        private const string ReasonVisible = "視界内";
+        private const float CastExtraDistance = 0.5f;
+        private const float MinSqrDistance = 0.0001f;
 
         [Header("Target")]
         [SerializeField] private TeamType _targetTeam;
-        private IReadOnlyList<Transform> _targets;
 
         [Header("Vision")]
-        [SerializeField] private float _viewDistance = DefaultViewDistance;
-        [SerializeField, Range(MinViewAngle, MaxViewAngle)] private float _viewAngle = DefaultViewAngle;
-        [SerializeField] private Vector3 _eyeOffset = new Vector3(0f, DefaultEyeHeight, 0f);
-        [SerializeField] private Vector3 _targetOffset = new Vector3(0f, DefaultTargetHeight, 0f);
+        [SerializeField] private float _viewDistance = 15f;
+        [SerializeField, Range(1f, 360f)] private float _viewAngle = 110f;
+        [SerializeField] private Vector3 _eyeOffset = new Vector3(0f, 1.6f, 0f);
+        [SerializeField] private Vector3 _targetOffset = new Vector3(0f, 1.0f, 0f);
 
         [Header("Sight Cast")]
         [Tooltip("視線を遮る物のレイヤー")]
@@ -53,94 +31,104 @@ namespace InGame.Enemy
         [Tooltip("ターゲット(Player)のレイヤー。視線の判定でヒット対象にする")]
         [SerializeField] private LayerMask _targetMask;
         [Tooltip("視線として飛ばす球の半径(太い視線の太さ)")]
-        [SerializeField] private float _castRadius = DefaultCastRadius;
+        [SerializeField] private float _castRadius = 0.2f;
 
         [Header("Performance")]
         [Tooltip("視界判定を行う間隔(秒)。大きいほど軽いが反応が遅れる。0なら毎フレーム判定する")]
-        [SerializeField, Min(0f)] private float _checkInterval = DefaultCheckInterval;
+        [SerializeField, Min(0f)] private float _checkInterval = 0.1f;
 
         [Header("Awareness")]
         [Tooltip("この距離以内なら視野角を無視して感知する(遮蔽物は考慮する)")]
-        [SerializeField] private float _awarenessRadius = DefaultAwarenessRadius;
+        [SerializeField] private float _awarenessRadius = 2f;
         [Tooltip("見えなくなってから、見失ったと判断するまでの猶予時間")]
-        [SerializeField] private float _lostGraceTime = DefaultLostGraceTime;
+        [SerializeField] private float _lostGraceTime = 0.5f;
+        [Tooltip("予測が終わった後(または音を聞いた後)、方向だけ覚えている時間")]
+        [SerializeField, Min(0f)] private float _directionalDuration = 6f;
+
+        [Header("Hearing")]
+        [Tooltip("音量1の音が聞こえる最大距離")]
+        [SerializeField] private float _hearingRange = 20f;
+        [Tooltip("聞こえる限界距離で生じる位置の誤差(近いほど正確)")]
+        [SerializeField] private float _hearingErrorRadius = 3f;
 
         [Header("Prediction")]
         [SerializeField] private TargetPredictionSettings _predictionSettings = new TargetPredictionSettings();
 
-        // TODO: 原因調査用。確認後に削除する_targetTeam
-        [Header("Debug")]
-        [SerializeField] private bool _isDebugLogEnabled;
+        private static readonly Comparison<PerceivedTarget> PriorityComparison = ComparePriority;
 
         private readonly RaycastHit[] _hitBuffer = new RaycastHit[MaxHitCount];
+        private readonly List<PerceivedTarget> _memories = new List<PerceivedTarget>();
+        private readonly List<PerceivedTarget> _perceived = new List<PerceivedTarget>();
         private readonly List<Transform> _visibleTargets = new List<Transform>();
+        private readonly List<(PerceivedTarget target, AwarenessLevel previous)> _pendingChanges
+            = new List<(PerceivedTarget, AwarenessLevel)>();
 
-        // TODO: 原因調査用。確認後に削除する
-        private readonly Dictionary<Transform, string> _debugLastReasons = new Dictionary<Transform, string>();
-
-        private TargetPositionPredictor _predictor;
-        private Transform _currentTarget;
+        private IReadOnlyList<Transform> _targets;
+        private PerceivedTarget _primary;
+        private AwarenessLevel _highestLevel;
         private float _nextCheckTime;
-        private bool _hasVisibleTarget;
-        private bool _needsCapture;
 
-        /// <summary>ターゲットが現在見えているか(グループの誰か1人でも見えていればtrue)</summary>
-        public bool CanSeeTarget { get; private set; }
+        /// <summary>認識中(Lost以外)のターゲット一覧。段階が高い順、同じ段階なら近い順(毎フレーム更新)</summary>
+        public IReadOnlyList<PerceivedTarget> PerceivedTargets => _perceived;
 
-        /// <summary>ターゲットを一度でも見て、位置を記憶しているか</summary>
-        public bool HasLastKnownPosition { get; private set; }
+        /// <summary>認識中のターゲットのうち、最も優先度が高い1人。誰も認識していなければnull</summary>
+        public PerceivedTarget PrimaryTarget =>
+            _primary != null && _primary.Level != AwarenessLevel.Lost ? _primary : null;
 
-        /// <summary>最後にターゲットを見た位置</summary>
-        public Vector3 LastKnownPosition { get; private set; }
+        /// <summary>全ターゲットの中で最も高い認識段階</summary>
+        public AwarenessLevel HighestLevel => _highestLevel;
 
-        /// <summary>最後にターゲットを見てからの経過時間(猶予時間を含む)</summary>
-        public float TimeSinceLastSeen { get; private set; }
-
-        /// <summary>現在注目しているターゲット(見えている間は見え続けている1人、見失った後は最後に見た1人)</summary>
-        public Transform Target => _currentTarget;
-
-        /// <summary>直近の判定で見えていたターゲットの一覧(判定間隔ごとに更新される)</summary>
+        /// <summary>直近の判定で直視できていたターゲットの一覧(判定間隔ごとに更新される)</summary>
         public IReadOnlyList<Transform> VisibleTargets => _visibleTargets;
 
-        /// <summary>見失ってからの経過時間に応じた予測位置(NavMesh上)</summary>
-        public Vector3 PredictedPosition
-        {
-            get
-            {
-                if (!HasLastKnownPosition)
-                {
-                    return transform.position;
-                }
+        // ---- 既存コード(ChaseStateなど)向けの互換プロパティ。主ターゲット基準 ----
 
-                if (_needsCapture || _predictor == null)
-                {
-                    return LastKnownPosition;
-                }
+        /// <summary>誰か1人でも直視しているか</summary>
+        public bool CanSeeTarget => _highestLevel == AwarenessLevel.Visible;
 
-                return _predictor.Evaluate(TimeSinceLastSeen);
-            }
-        }
+        /// <summary>Returns whether the configured target team is currently visible.</summary>
+        public bool CanSeeTeam(TeamType team) => team == _targetTeam && CanSeeTarget;
+
+        /// <summary>ターゲットを一度でも直視して、位置を記憶しているか</summary>
+        public bool HasLastKnownPosition => _primary != null && _primary.HasSeen;
+
+        /// <summary>主ターゲットを最後に見た位置</summary>
+        public Vector3 LastKnownPosition => _primary != null ? _primary.LastKnownPosition : transform.position;
+
+        /// <summary>主ターゲットを最後に見てからの経過時間(猶予時間を含む)</summary>
+        public float TimeSinceLastSeen => _primary != null ? _primary.TimeSinceLastSeen : 0f;
+
+        /// <summary>主ターゲットのTransform(見失った後も最後の1人を返す)</summary>
+        public Transform Target => _primary != null ? _primary.Target : null;
+
+        /// <summary>主ターゲットの予測位置(見えている間は現在位置)</summary>
+        public Vector3 PredictedPosition => _primary != null ? _primary.Position : transform.position;
 
         /// <summary>予測時間を使い切ったか(探索を諦める判断用)</summary>
-        public bool IsPredictionExpired => TimeSinceLastSeen >= _predictionSettings.MaxPredictTime;
+        public bool IsPredictionExpired =>
+            _primary == null || _primary.TimeSinceLastSeen >= _predictionSettings.MaxPredictTime;
 
-        /// <summary>ターゲットが見えるようになった時に通知する</summary>
+        /// <summary>誰かが直視できるようになった時に通知する</summary>
         public event Action OnTargetSighted;
 
-        /// <summary>ターゲットを見失った時に通知する</summary>
+        /// <summary>直視していた状態から、誰も直視できなくなった時に通知する(猶予時間後)</summary>
         public event Action OnTargetLost;
+
+        /// <summary>全体の最高認識段階が変わった時に通知する(前の段階, 今の段階)</summary>
+        public event Action<AwarenessLevel, AwarenessLevel> OnAwarenessChanged;
+
+        /// <summary>特定ターゲットの認識段階が変わった時に通知する(味方への情報共有などに使う)</summary>
+        public event Action<PerceivedTarget, AwarenessLevel> OnTargetLevelChanged;
 
         private void Awake()
         {
-            _predictor = new TargetPositionPredictor(_predictionSettings);
-
             // 個体ごとに判定タイミングをずらし、同じフレームに処理が集中するのを防ぐ
             _nextCheckTime = Time.time + UnityEngine.Random.Range(0f, _checkInterval);
         }
 
         private void Start()
         {
-            //ValidateSettings();
+            ValidateSettings();
         }
 
         private void Update()
@@ -148,22 +136,30 @@ namespace InGame.Enemy
             _targets = TeamUnitDatabase.GetUnit(_targetTeam);
             if (_targets == null || _targets.Count == 0)
             {
+                if (_memories.Count > 0)
+                {
+                    ClearMemory();
+                }
+
                 return;
             }
 
             if (TryBeginCheck())
             {
-                RefreshVisibleTargets();
+                SyncMemories();
+                RefreshVisibility();
             }
 
-            UpdateVisibility();
+            UpdateMemories(Time.deltaTime);
+            RefreshPerceived();
+            DispatchEvents();
         }
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             Vector3 eye = GetEyePosition();
-            float halfAngle = _viewAngle * HalfRatio;
+            float halfAngle = _viewAngle / 2f;
             Vector3 left = Quaternion.Euler(0f, -halfAngle, 0f) * transform.forward;
             Vector3 right = Quaternion.Euler(0f, halfAngle, 0f) * transform.forward;
 
@@ -175,79 +171,147 @@ namespace InGame.Enemy
             Gizmos.color = Color.gray;
             Gizmos.DrawWireSphere(eye, _awarenessRadius);
 
-            // TODO: 原因調査用。正面方向(青)が敵の向きと合っているか確認する
-            Gizmos.color = Color.blue;
-            Gizmos.DrawRay(eye, transform.forward * GizmoForwardLength);
+            // 聴覚の範囲(音量1)
+            Gizmos.color = new Color(0.3f, 0.5f, 1f, 0.4f);
+            Gizmos.DrawWireSphere(transform.position, _hearingRange);
 
             if (!Application.isPlaying)
             {
                 return;
             }
 
-            // TODO: 原因調査用。目から各ターゲットへの線(見える:緑 / 見えない:マゼンタ)
-            for (int i = 0; i < _targets.Count; i++)
+            for (int i = 0; i < _memories.Count; i++)
             {
-                Transform target = _targets[i];
-                if (target == null)
+                PerceivedTarget memory = _memories[i];
+                if (memory.Target == null)
                 {
                     continue;
                 }
 
-                Gizmos.color = _visibleTargets.Contains(target) ? Color.green : Color.magenta;
-                Gizmos.DrawLine(eye, target.position + _targetOffset);
-            }
+                switch (memory.Level)
+                {
+                    case AwarenessLevel.Visible:
+                        // 直視: 目からターゲットへ緑の線
+                        Gizmos.color = Color.green;
+                        Gizmos.DrawLine(eye, memory.Target.position + _targetOffset);
+                        break;
 
-            if (!HasLastKnownPosition)
+                    case AwarenessLevel.Predicted:
+                        // 予測: 最後に見た位置(赤)、予測軌道と現在の予測位置(水色)
+                        Gizmos.color = Color.red;
+                        Gizmos.DrawWireSphere(memory.LastKnownPosition, 0.3f);
+                        Gizmos.color = Color.cyan;
+                        memory.Predictor.DrawGizmos();
+                        Gizmos.DrawWireSphere(memory.Position, 0.3f);
+                        break;
+
+                    case AwarenessLevel.Directional:
+                        // 方向のみ: 方向だけをオレンジの矢印で示す
+                        Gizmos.color = new Color(1f, 0.5f, 0f);
+                        Gizmos.DrawRay(eye, memory.Direction * 3f);
+                        break;
+
+                    case AwarenessLevel.Lost:
+                    default:
+                        break;
+                }
+            }
+        }
+#endif
+
+        /// <summary>指定した段階以上で認識しているターゲットをresultsに詰める(resultsは先にクリアされる)</summary>
+        public void GetPerceivedTargets(AwarenessLevel minLevel, List<PerceivedTarget> results)
+        {
+            results.Clear();
+            for (int i = 0; i < _perceived.Count; i++)
+            {
+                if (_perceived[i].Level >= minLevel)
+                {
+                    results.Add(_perceived[i]);
+                }
+            }
+        }
+
+        /// <summary>指定ターゲットの認識状態を取得する(見失っていてもLostとして返す)</summary>
+        public bool TryGetPerceivedTarget(Transform target, out PerceivedTarget result)
+        {
+            return TryGetMemory(target, out result);
+        }
+
+        /// <summary>指定ターゲットを指定した段階以上で認識しているか</summary>
+        public bool IsAware(Transform target, AwarenessLevel minLevel = AwarenessLevel.Directional)
+        {
+            return TryGetMemory(target, out PerceivedTarget memory) && memory.Level >= minLevel;
+        }
+
+        /// <summary>音を聞かせる。聞こえた場合、少なくとも方向がわかる状態になる(loudnessは聞こえる距離の倍率)</summary>
+        public void HearNoise(Transform source, Vector3 position, float loudness = 1f)
+        {
+            if (!TryGetMemory(source, out PerceivedTarget memory))
             {
                 return;
             }
 
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(LastKnownPosition, GizmoSphereRadius);
+            float range = _hearingRange * loudness;
+            float distance = Vector3.Distance(transform.position, position);
+            if (range <= 0f || distance > range)
+            {
+                return;
+            }
 
-            // 予測した軌道(水色の線)と、現在の予測位置(水色の球)
-            Gizmos.color = Color.cyan;
-            _predictor?.DrawGizmos();
-            Gizmos.DrawWireSphere(PredictedPosition, GizmoSphereRadius);
+            // 遠い音ほど位置がぼやける
+            Vector2 offset = UnityEngine.Random.insideUnitCircle * (_hearingErrorRadius * distance / range);
+            RegisterHint(memory, position + new Vector3(offset.x, 0f, offset.y));
         }
-#endif
 
-        /// <summary>最後に見た位置などの記憶をリセットする</summary>
+        /// <summary>攻撃を受けたことを通知する。撃ってきた方向がわかる状態になる</summary>
+        public void NotifyDamaged(Transform attacker)
+        {
+            if (TryGetMemory(attacker, out PerceivedTarget memory))
+            {
+                RegisterHint(memory, attacker.position);
+            }
+        }
+
+        /// <summary>味方などからターゲットの位置情報を受け取る。方向がわかる状態になる</summary>
+        public void ReceiveReport(Transform target, Vector3 position)
+        {
+            if (TryGetMemory(target, out PerceivedTarget memory))
+            {
+                RegisterHint(memory, position);
+            }
+        }
+
+        /// <summary>指定ターゲットの記憶だけを消す</summary>
+        public void ForgetTarget(Transform target)
+        {
+            if (TryGetMemory(target, out PerceivedTarget memory))
+            {
+                memory.ResetState();
+            }
+        }
+
+        /// <summary>全ターゲットの記憶をリセットする</summary>
         public void ClearMemory()
         {
-            CanSeeTarget = false;
-            HasLastKnownPosition = false;
-            TimeSinceLastSeen = 0f;
-            _needsCapture = false;
-            _hasVisibleTarget = false;
-            _currentTarget = null;
+            _memories.Clear();
+            _perceived.Clear();
             _visibleTargets.Clear();
-            _predictor?.Reset();
+            _pendingChanges.Clear();
+            _primary = null;
+            _highestLevel = AwarenessLevel.Lost;
         }
 
         private void ValidateSettings()
         {
-            if (_targets.Count == 0)
-            {
-                Debug.LogError($"[EnemyPerception] ターゲットが未設定です。 object={name}");
-            }
-
-            for (int i = 0; i < _targets.Count; i++)
-            {
-                if (_targets[i] == null)
-                {
-                    Debug.LogError($"[EnemyPerception] ターゲットにnullが含まれています。 index={i} object={name}");
-                }
-            }
-
             if (_targetMask.value == 0)
             {
-                Debug.LogError($"[EnemyPerception] _targetMask が未設定です。Playerを検出できません。 object={name}");
+                Debug.LogError($"[TargetPerception] _targetMask が未設定です。Playerを検出できません。 object={name}");
             }
 
             if (_castRadius <= 0f)
             {
-                Debug.LogError($"[EnemyPerception] _castRadius が0以下です。 value={_castRadius} object={name}");
+                Debug.LogError($"[TargetPerception] _castRadius が0以下です。 value={_castRadius} object={name}");
             }
         }
 
@@ -263,148 +327,280 @@ namespace InGame.Enemy
             return true;
         }
 
-        // グループ全員を判定して、見えているターゲットの一覧と注目ターゲットを更新する(重い処理)
-        private void RefreshVisibleTargets()
+        // ターゲットグループの増減に合わせて、記憶の一覧を同期する
+        private void SyncMemories()
         {
-            _visibleTargets.Clear();
+            for (int i = _memories.Count - 1; i >= 0; i--)
+            {
+                PerceivedTarget memory = _memories[i];
+                if (memory.Target != null && ContainsTarget(memory.Target))
+                {
+                    continue;
+                }
 
-            Vector3 eye = GetEyePosition();
-            Transform nearest = null;
-            float nearestDistance = float.MaxValue;
-            bool isCurrentVisible = false;
+                _memories.RemoveAt(i);
+                if (_primary == memory)
+                {
+                    _primary = null;
+                }
+            }
 
             for (int i = 0; i < _targets.Count; i++)
             {
                 Transform target = _targets[i];
-                if (target == null)
+                if (target != null && !TryGetMemory(target, out _))
+                {
+                    _memories.Add(new PerceivedTarget(target, _predictionSettings));
+                }
+            }
+        }
+
+        // 全ターゲットの視線判定を行い、結果をキャッシュする(重い処理)
+        private void RefreshVisibility()
+        {
+            _visibleTargets.Clear();
+            Vector3 eye = GetEyePosition();
+
+            for (int i = 0; i < _memories.Count; i++)
+            {
+                PerceivedTarget memory = _memories[i];
+                memory.IsVisibleNow = CheckVisibility(memory.Target, eye);
+                if (memory.IsVisibleNow)
+                {
+                    _visibleTargets.Add(memory.Target);
+                }
+            }
+        }
+
+        // キャッシュした判定結果をもとに、毎フレーム各ターゲットの段階を更新する(軽い処理)
+        private void UpdateMemories(float deltaTime)
+        {
+            for (int i = 0; i < _memories.Count; i++)
+            {
+                PerceivedTarget memory = _memories[i];
+                if (memory.Target == null)
                 {
                     continue;
                 }
 
-                if (!CheckVisibility(target, eye, out float distance))
+                memory.SqrDistance = (memory.Target.position - transform.position).sqrMagnitude;
+
+                if (memory.IsVisibleNow)
                 {
-                    continue;
+                    UpdateSeen(memory, deltaTime);
                 }
-
-                _visibleTargets.Add(target);
-
-                if (target == _currentTarget)
+                else
                 {
-                    isCurrentVisible = true;
-                }
-
-                if (distance < nearestDistance)
-                {
-                    nearest = target;
-                    nearestDistance = distance;
+                    UpdateUnseen(memory, deltaTime);
                 }
             }
-
-            _hasVisibleTarget = _visibleTargets.Count > 0;
-            if (!_hasVisibleTarget)
-            {
-                return;
-            }
-
-            // 今のターゲットが見え続けている間は切り替えず、近さが拮抗した時のちらつきを防ぐ
-            SelectTarget(isCurrentVisible ? _currentTarget : nearest);
         }
 
-        private void SelectTarget(Transform next)
+        private void UpdateSeen(PerceivedTarget memory, float deltaTime)
         {
-            if (next == _currentTarget)
-            {
-                return;
-            }
+            Vector3 position = memory.Target.position;
 
-            // 別のターゲットの位置で速度を計算しないよう、予測の観測をやり直す
-            _currentTarget = next;
-            _predictor.Reset();
+            // 見えている間だけ速度と旋回を観測する(見えない間の動きは予測に使わない)
+            memory.Predictor.Track(position, deltaTime);
+            memory.LastKnownPosition = position;
+            memory.HasSeen = true;
+            memory.HasHint = false;
+            memory.TimeSinceLastSeen = 0f;
+            memory.NeedsCapture = true;
+
+            ApplyState(memory, AwarenessLevel.Visible, position);
         }
 
-        // キャッシュした判定結果をもとに、毎フレーム状態を更新する(軽い処理)
-        private void UpdateVisibility()
+        private void UpdateUnseen(PerceivedTarget memory, float deltaTime)
         {
-            bool wasSeen = CanSeeTarget;
-            bool isVisible = _hasVisibleTarget && _currentTarget != null;
+            memory.Predictor.StopTracking();
 
-            if (isVisible)
+            if (memory.HasSeen)
             {
-                // 見えている間だけ速度と旋回を観測する(見えない間の動きは予測に使わない)
-                _predictor.Track(_currentTarget.position, Time.deltaTime);
-                CanSeeTarget = true;
-                RememberTarget();
-                if (!wasSeen)
-                {
-                    OnTargetSighted?.Invoke();
-                }
-
-                return;
+                memory.TimeSinceLastSeen += deltaTime;
             }
 
-            _predictor.StopTracking();
-
-            if (HasLastKnownPosition)
+            if (memory.HasHint)
             {
-                TimeSinceLastSeen += Time.deltaTime;
+                memory.TimeSinceHint += deltaTime;
             }
 
             // 見えなくなった最初のフレームで、予測軌道を一度だけ計算する
-            if (_needsCapture)
+            if (memory.NeedsCapture)
             {
-                _predictor.Capture(LastKnownPosition);
-                _needsCapture = false;
+                memory.Predictor.Capture(memory.LastKnownPosition);
+                memory.NeedsCapture = false;
             }
 
-            // 猶予時間内は、判定のちらつきを避けるため見えている扱いを続ける
-            if (wasSeen && TimeSinceLastSeen < _lostGraceTime)
+            // 猶予時間内は、判定のちらつきを避けるため直視している扱いを続ける
+            if (memory.Level == AwarenessLevel.Visible && memory.TimeSinceLastSeen < _lostGraceTime)
             {
                 return;
             }
 
-            CanSeeTarget = false;
-            if (wasSeen)
+            EvaluateLevel(memory);
+        }
+
+        // 見えていないターゲットの段階を、経過時間と聞いた情報から決める
+        private void EvaluateLevel(PerceivedTarget memory)
+        {
+            float maxPredictTime = _predictionSettings.MaxPredictTime;
+            AwarenessLevel level = AwarenessLevel.Lost;
+            Vector3 position = memory.LastKnownPosition;
+
+            if (memory.HasSeen)
+            {
+                float elapsed = memory.TimeSinceLastSeen;
+                if (elapsed < maxPredictTime)
+                {
+                    level = AwarenessLevel.Predicted;
+                    position = memory.Predictor.Evaluate(elapsed);
+                }
+                else if (elapsed < maxPredictTime + _directionalDuration)
+                {
+                    level = AwarenessLevel.Directional;
+                    position = memory.Predictor.Evaluate(maxPredictTime);
+                }
+            }
+
+            // 音などの情報が、見た記憶より新しければ方向の手がかりとして採用する
+            bool isHintValid = memory.HasHint && memory.TimeSinceHint < _directionalDuration;
+            bool isHintNewer = !memory.HasSeen || memory.TimeSinceHint < memory.TimeSinceLastSeen;
+            if (isHintValid && level < AwarenessLevel.Predicted && isHintNewer)
+            {
+                level = AwarenessLevel.Directional;
+                position = memory.HintPosition;
+            }
+
+            ApplyState(memory, level, position);
+        }
+
+        private void ApplyState(PerceivedTarget memory, AwarenessLevel level, Vector3 position)
+        {
+            memory.Position = position;
+
+            Vector3 flat = position - transform.position;
+            flat.y = 0f;
+            memory.Direction = flat.sqrMagnitude > MinSqrDistance ? flat.normalized : transform.forward;
+
+            if (memory.Level == level)
+            {
+                return;
+            }
+
+            // イベントは更新が終わってからまとめて通知する(通知先で記憶を操作されても壊れないように)
+            _pendingChanges.Add((memory, memory.Level));
+            memory.Level = level;
+        }
+
+        // 認識中の一覧を並べ直し、主ターゲットと最高段階を更新する
+        private void RefreshPerceived()
+        {
+            _perceived.Clear();
+            for (int i = 0; i < _memories.Count; i++)
+            {
+                if (_memories[i].Level != AwarenessLevel.Lost)
+                {
+                    _perceived.Add(_memories[i]);
+                }
+            }
+
+            _perceived.Sort(PriorityComparison);
+
+            PerceivedTarget best = _perceived.Count > 0 ? _perceived[0] : null;
+
+            // 主ターゲットは、より高い段階の相手が現れるまで切り替えず、近さが拮抗した時のちらつきを防ぐ
+            if (best != null && (_primary == null || _primary.Level < best.Level))
+            {
+                _primary = best;
+            }
+        }
+
+        private void DispatchEvents()
+        {
+            for (int i = 0; i < _pendingChanges.Count; i++)
+            {
+                (PerceivedTarget target, AwarenessLevel previous) change = _pendingChanges[i];
+                OnTargetLevelChanged?.Invoke(change.target, change.previous);
+            }
+
+            _pendingChanges.Clear();
+
+            AwarenessLevel highest = _perceived.Count > 0 ? _perceived[0].Level : AwarenessLevel.Lost;
+            if (highest == _highestLevel)
+            {
+                return;
+            }
+
+            AwarenessLevel previousHighest = _highestLevel;
+            _highestLevel = highest;
+            OnAwarenessChanged?.Invoke(previousHighest, highest);
+
+            if (highest == AwarenessLevel.Visible)
+            {
+                OnTargetSighted?.Invoke();
+            }
+            else if (previousHighest == AwarenessLevel.Visible)
             {
                 OnTargetLost?.Invoke();
             }
         }
 
-        private void RememberTarget()
+        private void RegisterHint(PerceivedTarget memory, Vector3 position)
         {
-            LastKnownPosition = _currentTarget.position;
-            HasLastKnownPosition = true;
-            TimeSinceLastSeen = 0f;
-            _needsCapture = true;
+            memory.HasHint = true;
+            memory.HintPosition = position;
+            memory.TimeSinceHint = 0f;
         }
 
-        private bool CheckVisibility(Transform target, Vector3 eye, out float distance)
+        private bool TryGetMemory(Transform target, out PerceivedTarget result)
+        {
+            for (int i = 0; i < _memories.Count; i++)
+            {
+                if (_memories[i].Target == target)
+                {
+                    result = _memories[i];
+                    return true;
+                }
+            }
+
+            result = null;
+            return false;
+        }
+
+        private bool ContainsTarget(Transform target)
+        {
+            for (int i = 0; i < _targets.Count; i++)
+            {
+                if (_targets[i] == target)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CheckVisibility(Transform target, Vector3 eye)
         {
             Vector3 toTarget = target.position + _targetOffset - eye;
-            distance = toTarget.magnitude;
+            float distance = toTarget.magnitude;
 
             if (distance > _viewDistance)
             {
-                LogVisibility(target, ReasonOutOfRange,
-                    $"distance={distance:F2} viewDistance={_viewDistance:F2}");
                 return false;
             }
 
             // ほぼ同位置なら方向が計算できないため、見えている扱いにする
-            if (distance < MinDistance)
+            if (distance * distance < MinSqrDistance)
             {
                 return true;
             }
 
             // 近距離(感知範囲内)は視野角を無視する
-            if (distance > _awarenessRadius)
+            if (distance > _awarenessRadius && GetHorizontalAngle(toTarget) > _viewAngle / 2f)
             {
-                float angle = GetHorizontalAngle(toTarget);
-                if (angle > _viewAngle * HalfRatio)
-                {
-                    LogVisibility(target, ReasonOutOfAngle,
-                        $"angle={angle:F1} halfViewAngle={_viewAngle * HalfRatio:F1} forward={transform.forward}");
-                    return false;
-                }
+                return false;
             }
 
             return IsTargetNearestHit(target, eye, toTarget / distance, distance);
@@ -419,22 +615,11 @@ namespace InGame.Enemy
 
             if (!TryGetNearestHit(hitCount, out RaycastHit nearest))
             {
-                LogVisibility(target, ReasonNoHit, $"hitCount={hitCount} distance={distance:F2}");
                 return false;
             }
 
-            var hitObject = nearest.transform.root.gameObject;
-
-            if (!IsTarget(hitObject.transform, target))
-            {
-                LogVisibility(target, ReasonBlocked,
-                    $"hit={hitObject.name} " +
-                    $"hitDistance={nearest.distance:F2} distance={distance:F2}");
-                return false;
-            }
-
-            LogVisibility(target, ReasonVisible, $"distance={distance:F2}");
-            return true;
+            Transform hitRoot = nearest.transform.root;
+            return hitRoot == target || hitRoot.IsChildOf(target);
         }
 
         // 自分自身のコライダーを除き、最も近いヒットを返す
@@ -463,16 +648,11 @@ namespace InGame.Enemy
             return isFound;
         }
 
-        private bool IsTarget(Transform hitTransform, Transform target)
-        {
-            return hitTransform == target || hitTransform.IsChildOf(target);
-        }
-
         // 水平方向のみで正面とのなす角を求める
         private float GetHorizontalAngle(Vector3 toTarget)
         {
             Vector3 flat = new Vector3(toTarget.x, 0f, toTarget.z);
-            if (flat.sqrMagnitude < MinDirectionSqrMagnitude)
+            if (flat.sqrMagnitude < MinSqrDistance)
             {
                 return 0f;
             }
@@ -485,21 +665,11 @@ namespace InGame.Enemy
             return transform.position + transform.rotation * _eyeOffset;
         }
 
-        // TODO: 原因調査用。確認後に削除する
-        private void LogVisibility(Transform target, string reason, string detail)
+        // 段階が高い順、同じ段階なら近い順
+        private static int ComparePriority(PerceivedTarget a, PerceivedTarget b)
         {
-            if (!_isDebugLogEnabled)
-            {
-                return;
-            }
-
-            if (_debugLastReasons.TryGetValue(target, out string lastReason) && lastReason == reason)
-            {
-                return;
-            }
-
-            _debugLastReasons[target] = reason;
-            Debug.Log($"[EnemyPerception] {reason} {detail} target={target.name} object={name}");
+            int levelCompare = b.Level.CompareTo(a.Level);
+            return levelCompare != 0 ? levelCompare : a.SqrDistance.CompareTo(b.SqrDistance);
         }
     }
 }

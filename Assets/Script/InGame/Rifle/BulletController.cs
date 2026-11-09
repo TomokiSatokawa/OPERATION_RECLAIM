@@ -31,10 +31,11 @@ namespace InGame.Player.Rifle
                 Destroy(this.gameObject);
             }
 
-            var hitObject = HitCheck();
-            if (hitObject == null) return;
+            var hit = HitCheck();
+            if (hit == null) return;
 
-            if (hitObject.Value.transform.root.TryGetComponent(out IDamageable damageable))
+
+            if (hit.Value.transform.root.TryGetComponent(out IDamageable damageable))
             {
                 //同じチーム同士はダメージ無効化
                 if (damageable.Team == _teamType)
@@ -43,7 +44,7 @@ namespace InGame.Player.Rifle
                 damageable.Damage(_damageAmount);
             }
 
-            CreateBulletHole(hitObject.Value);
+            CreateBulletHole(hit.Value);
             Destroy(this.gameObject);
         }
 

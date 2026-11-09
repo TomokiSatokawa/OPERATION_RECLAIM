@@ -1,3 +1,4 @@
+using CoreKit;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -31,7 +32,7 @@ namespace InGame.Enemy.StateMachine
         private float _timer;
         private float _fireTimer;
         private float _lostTimer;
-
+        private FlagToken? _shotToken;
         protected override void OnEnter(EnemyStateContext context)
         {
             context.Agent.updateRotation = false;
@@ -130,6 +131,13 @@ namespace InGame.Enemy.StateMachine
                     }
                     _timer = Random.Range(HideDurationMin, HideDurationMax);
                     context.Agent.SetDestination(_currentCover.HidePosition);
+
+                    if (_shotToken != null)
+                    {
+                        context.RifleControl.IsShot.UnregisterFlag(_shotToken.Value);
+                        _shotToken = null;
+                    }
+
                     break;
 
                 case AttackSubState.PeekAndShoot:
@@ -139,6 +147,13 @@ namespace InGame.Enemy.StateMachine
                     {
                         context.Agent.SetDestination(_currentCover.PeekPosition);
                     }
+
+                    if (_shotToken != null)
+                    {
+                        context.RifleControl.IsShot.UnregisterFlag(_shotToken.Value);
+                        _shotToken = null;
+                    }
+                    _shotToken = context.RifleControl.IsShot.RegisterFlag();
                     break;
 
                 default:
@@ -180,13 +195,6 @@ namespace InGame.Enemy.StateMachine
                     ChangeSubState(AttackSubState.Hide, context);
                     return;
                 }
-
-                _fireTimer -= Time.deltaTime;
-                if (_fireTimer <= 0f)
-                {
-                    Fire(context);
-                    _fireTimer = FireInterval;
-                }
             }
 
             if (_timer <= 0f)
@@ -208,12 +216,6 @@ namespace InGame.Enemy.StateMachine
 
             enemy.rotation = Quaternion.Slerp(
                 enemy.rotation, Quaternion.LookRotation(direction), RotateSpeed * Time.deltaTime);
-        }
-
-        private void Fire(EnemyStateContext context)
-        {
-            //Debug.Log("UŒ‚!!");
-            // TODO: ’e‚Ì”­ŽËAAnimationPlayer‚Å‚ÌŽËŒ‚ƒ‚[ƒVƒ‡ƒ“Ä¶
         }
 
         private static bool HasArrived(NavMeshAgent agent)

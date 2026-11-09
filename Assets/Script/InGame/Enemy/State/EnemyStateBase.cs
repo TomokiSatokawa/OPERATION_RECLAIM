@@ -74,6 +74,7 @@ namespace InGame.Enemy.StateMachine
         public NavMeshAgent Agent;
         public AnimationPlayer AnimationPlayer;
         public TargetPerception Perception;
+        public EnemyRifleControl RifleControl;
         public EnemyIcon Icon;
     }
 }

@@ -1,32 +1,52 @@
 using System;
+using InGame.Common;
+using InGame.Enemy;
 using PlayerInput;
 using R3;
 using UnityEngine;
 
 public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 {
+    [SerializeField] private TeamUnitRegistry _teamUnitRegistry;
+    [SerializeField] private HealthControl _healthControl;
+    [SerializeField] private Collider _collider;
+    [SerializeField] private Rigidbody _rb;
+
     private PlayerStatus _currentStatus = PlayerStatus.Normal;
 
     private ReactiveProperty<MotionType> _motionType = new(MotionType.Free);
     public ReadOnlyReactiveProperty<MotionType> Type => _motionType;
+
+    private void Start()
+    {
+        _healthControl.OnDie += OnDie;
+    }
 
     public void SetMotionType(MotionType motionType)
     {
         _motionType.Value = motionType;
     }
 
+    private void OnDie()
+    {
+        _collider.enabled = false;
+        _rb.isKinematic = true;
+        _teamUnitRegistry.ExitTeam();
+       SetPlayerStatus(PlayerStatus.Locked);
+    }
+
     public void SetPlayerStatus(PlayerStatus status)
     {
         _currentStatus = status;
 
-        InputManager.SetMoveEnabled(CheckFlag(status,PlayerStatus.Move));
+        InputManager.SetMoveEnabled(CheckFlag(status, PlayerStatus.Move));
         InputManager.SetLookEnabled(CheckFlag(status, PlayerStatus.Look));
         InputManager.SetActionEnabled(CheckFlag(status, PlayerStatus.Action));
         InputManager.SetInteractEnabled(CheckFlag(status, PlayerStatus.Interact));
         InputManager.SetUIEnabled(CheckFlag(status, PlayerStatus.UI));
     }
 
-    private boolÅ@CheckFlag(PlayerStatus status, PlayerStatus target)
+    private bool CheckFlag(PlayerStatus status, PlayerStatus target)
     {
         return (status & target) == target;
     }

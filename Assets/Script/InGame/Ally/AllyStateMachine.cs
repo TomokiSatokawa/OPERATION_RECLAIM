@@ -12,6 +12,7 @@ namespace InGame.Ally
         [SerializeReference, SubclassSelector] private AllyStateBase[] _states;
         [SerializeField] private Transform _player;
         [SerializeField] private AnimationPlayer _animationPlayer;
+        [SerializeField] private HealthControl _healthControl;
         [SerializeField] private NavMeshAgent _agent;
 
         private StateMachineBase<AllyStateBase,AllyContext> _stateMachine;
@@ -27,6 +28,8 @@ namespace InGame.Ally
                 AnimationPlayer = _animationPlayer,
             };
             _stateMachine = new(_states, _context);
+
+            _healthControl.OnDie += _stateMachine.StopState;
         }
 
         private void Update()

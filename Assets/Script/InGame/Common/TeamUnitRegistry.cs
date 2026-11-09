@@ -10,5 +10,10 @@ namespace InGame.Common
         {
             TeamUnitDatabase.JoinUnit(_team, this.transform.root);
         }
+
+        public void ExitTeam()
+        {
+            TeamUnitDatabase.ExitUnit(_team, this.transform.root);
+        }
     }
 }

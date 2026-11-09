@@ -396,6 +396,7 @@ GameObject:
   - component: {fileID: 4728804458562394141}
   - component: {fileID: 7459990018888276483}
   - component: {fileID: 4543430948571054765}
+  - component: {fileID: 7072203687365422057}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -481,6 +482,7 @@ MonoBehaviour:
   _agent: {fileID: 3685777620095334476}
   _animation: {fileID: 8241775061212167194}
   _perception: {fileID: 7459990018888276483}
+  _enemyRifleControl: {fileID: 497003003458170673}
   _healthControl: {fileID: 4728804458562394141}
   _icon: {fileID: 5784496095897749188}
   references:
@@ -558,7 +560,7 @@ MonoBehaviour:
   _targetOffset: {x: 0, y: 1, z: 0}
   _obstacleMask:
     serializedVersion: 2
-    m_Bits: 503
+    m_Bits: 1919
   _targetMask:
     serializedVersion: 2
     m_Bits: 8
@@ -589,6 +591,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Common.TeamUnitRegistry
   _team: 2
+--- !u!114 &7072203687365422057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2931331300796294044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92fb402f0b090634e8a8524c23d011ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Common.BotControl
+  _teamUnitRegistry: {fileID: 4543430948571054765}
+  _healthControl: {fileID: 4728804458562394141}
+  _collider: {fileID: 4371399775884338283}
+  _enemyIcon: {fileID: 5784496095897749188}
 --- !u!1 &3589381990387585810
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 namespace InGame.Enemy.StateMachine
 {
-
     public class EnemyStateMachine : MonoBehaviour
     {
         [SerializeReference, SubclassSelector] private EnemyStateBase[] _enemyState;
@@ -13,6 +12,7 @@ namespace InGame.Enemy.StateMachine
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private AnimationPlayer _animation;
         [SerializeField] private TargetPerception _perception;
+        [SerializeField] private EnemyRifleControl _enemyRifleControl;
         [SerializeField] private HealthControl _healthControl;
         [SerializeField] private EnemyIcon _icon;
 
@@ -20,13 +20,14 @@ namespace InGame.Enemy.StateMachine
 
         private void Start()
         {
-            var  context = new EnemyStateContext()
+            var context = new EnemyStateContext()
             {
                 Player = _player,
                 Enemy = this.transform,
                 Agent = _agent,
                 AnimationPlayer = _animation,
                 Perception = _perception,
+                RifleControl = _enemyRifleControl,
                 Icon = _icon,
             };
 

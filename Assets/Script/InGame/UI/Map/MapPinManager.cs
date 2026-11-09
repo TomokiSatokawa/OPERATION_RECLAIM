@@ -9,16 +9,23 @@ namespace InGame.UI.Map
         [SerializeField] private RectTransform _mapRect;
         [SerializeField] private PoolManager _poolManager;
         [SerializeField] private PoolObject _pinPrefab;
-        [SerializeField] private Transform[] _targets;
+        [SerializeField] private TrackingData[] _trackingDatas;
 
-        private void Start ()
+        private void Start()
         {
-            foreach (var target in _targets)
+            foreach (var data in _trackingDatas)
             {
                 var pin = _poolManager.Get(_pinPrefab).GetCustomComponent<MapPinTracker>();
                 pin.transform.parent = _mapRect;
-                pin.Initialize(_camera, target, _mapRect);
+                pin.Initialize(_camera, data.Target, _mapRect, data.PinData);
             }
+        }
+
+        [System.Serializable]
+        public class TrackingData
+        {
+            public PinData PinData;
+            public Transform Target;
         }
     }
 }

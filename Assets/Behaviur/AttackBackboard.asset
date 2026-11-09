@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1235799952726194179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c02bb70996b49eba31d0c206e28da24, type: 3}
+  m_Name: AttackBackboard
+  m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.RuntimeBlackboardAsset
+  VersionTimestamp: 639298340188821168
+  AssetID:
+    m_Value0: 2621320052829702185
+    m_Value1: 4142878370984093160
+  m_Blackboard:
+    m_Variables:
+    - rid: 7286859574244541328
+    - rid: 7286859577754910810
+    - rid: 7286859577754910873
+    - rid: 7286859590666027778
+    - rid: 7286859590940230123
+  m_SharedBlackboardVariableGuids: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 7286859574244541328
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 15350420858573703156
+          m_Value1: 6100317803648297468
+        Name: Self
+        m_Value: {fileID: 0}
+    - rid: 7286859577754910810
+      type: {class: 'BlackboardVariable`1[[InGame.Bot.BotController, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 6753020613623627289
+          m_Value1: 3188810721332248648
+        Name: Bot Controller
+        m_Value: {fileID: 0}
+    - rid: 7286859577754910873
+      type: {class: 'BlackboardVariable`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 12467426351733533729
+          m_Value1: 2551024996716324566
+        Name: Target Perception
+        m_Value: {fileID: 0}
+    - rid: 7286859590666027778
+      type: {class: 'BlackboardVariable`1[[State, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 17078069192538856273
+          m_Value1: 9798482303668402675
+        Name: State
+        m_Value: 0
+    - rid: 7286859590940230123
+      type: {class: 'BlackboardVariable`1[[InGame.Enemy.EnemyRifleControl, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 7114455712495661096
+          m_Value1: 13707317167838646805
+        Name: Enemy Rifle Control
+        m_Value: {fileID: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd922ae02c94c87a66e46a10a7319b9, type: 3}
+  m_Name: AttackBackboard
+  m_EditorClassIdentifier: Unity.Behavior.Authoring::Unity.Behavior.BehaviorBlackboardAuthoringAsset
+  AssetID:
+    m_Value0: 2621320052829702185
+    m_Value1: 4142878370984093160
+  m_Variables:
+  - rid: 7286859574244541311
+  - rid: 7286859577754910788
+  - rid: 7286859577754910850
+  - rid: 7286859590666027744
+  - rid: 7286859590940230087
+  m_VersionTimestamp: 639298340188821168
+  m_CommandBuffer:
+    m_Commands: []
+  m_RuntimeBlackboardAsset: {fileID: -1235799952726194179}
+  references:
+    version: 2
+    RefIds:
+    - rid: 7286859574244541311
+      type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 15350420858573703156
+          m_Value1: 6100317803648297468
+        Name: Self
+        IsExposed: 0
+        m_IsShared: 0
+        m_Value: {fileID: 0}
+    - rid: 7286859577754910788
+      type: {class: 'TypedVariableModel`1[[InGame.Bot.BotController, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 6753020613623627289
+          m_Value1: 3188810721332248648
+        Name: Bot Controller
+        IsExposed: 1
+        m_IsShared: 0
+        m_Value: {fileID: 0}
+    - rid: 7286859577754910850
+      type: {class: 'TypedVariableModel`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 12467426351733533729
+          m_Value1: 2551024996716324566
+        Name: Target Perception
+        IsExposed: 1
+        m_IsShared: 0
+        m_Value: {fileID: 0}
+    - rid: 7286859590666027744
+      type: {class: 'TypedVariableModel`1[[State, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 17078069192538856273
+          m_Value1: 9798482303668402675
+        Name: State
+        IsExposed: 1
+        m_IsShared: 0
+        m_Value: 0
+    - rid: 7286859590940230087
+      type: {class: 'TypedVariableModel`1[[InGame.Enemy.EnemyRifleControl, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 7114455712495661096
+          m_Value1: 13707317167838646805
+        Name: Enemy Rifle Control
+        IsExposed: 1
+        m_IsShared: 0
+        m_Value: {fileID: 0}

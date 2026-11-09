@@ -126,7 +126,7 @@ namespace InGame.Player.Motion
 
     public enum EnemyRifleAnimationType : byte
     {
-        Idol, Forward, Right, Left,Die
+        Idol, Forward, Right, Left,Die, Reload, Shot
     }
 
     public enum FootmanAnimationType : byte

@@ -148,4 +148,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.UI.Map.MapPinTracker
   _rect: {fileID: 6625326426497901470}
+  _image: {fileID: 4321556072651601012}
   _range: 170

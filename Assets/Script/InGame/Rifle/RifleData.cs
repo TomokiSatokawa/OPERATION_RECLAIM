@@ -52,7 +52,12 @@ namespace InGame.Player.Rifle
 
         public void Reload()
         {
-            if (_reloading.Value) return;
+            if (_reloading.Value)
+                return;
+
+            if (_remainingBulletCount.Value == _maxBulletCount)
+                return;
+
             _reloading.Value = true;
             ReloadTimer = _reloadDuration;
         }

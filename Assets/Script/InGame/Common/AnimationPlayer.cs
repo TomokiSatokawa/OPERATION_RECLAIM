@@ -38,7 +38,7 @@ namespace Common.Motion
         {
             _container.Initialize();
 
-            _graph = PlayableGraph.Create($"PlayerAnimation {gameObject.name}");
+            _graph = PlayableGraph.Create($"PlayerAnimation {transform.root.gameObject.name}");
 
             //レイヤーミキサー
             _layerMixer = AnimationLayerMixerPlayable.Create(_graph, Enum.GetNames(typeof(AnimationLayer)).Length);
