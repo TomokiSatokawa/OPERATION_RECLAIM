@@ -64,9 +64,9 @@ namespace Common
     }
 
     [Serializable]
-    public class FootmanMotion : EnumGroupBase<FootmanAnimationType>
+    public class PlayerCrouchingMotion : EnumGroupBase<PlayerCrouchingAnimationType>
     {
-        public override EnumID Create(FootmanAnimationType type)
+        public override EnumID Create(PlayerCrouchingAnimationType type)
         {
             _type = type;
             return Create();

@@ -13,7 +13,7 @@ namespace InGame.Player.Motion
         [SerializeField] private AnimationData<BasicAnimationType>[] _basicClip;
         [SerializeField] private AnimationData<PlayerRifleAnimationType>[] _playerRifleClip;
         [SerializeField] private AnimationData<EnemyRifleAnimationType>[] _enemyRifleClip;
-        [SerializeField] private AnimationData<FootmanAnimationType>[] _footmanClip;
+        [SerializeField] private AnimationData<PlayerCrouchingAnimationType>[] _playerCrouchingClip;
 
         private Dictionary<EnumID, IReadOnlyAnimationData> _animationDictionary = new();
         public IReadOnlyList<IReadOnlyAnimationData> AnimationList => _animationDictionary.Values.ToList();
@@ -25,7 +25,7 @@ namespace InGame.Player.Motion
             AddDictionary(new BasicMotion(), _basicClip);
             AddDictionary(new PlayerRifleMotion(), _playerRifleClip);
             AddDictionary(new EnemyRifleMotion(), _enemyRifleClip);
-            AddDictionary(new FootmanMotion(), _footmanClip);
+            AddDictionary(new PlayerCrouchingMotion(), _playerCrouchingClip);
         }
 
         public IReadOnlyAnimationData GetAnimation(EnumGroupBase enumGroup)
@@ -129,8 +129,8 @@ namespace InGame.Player.Motion
         Idol, Forward, Right, Left,Die, Reload, Shot,Run
     }
 
-    public enum FootmanAnimationType : byte
+    public enum PlayerCrouchingAnimationType : byte
     {
-        Idol, Run, Attack
+        Idol, Forward, Right, Left, Back
     }
 }

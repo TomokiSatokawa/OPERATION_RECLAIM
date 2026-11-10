@@ -43,6 +43,21 @@ MonoBehaviour:
       rid: 3847071919208661334
     _dieClip:
       rid: 3847072022073180269
+  - _motionType: 3
+    _idleClip:
+      rid: 7286859611784085592
+    _walkForwardClip:
+      rid: 7286859611784085593
+    _walkRightClip:
+      rid: 7286859611784085594
+    _walkLeftClip:
+      rid: 7286859611784085595
+    _walkBackClip:
+      rid: 7286859611784085596
+    _runClip:
+      rid: 3847071919208661334
+    _dieClip:
+      rid: 3847072022073180269
   references:
     version: 2
     RefIds:
@@ -102,3 +117,23 @@ MonoBehaviour:
       type: {class: BasicMotion, ns: Common, asm: Assembly-CSharp}
       data:
         _type: 6
+    - rid: 7286859611784085592
+      type: {class: PlayerCrouchingMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 0
+    - rid: 7286859611784085593
+      type: {class: PlayerCrouchingMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 1
+    - rid: 7286859611784085594
+      type: {class: PlayerCrouchingMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 2
+    - rid: 7286859611784085595
+      type: {class: PlayerCrouchingMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 3
+    - rid: 7286859611784085596
+      type: {class: PlayerCrouchingMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 4

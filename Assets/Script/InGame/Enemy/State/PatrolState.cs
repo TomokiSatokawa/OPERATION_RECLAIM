@@ -8,7 +8,7 @@ namespace InGame.Enemy.StateMachine
         [SerializeField] private WaypointGroup _waypointGroup;
         private int _currentIndex = -1;
 
-        protected override void OnEnter(EnemyStateContext context)
+        protected override void OnEnter(StateContext context)
         {
             if (_waypointGroup == null)
             {
@@ -24,12 +24,12 @@ namespace InGame.Enemy.StateMachine
             MoveToCurrentPoint(context);
         }
 
-        protected override void OnUpdate(EnemyStateContext context)
+        protected override void OnUpdate(StateContext context)
         {
             if (_currentIndex == -1)
                 return;
 
-            if (HasArrived(context))
+            if (context.BotController.HasArrived)
             {
                 _currentIndex = (_currentIndex + 1) % _waypointGroup.Points.Count;
                 MoveToCurrentPoint(context);
@@ -40,16 +40,16 @@ namespace InGame.Enemy.StateMachine
         }
 
 
-        protected override void OnExit(EnemyStateContext context)
+        protected override void OnExit(StateContext context)
         {
-            context.Agent.ResetPath();
+
         }
 
-        public override bool CanTransition(EnemyStateContext context)
+        public override bool CanTransition(StateContext context)
         {
             return true;
         }
-        private void MoveToCurrentPoint(EnemyStateContext context)
+        private void MoveToCurrentPoint(StateContext context)
         {
             context.BotController.SetMoveTarget(_waypointGroup.Points[_currentIndex].position);
         }
@@ -58,7 +58,7 @@ namespace InGame.Enemy.StateMachine
         /// 現在地に最も近い線分(Waypoint間)を探し、その進行方向の終点を開始地点にする。
         /// 線分の途中にいる場合は後ろへ戻らず、そのまま前へ進める。
         /// </summary>
-        private int FindStartIndex(EnemyStateContext context)
+        private int FindStartIndex(StateContext context)
         {
             var points = _waypointGroup.Points;
             int count = points.Count;
@@ -67,7 +67,7 @@ namespace InGame.Enemy.StateMachine
                 return 0;
             }
 
-            Vector3 origin = context.Enemy.position;
+            Vector3 origin = context.Bot.position;
             int startIndex = 0;
             float nearestSqrDistance = float.MaxValue;
 

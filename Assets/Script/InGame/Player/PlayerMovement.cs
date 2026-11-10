@@ -1,3 +1,4 @@
+using Common.Motion;
 using PlayerInput;
 using UnityEditor;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private Transform _camera;
     [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private AnimationPlayer _animationPlayer;
     [SerializeField] private LayerMask _groundMask;
     [SerializeField] private Vector3 _groundRayOffset;
     [SerializeField] private float _groundRayDistance;
@@ -14,11 +16,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _gravityPower;
     public bool IgnoreInput;
     private Vector3 _velocity;
+    private bool _isCrouching = false;
     public Vector2 MoveAmount { get; private set; }
 
     public void Update()
     {
         Move();
+        if (InputService.Player.Crouching.Down)
+        {
+            _isCrouching = !_isCrouching;
+            _animationPlayer.SetCrouching(!_isCrouching);
+        }
     }
 
     private void Move()

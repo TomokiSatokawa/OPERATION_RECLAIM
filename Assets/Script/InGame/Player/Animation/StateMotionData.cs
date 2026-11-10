@@ -37,5 +37,5 @@ public class StateMotionData : ScriptableObject
 
 public enum MotionType
 {
-    Free, Player_Rifle, Enemy_Rifle
+    Free, Player_Rifle, Enemy_Rifle, Player_Crouching
 }

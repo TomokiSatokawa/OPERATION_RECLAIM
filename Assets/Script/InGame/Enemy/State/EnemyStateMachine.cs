@@ -11,22 +11,21 @@ namespace InGame.Enemy.StateMachine
         [SerializeReference, SubclassSelector] private EnemyStateBase[] _enemyState;
         [SerializeField] private Transform _player;
         [SerializeField] private BotController _controller;
-        [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private AnimationPlayer _animation;
         [SerializeField] private TargetPerception _perception;
         [SerializeField] private EnemyRifleControl _enemyRifleControl;
         [SerializeField] private HealthControl _healthControl;
         [SerializeField] private EnemyIcon _icon;
 
-        private StateMachineBase<EnemyStateBase,EnemyStateContext> _stateMachine;
+        private StateMachineBase<EnemyStateBase,StateContext> _stateMachine;
 
         private void Start()
         {
-            var context = new EnemyStateContext()
+            var context = new StateContext()
             {
+                TargetTeam = TeamType.Player,
                 Player = _player,
-                Enemy = this.transform,
-                Agent = _agent,
+                Bot = this.transform,
                 AnimationPlayer = _animation,
                 Perception = _perception,
                 RifleControl = _enemyRifleControl,

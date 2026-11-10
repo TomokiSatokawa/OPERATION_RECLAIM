@@ -8,6 +8,10 @@ using UnityEngine.Playables;
 
 namespace Common.Motion
 {
+    /// <summary>
+    /// PlayableGraphを使ってキャラクターのアニメーション再生を管理するクラス。
+    /// 立ち/しゃがみの移動ブレンドと、上半身などのレイヤーに対する単発アニメーション再生を担当する。
+    /// </summary>
     public class AnimationPlayer : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
@@ -15,6 +19,7 @@ namespace Common.Motion
         [SerializeField] private StateMotionData _stateMotionData;
         [SerializeField] private BlendData _baseBlend;
         [SerializeField] private MotionType _startMotionType;
+        [SerializeField] private MotionType _crouchingMotionType;
 
         private CancellationTokenSource _topLayerToken;
         private AnimationPlaybackState _currentPlayOneShot;
@@ -22,7 +27,14 @@ namespace Common.Motion
         private BlendMixer _horizontalBlend;
         private BlendMixer _verticalBlend;
         private BlendMixer _axisBlend;
+        private BlendMixer _crouchHorizontalBlend;
+        private BlendMixer _crouchVerticalBlend;
+        private BlendMixer _crouchAxisBlend;
+        private BlendMixer _stanceBlend;
         private StateMotionData.MotionGroup _currentGroup;
+        private StateMotionData.MotionGroup _crouchGroup;
+        private bool _isCrouching;
+
         private enum AnimationLayer
         {
             Base, TopLayer
@@ -33,6 +45,10 @@ namespace Common.Motion
         private AnimationMixerPlayable _horizontalMixer;
         private AnimationMixerPlayable _verticalMixer;
         private AnimationMixerPlayable _axisMixer;
+        private AnimationMixerPlayable _crouchHorizontalMixer;
+        private AnimationMixerPlayable _crouchVerticalMixer;
+        private AnimationMixerPlayable _crouchAxisMixer;
+        private AnimationMixerPlayable _stanceMixer;
 
         protected virtual void Start()
         {
@@ -47,28 +63,59 @@ namespace Common.Motion
             var output = AnimationPlayableOutput.Create(_graph, "AnimationOutput", _animator);
             output.SetSourcePlayable(_layerMixer);
 
-            //移動ミキサー
+            //移動ミキサー(立ち)
             _axisMixer = AnimationMixerPlayable.Create(_graph, 2);
             _horizontalMixer = AnimationMixerPlayable.Create(_graph, 3);
             _verticalMixer = AnimationMixerPlayable.Create(_graph, 4);
 
-            UpdateBaseClip(_startMotionType);
+            //移動ミキサー(しゃがみ)。しゃがみにRunは無いので前後も3入力
+            _crouchAxisMixer = AnimationMixerPlayable.Create(_graph, 2);
+            _crouchHorizontalMixer = AnimationMixerPlayable.Create(_graph, 3);
+            _crouchVerticalMixer = AnimationMixerPlayable.Create(_graph, 3);
 
-            //左右ミキサーを登録
+            //立ち/しゃがみ切り替えミキサー
+            _stanceMixer = AnimationMixerPlayable.Create(_graph, 2);
+
+            UpdateBaseClip(_startMotionType);
+            UpdateCrouchClip();
+
+            //左右ミキサーを登録(立ち)
             _axisMixer.ConnectInput(0, _horizontalMixer, 0);
             _axisMixer.ConnectInput(1, _verticalMixer, 0);
 
             _axisMixer.SetInputWeight(0, 0.5f);
             _axisMixer.SetInputWeight(1, 0.5f);
 
-            //ベースミキサーをレイヤーに登録
-            _layerMixer.ConnectInput((int)AnimationLayer.Base, _axisMixer, 0);
+            //左右ミキサーを登録(しゃがみ)
+            _crouchAxisMixer.ConnectInput(0, _crouchHorizontalMixer, 0);
+            _crouchAxisMixer.ConnectInput(1, _crouchVerticalMixer, 0);
+
+            _crouchAxisMixer.SetInputWeight(0, 0.5f);
+            _crouchAxisMixer.SetInputWeight(1, 0.5f);
+
+            //立ち/しゃがみを登録(初期は立ち)
+            _stanceMixer.ConnectInput(0, _axisMixer, 0);
+            _stanceMixer.ConnectInput(1, _crouchAxisMixer, 0);
+
+            _stanceMixer.SetInputWeight(0, 1f);
+            _stanceMixer.SetInputWeight(1, 0f);
+
+            //姿勢ミキサーをレイヤーに登録
+            _layerMixer.ConnectInput((int)AnimationLayer.Base, _stanceMixer, 0);
             _layerMixer.SetInputWeight((int)AnimationLayer.Base, 1f);
 
-            //ブレンドミキサー
+            //ブレンドミキサー(立ち)
             _axisBlend = new(_baseBlend, 2);
             _horizontalBlend = new(_baseBlend, 3);
             _verticalBlend = new(_baseBlend, 4);
+
+            //ブレンドミキサー(しゃがみ)
+            _crouchAxisBlend = new(_baseBlend, 2);
+            _crouchHorizontalBlend = new(_baseBlend, 3);
+            _crouchVerticalBlend = new(_baseBlend, 3);
+
+            //ブレンドミキサー(立ち/しゃがみ)
+            _stanceBlend = new(_baseBlend, 2);
 
             _graph.Play();
         }
@@ -80,11 +127,20 @@ namespace Common.Motion
             _topLayerToken?.Dispose();
         }
 
+        public void SetCrouching(bool isCrouching)
+        {
+            _isCrouching = isCrouching;
+        }
+
         public void Tick(Vector2 moveAmount)
         {
-            Debug.Log(moveAmount);
+            //立ち
             _horizontalBlend.Tick(_horizontalMixer, Mathf.Clamp(moveAmount.x, -1f, 1f) + 1f);
             _verticalBlend.Tick(_verticalMixer, Mathf.Clamp(moveAmount.y, -1f, 2f) + 1f);
+
+            //しゃがみ(Runが無いので前後は最大1)
+            _crouchHorizontalBlend.Tick(_crouchHorizontalMixer, Mathf.Clamp(moveAmount.x, -1f, 1f) + 1f);
+            _crouchVerticalBlend.Tick(_crouchVerticalMixer, Mathf.Clamp(moveAmount.y, -1f, 1f) + 1f);
 
             float horizontal = Mathf.Abs(moveAmount.x);
             float vertical = Mathf.Abs(moveAmount.y);
@@ -93,6 +149,10 @@ namespace Common.Motion
             float target = total > 0f ? vertical / total : 0.5f;
 
             _axisBlend.Tick(_axisMixer, target);
+            _crouchAxisBlend.Tick(_crouchAxisMixer, target);
+
+            //立ち/しゃがみの切り替え
+            _stanceBlend.Tick(_stanceMixer, _isCrouching ? 1f : 0f);
         }
 
         public void UpdateBaseClip(MotionType type)
@@ -137,7 +197,7 @@ namespace Common.Motion
             _topLayerToken?.Dispose();
             _topLayerToken = new CancellationTokenSource();
             var playbackState = new AnimationPlaybackState();
-            PlayOneShotAsync(groupBase, playbackState,_topLayerToken.Token).Forget();
+            PlayOneShotAsync(groupBase, playbackState, _topLayerToken.Token).Forget();
             return playbackState;
         }
 
@@ -150,6 +210,35 @@ namespace Common.Motion
         {
             _topLayerToken?.Cancel();
             PlayDieAsync().Forget();
+        }
+
+        private void UpdateCrouchClip()
+        {
+            _crouchGroup = _stateMotionData.GetMotionGroup(_crouchingMotionType);
+
+            if (_crouchGroup == null)
+                return;
+
+            var idle = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_crouchGroup.IdleClip).Clip);
+            var idle2 = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_crouchGroup.IdleClip).Clip);
+            var walkForward = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_crouchGroup.WalkForwardClip).Clip);
+            var walkRight = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_crouchGroup.WalkRightClip).Clip);
+            var walkLeft = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_crouchGroup.WalkLeftClip).Clip);
+            var walkBack = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_crouchGroup.WalkBackClip).Clip);
+
+            for (int i = 0; i < _crouchHorizontalMixer.GetInputCount(); i++)
+                TryDisconnect(_crouchHorizontalMixer, i);
+
+            for (int i = 0; i < _crouchVerticalMixer.GetInputCount(); i++)
+                TryDisconnect(_crouchVerticalMixer, i);
+
+            _crouchHorizontalMixer.ConnectInput(0, walkLeft, 0);
+            _crouchHorizontalMixer.ConnectInput(1, idle, 0);
+            _crouchHorizontalMixer.ConnectInput(2, walkRight, 0);
+
+            _crouchVerticalMixer.ConnectInput(0, walkBack, 0);
+            _crouchVerticalMixer.ConnectInput(1, idle2, 0);
+            _crouchVerticalMixer.ConnectInput(2, walkForward, 0);
         }
 
         private async UniTask PlayDieAsync()
@@ -272,6 +361,9 @@ namespace Common.Motion
         }
     }
 
+    /// <summary>
+    /// AnimationMixerPlayableの各入力ウェイトを、BlendDataのカーブに沿って滑らかに遷移させるクラス。
+    /// </summary>
     [Serializable]
     public class BlendMixer
     {

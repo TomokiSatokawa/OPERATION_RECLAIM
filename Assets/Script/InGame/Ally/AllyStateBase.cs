@@ -21,7 +21,6 @@ namespace InGame.Ally
         public override void Update(AllyContext context)
         {
             OnUpdate(context);
-            UpdateMoveAmount(context);
         }
 
         public override void Exit(AllyContext context)
@@ -32,30 +31,15 @@ namespace InGame.Ally
         protected abstract void OnUpdate(AllyContext context);
         protected abstract void OnExit(AllyContext context);
 
-        private void UpdateMoveAmount(AllyContext context)
+        protected bool HasArrived(StateContext context)
         {
-            Vector3 velocity = context.Agent.velocity;
-            if (velocity.sqrMagnitude <= 0.01f)
-            {
-                context.AnimationPlayer.Tick(Vector2.zero);
-                return;
-            }
+            //var agent = context.Agent;
 
-            // ワールド速度を敵のローカル空間へ(x:右, z:前)
-            Vector3 local = context.Ally.InverseTransformDirection(velocity);
+            //// 経路計算中は残距離が不正確なので到着扱いにしない
+            //if (agent.pathPending)
+            //    return false;
 
-            context.AnimationPlayer.Tick(new Vector2(local.z, local.x));
-        }
-
-        protected bool HasArrived(EnemyStateContext context)
-        {
-            var agent = context.Agent;
-
-            // 経路計算中は残距離が不正確なので到着扱いにしない
-            if (agent.pathPending)
-                return false;
-
-            return agent.remainingDistance <= agent.stoppingDistance;
+            return true;
         }
     }
 

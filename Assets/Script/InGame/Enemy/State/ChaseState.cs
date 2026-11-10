@@ -1,3 +1,4 @@
+//AI
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,78 +10,89 @@ namespace InGame.Enemy.StateMachine
     [System.Serializable]
     public class ChaseState : EnemyStateBase
     {
-        [SerializeField] private float _attackRange = 8f;
         private const float NavMeshSampleDistance = 2f;
 
-        protected override void OnEnter(EnemyStateContext context)
+        [SerializeField] private float _attackRange = 8f;
+
+        private bool _isLost;
+
+        protected override void OnEnter(StateContext context)
         {
+            _isLost = false;
+
             if (context.Perception == null)
             {
                 Debug.LogError("[ChaseState] Perception が未設定です。");
+                return;
             }
+
+            //context.Agent.isStopped = false;
         }
 
-        protected override void OnUpdate(EnemyStateContext context)
+        protected override void OnUpdate(StateContext context)
         {
             if (context.Perception == null)
             {
                 return;
             }
 
-            context.Agent.SetDestination(GetChaseDestination(context));
-
-            // 見失っていて、予測の終点まで到達したら終了する
-            if (!context.Perception.CanSeeTarget
-                && context.Perception.IsPredictionExpired
-                && HasArrived(context))
+            if (context.Perception.CanSeeTarget)
             {
-                RequestChangeState = nameof(PatrolState);
+                _isLost = false;
+                ChaseVisibleTarget(context);
                 return;
             }
 
-            if (context.Perception.CanSeeTarget && IsInAttackRange(context))
-            {
-                RequestChangeState = nameof(AttackState);
-                return;
-            }
+            _isLost = true;
+            MoveTo(context, context.Perception.PredictedPosition);
         }
 
-        public override bool CanTransition(EnemyStateContext context)
+        public override bool CanTransition(StateContext context)
         {
             // Playerが見えたら開始する
             return context.Perception != null && context.Perception.CanSeeTarget;
         }
 
-        protected override void OnExit(EnemyStateContext context)
+        protected override void OnExit(StateContext context)
         {
-            context.Agent.ResetPath();
+            //context.Agent.ResetPath();
         }
 
-        private Vector3 GetChaseDestination(EnemyStateContext context)
+        private void ChaseVisibleTarget(StateContext context)
         {
-            if (context.Perception.CanSeeTarget)
+            Vector3 targetPosition = context.Player.position;
+            float sqrDistance = (targetPosition - context.Bot.position).sqrMagnitude;
+
+            // 攻撃範囲に入ったら攻撃ステートへ
+            if (sqrDistance <= _attackRange * _attackRange)
             {
-                context.Icon.UpdateType(EnemyIcon.IconType.Battle);
-                return context.Player.position;
+                RequestChangeState = nameof(AttackState);
+                return;
             }
 
-            // 予測位置が壁の中などになる場合に備え、NavMesh上の最寄り位置へ補正する
-            Vector3 predicted = context.Perception.PredictedPosition;
-            if (NavMesh.SamplePosition(predicted, out NavMeshHit hit, NavMeshSampleDistance, NavMesh.AllAreas))
-            {
-                context.Icon.UpdateType(EnemyIcon.IconType.Vigilance);
-                return hit.position;
-            }
-
-            context.Icon.UpdateType(EnemyIcon.IconType.Battle);
-            return context.Perception.LastKnownPosition;
+            MoveTo(context, targetPosition);
         }
 
-        private bool IsInAttackRange(EnemyStateContext context)
+        private void MoveTo(StateContext context, Vector3 position)
         {
-            Vector3 toPlayer = context.Player.position - context.Agent.transform.position;
-            toPlayer.y = 0f;
-            return toPlayer.sqrMagnitude <= _attackRange * _attackRange;
+            if (!NavMesh.SamplePosition(position, out NavMeshHit hit, NavMeshSampleDistance, NavMesh.AllAreas))
+            {
+                Debug.LogError($"[ChaseState] NavMesh上に目標位置が見つかりません。position={position}");
+                return;
+            }
+
+            context.BotController.SetMoveTarget(hit.position,true);
+        }
+
+        private bool HasArrived(NavMeshAgent agent)
+        {
+            if (agent.pathPending)
+            {
+                return false;
+            }
+
+            return agent.remainingDistance <= agent.stoppingDistance
+                && (!agent.hasPath || agent.velocity.sqrMagnitude < 0.01f);
         }
     }
 }
