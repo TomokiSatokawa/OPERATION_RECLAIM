@@ -35,7 +35,6 @@ namespace InGame.Enemy
 
         private void Shot()
         {
-
             //c’e”0‚Ìê‡‚Í‘Å‚½‚È‚¢
             var currentRifle = _rifleEquipper.CurrentRifle;
             if (currentRifle.RemainingBulletCount.CurrentValue <= 0) return;
@@ -46,7 +45,7 @@ namespace InGame.Enemy
             //’e‚ğ”­Ë‚·‚é
             var shotPos = currentRifle.ShotPosition;
             var bullet = Instantiate(_bulletPrefab, shotPos.position, shotPos.rotation);
-            bullet.SetData(GetRayPosition(), TeamType.Player);
+            bullet.SetData(GetRayPosition(), TeamType.Enemy);
 
             //c’e”‚ğŒ¸‚ç‚·
             currentRifle.RemoveBulletCount();

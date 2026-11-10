@@ -25,8 +25,6 @@ namespace InGame.Enemy.StateMachine
                 Debug.LogError("[ChaseState] Perception Ç™ñ¢ê›íËÇ≈Ç∑ÅB");
                 return;
             }
-
-            //context.Agent.isStopped = false;
         }
 
         protected override void OnUpdate(StateContext context)
@@ -55,7 +53,7 @@ namespace InGame.Enemy.StateMachine
 
         protected override void OnExit(StateContext context)
         {
-            //context.Agent.ResetPath();
+            context.BotController.StopMove();
         }
 
         private void ChaseVisibleTarget(StateContext context)
@@ -82,17 +80,6 @@ namespace InGame.Enemy.StateMachine
             }
 
             context.BotController.SetMoveTarget(hit.position,true);
-        }
-
-        private bool HasArrived(NavMeshAgent agent)
-        {
-            if (agent.pathPending)
-            {
-                return false;
-            }
-
-            return agent.remainingDistance <= agent.stoppingDistance
-                && (!agent.hasPath || agent.velocity.sqrMagnitude < 0.01f);
         }
     }
 }

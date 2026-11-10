@@ -14,15 +14,20 @@ namespace InGame.Enemy.StateMachine
     public abstract class EnemyStateBase : State<StateContext>
     {
         [SerializeField] private float _stopDistance = 3f;
+        [SerializeField] private float _waitSecond = 0f;
 
+        private float _waitTime;
         public override void Enter(StateContext context)
         {
             RequestChangeState = null;
+            _waitTime = _waitSecond + Time.time;
             OnEnter(context);
         }
 
         public override void Update(StateContext context)
         {
+            if (Time.time < _waitTime) return;
+
             OnUpdate(context);
         }
 

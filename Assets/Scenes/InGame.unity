@@ -3243,6 +3243,18 @@ PrefabInstance:
       value: Assembly-CSharp InGame.Enemy.StateMachine.AttackState
       objectReference: {fileID: 0}
     - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: managedReferences[7286859592749285749]._waitSecond
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: managedReferences[7286859592749285770]._waitSecond
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: managedReferences[7286859611784085616]._waitSecond
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: managedReferences[7286859592749285765]._attackRange
       value: 8
       objectReference: {fileID: 0}
@@ -9489,7 +9501,7 @@ Transform:
   m_GameObject: {fileID: 1636034707}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.62, y: 4.48147, z: -65.15}
+  m_LocalPosition: {x: 10.74, y: 4.48147, z: -54.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11018,7 +11030,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1856421486}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.48001817, y: 0.00000005846053, z: -0.00000003198842, w: 0.8772586}
+  m_LocalRotation: {x: 0.4800182, y: -0.000000017469093, z: 0.000000009558735, w: 0.8772586}
   m_LocalPosition: {x: 0.80999994, y: 3.4889998, z: -1.3700004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11308,8 +11320,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1922853095}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4800182, y: 0.000000058460536, z: -0.000000031988428, w: 0.87725854}
-  m_LocalPosition: {x: 15.43, y: 7.97047, z: -66.520004}
+  m_LocalRotation: {x: 0.4800182, y: -0.000000017469093, z: 0.000000009558736, w: 0.87725854}
+  m_LocalPosition: {x: 11.55, y: 7.97047, z: -55.739998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

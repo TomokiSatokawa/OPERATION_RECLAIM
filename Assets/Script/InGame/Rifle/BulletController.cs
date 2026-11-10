@@ -34,7 +34,7 @@ namespace InGame.Player.Rifle
             var hit = HitCheck();
             if (hit == null) return;
 
-
+            Debug.Log(hit.Value.collider.gameObject);
             if (hit.Value.transform.root.TryGetComponent(out IDamageable damageable))
             {
                 //同じチーム同士はダメージ無効化

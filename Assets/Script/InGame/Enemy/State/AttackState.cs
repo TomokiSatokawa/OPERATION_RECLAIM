@@ -87,7 +87,7 @@ namespace InGame.Enemy.StateMachine
 
         protected override void OnExit(StateContext context)
         {
-
+            context.BotController.StopMove();
         }
 
         /// <summary>
