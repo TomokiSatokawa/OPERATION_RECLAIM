@@ -82,6 +82,7 @@ namespace Common.Motion
 
         public void Tick(Vector2 moveAmount)
         {
+            Debug.Log(moveAmount);
             _horizontalBlend.Tick(_horizontalMixer, Mathf.Clamp(moveAmount.x, -1f, 1f) + 1f);
             _verticalBlend.Tick(_verticalMixer, Mathf.Clamp(moveAmount.y, -1f, 2f) + 1f);
 

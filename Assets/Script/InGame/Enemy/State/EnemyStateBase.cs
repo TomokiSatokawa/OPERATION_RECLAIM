@@ -1,4 +1,5 @@
 ﻿using Common.Motion;
+using InGame.Bot;
 using InGame.Common;
 using UnityEngine;
 using UnityEngine.AI;
@@ -49,7 +50,7 @@ namespace InGame.Enemy.StateMachine
             // ワールド速度を敵のローカル空間へ(x:右, z:前)
             Vector3 local = context.Enemy.InverseTransformDirection(velocity);
 
-            context.AnimationPlayer.Tick(new Vector2(local.z, local.x));
+            //context.AnimationPlayer.Tick(new Vector2(local.z, local.x));
         }
 
         protected bool HasArrived(EnemyStateContext context)
@@ -76,5 +77,7 @@ namespace InGame.Enemy.StateMachine
         public TargetPerception Perception;
         public EnemyRifleControl RifleControl;
         public EnemyIcon Icon;
+
+        public BotController BotController;
     }
 }

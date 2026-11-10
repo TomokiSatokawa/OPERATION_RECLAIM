@@ -1,4 +1,5 @@
 using Common.Motion;
+using InGame.Bot;
 using InGame.Common;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,6 +10,7 @@ namespace InGame.Enemy.StateMachine
     {
         [SerializeReference, SubclassSelector] private EnemyStateBase[] _enemyState;
         [SerializeField] private Transform _player;
+        [SerializeField] private BotController _controller;
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private AnimationPlayer _animation;
         [SerializeField] private TargetPerception _perception;
@@ -29,6 +31,7 @@ namespace InGame.Enemy.StateMachine
                 Perception = _perception,
                 RifleControl = _enemyRifleControl,
                 Icon = _icon,
+                BotController = _controller,    
             };
 
             _stateMachine = new(_enemyState, context);

@@ -389,7 +389,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6328415949865296972}
+  - component: {fileID: 3685777620095334476}
   - component: {fileID: 7613165216516648273}
+  - component: {fileID: 2120555540202077822}
   - component: {fileID: 497003003458170673}
   - component: {fileID: 4728804458562394141}
   - component: {fileID: 7459990018888276483}
@@ -421,6 +423,28 @@ Transform:
   - {fileID: 3389566013982432562}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &3685777620095334476
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2931331300796294044}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 3
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!114 &7613165216516648273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,6 +462,49 @@ MonoBehaviour:
   _rightHandRigTarget: {fileID: 1794842924720702759}
   _leftHandRigTarget: {fileID: 8492043619674607460}
   _lookRigTarget: {fileID: 1481909314327729557}
+--- !u!114 &2120555540202077822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2931331300796294044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d406a6084a9b740a645b1194ad51e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.EnemyStateMachine
+  _enemyState:
+  - rid: 7286859407848636501
+  - rid: 7286859407848636502
+  - rid: 7286859407848636503
+  _player: {fileID: 0}
+  _agent: {fileID: 3685777620095334476}
+  _animation: {fileID: 8241775061212167194}
+  _perception: {fileID: 7459990018888276483}
+  _enemyRifleControl: {fileID: 497003003458170673}
+  _healthControl: {fileID: 4728804458562394141}
+  _icon: {fileID: 5784496095897749188}
+  references:
+    version: 2
+    RefIds:
+    - rid: 7286859407848636501
+      type: {class: PatrolState, ns: InGame.Enemy.StateMachine, asm: Assembly-CSharp}
+      data:
+        _stopDistance: 3
+        _waypointGroup: {fileID: 0}
+    - rid: 7286859407848636502
+      type: {class: ChaseState, ns: InGame.Enemy.StateMachine, asm: Assembly-CSharp}
+      data:
+        _stopDistance: 3
+        _attackRange: 8
+    - rid: 7286859407848636503
+      type: {class: AttackState, ns: InGame.Enemy.StateMachine, asm: Assembly-CSharp}
+      data:
+        _stopDistance: 3
+        _lostDuration: 0.5
+        _attackRange: 8
+        _exitRangeMargin: 2
 --- !u!114 &497003003458170673
 MonoBehaviour:
   m_ObjectHideFlags: 0

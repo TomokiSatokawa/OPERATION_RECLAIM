@@ -16,11 +16,10 @@ namespace InGame.Enemy.StateMachine
                 return;
             }
 
-            _currentIndex = _waypointGroup.GetNearestPointIndex(context.Enemy.position);
+            _currentIndex = FindStartIndex(context);
             if (_currentIndex == -1)
                 return;
 
-            context.Agent.isStopped = false;
             context.Icon.UpdateType(EnemyIcon.IconType.None);
             MoveToCurrentPoint(context);
         }
@@ -52,7 +51,44 @@ namespace InGame.Enemy.StateMachine
         }
         private void MoveToCurrentPoint(EnemyStateContext context)
         {
-            context.Agent.SetDestination(_waypointGroup.Points[_currentIndex].position);
+            context.BotController.SetMoveTarget(_waypointGroup.Points[_currentIndex].position);
+        }
+
+        /// <summary>
+        /// 現在地に最も近い線分(Waypoint間)を探し、その進行方向の終点を開始地点にする。
+        /// 線分の途中にいる場合は後ろへ戻らず、そのまま前へ進める。
+        /// </summary>
+        private int FindStartIndex(EnemyStateContext context)
+        {
+            var points = _waypointGroup.Points;
+            int count = points.Count;
+            if (count == 1)
+            {
+                return 0;
+            }
+
+            Vector3 origin = context.Enemy.position;
+            int startIndex = 0;
+            float nearestSqrDistance = float.MaxValue;
+
+            for (int i = 0; i < count; i++)
+            {
+                int next = (i + 1) % count;
+                Vector3 from = points[i].position;
+                Vector3 segment = points[next].position - from;
+
+                float sqrLength = segment.sqrMagnitude;
+                float t = sqrLength > 0f ? Mathf.Clamp01(Vector3.Dot(origin - from, segment) / sqrLength) : 0f;
+                float sqrDistance = (from + segment * t - origin).sqrMagnitude;
+
+                if (sqrDistance < nearestSqrDistance)
+                {
+                    nearestSqrDistance = sqrDistance;
+                    startIndex = t <= 0f ? i : next;
+                }
+            }
+
+            return startIndex;
         }
     } 
 }

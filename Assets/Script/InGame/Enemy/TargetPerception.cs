@@ -67,6 +67,10 @@ namespace InGame.Enemy
         private PerceivedTarget _primary;
         private AwarenessLevel _highestLevel;
         private float _nextCheckTime;
+        private Vector3 _lastHeardPosition;
+        private Vector3 _lastHeardDirection;
+        private float _lastHeardTime;
+        private bool _hasHeardNoise;
 
         /// <summary>認識中(Lost以外)のターゲット一覧。段階が高い順、同じ段階なら近い順(毎フレーム更新)</summary>
         public IReadOnlyList<PerceivedTarget> PerceivedTargets => _perceived;
@@ -80,6 +84,20 @@ namespace InGame.Enemy
 
         /// <summary>直近の判定で直視できていたターゲットの一覧(判定間隔ごとに更新される)</summary>
         public IReadOnlyList<Transform> VisibleTargets => _visibleTargets;
+
+        public Vector3 LastHeardPosition => _lastHeardPosition;
+        public Vector3 LastHeardDirection => _lastHeardDirection;
+        public bool HasHeardNoise => _hasHeardNoise && Time.time - _lastHeardTime < _directionalDuration;
+        public Vector3 SearchPosition => CanSeeTarget ? PredictedPosition : HasHeardNoise ? LastHeardPosition : PredictedPosition;
+
+        public bool TryGetVisibleTargets(TeamType team, List<Transform> results)
+        {
+            results.Clear();
+            if (team != _targetTeam) return false;
+            for (int i = 0; i < _visibleTargets.Count; i++)
+                if (_visibleTargets[i] != null) results.Add(_visibleTargets[i]);
+            return results.Count > 0;
+        }
 
         // ---- 既存コード(ChaseStateなど)向けの互換プロパティ。主ターゲット基準 ----
 
@@ -247,21 +265,22 @@ namespace InGame.Enemy
         /// <summary>音を聞かせる。聞こえた場合、少なくとも方向がわかる状態になる(loudnessは聞こえる距離の倍率)</summary>
         public void HearNoise(Transform source, Vector3 position, float loudness = 1f)
         {
-            if (!TryGetMemory(source, out PerceivedTarget memory))
-            {
-                return;
-            }
+            if (!TryGetMemory(source, out PerceivedTarget memory) || !HearNoise(position, loudness)) return;
+            RegisterHint(memory, _lastHeardPosition);
+        }
 
-            float range = _hearingRange * loudness;
+        public bool HearNoise(Vector3 position, float loudness = 1f)
+        {
+            float range = _hearingRange * Mathf.Max(0f, loudness);
             float distance = Vector3.Distance(transform.position, position);
-            if (range <= 0f || distance > range)
-            {
-                return;
-            }
-
-            // 遠い音ほど位置がぼやける
+            if (range <= 0f || distance > range) return false;
             Vector2 offset = UnityEngine.Random.insideUnitCircle * (_hearingErrorRadius * distance / range);
-            RegisterHint(memory, position + new Vector3(offset.x, 0f, offset.y));
+            _lastHeardPosition = position + new Vector3(offset.x, 0f, offset.y);
+            Vector3 direction = _lastHeardPosition - transform.position;
+            _lastHeardDirection = direction.sqrMagnitude > MinSqrDistance ? direction.normalized : transform.forward;
+            _lastHeardTime = Time.time;
+            _hasHeardNoise = true;
+            return true;
         }
 
         /// <summary>攻撃を受けたことを通知する。撃ってきた方向がわかる状態になる</summary>
