@@ -1,6 +1,8 @@
 ﻿//AI
 using Common.Motion;
+using InGame.Enemy;
 using InGame.Player.Motion;
+using InGame.Player.Rifle;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,6 +20,7 @@ namespace InGame.Bot
 
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private AnimationPlayer _animationPlayer;
+        [SerializeField] private EnemyRifleControl  _rifleControl;
         [SerializeField] private float _walkSpeed = 2f;
         [SerializeField] private float _runSpeed = 4f;
         [SerializeField] private float _runDistance = 8f;
@@ -34,6 +37,7 @@ namespace InGame.Bot
         private float _runBlendTime;
         private Transform _lookTarget;
 
+        public RifleData RifleData => _rifleControl.CurrentRifle;
         public bool HasArrived => _hasMoveTarget && !_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance;
         public Vector3 Velocity => _agent.velocity;
 
@@ -115,7 +119,13 @@ namespace InGame.Bot
 
         public void Shot()
         {
-            // TODO: 射撃処理
+            Debug.Log("Shot");
+            _rifleControl.ShotUpdate();
+        }
+
+        public void Reload()
+        {
+            _rifleControl.Reload();
         }
 
         /// <summary>

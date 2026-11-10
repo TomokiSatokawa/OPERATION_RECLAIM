@@ -1467,6 +1467,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.StateMachine.CoverPoint
   _peekOffset: {x: 0, y: 0, z: -0.8499985}
+--- !u!1 &239517369 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4050875470358075033, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+  m_PrefabInstance: {fileID: 637672489}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &246970552 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3667946887678727147, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
@@ -3012,6 +3017,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Bot.BotController
   _agent: {fileID: 615560866}
   _animationPlayer: {fileID: 1741700023}
+  _rifleControl: {fileID: 615560874}
   _walkSpeed: 2
   _runSpeed: 5
   _runDistance: 8
@@ -3043,6 +3049,17 @@ MonoBehaviour:
       m_RotationOrder: 4
   _turnSpeed: 360
   _facingAngleThreshold: 2
+--- !u!114 &615560874 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 497003003458170673, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+  m_PrefabInstance: {fileID: 637672489}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615560858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed78de1aa048d164c83691bbec14ea32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.EnemyRifleControl
 --- !u!1 &624985758
 GameObject:
   m_ObjectHideFlags: 0
@@ -3142,8 +3159,44 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 497003003458170673, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: _shotAnimation
+      value: 7286859611784085619
+      objectReference: {fileID: 0}
+    - target: {fileID: 497003003458170673, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: _rayMask.m_Bits
+      value: 1919
+      objectReference: {fileID: 0}
+    - target: {fileID: 497003003458170673, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: _reloadOverride
       value: 
+      objectReference: {fileID: 1741700029}
+    - target: {fileID: 497003003458170673, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: _reloadAnimation
+      value: 7286859611784085618
+      objectReference: {fileID: 0}
+    - target: {fileID: 497003003458170673, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: 'managedReferences[7286859611784085617]'
+      value: Assembly-CSharp Common.PlayerRifleMotion
+      objectReference: {fileID: 0}
+    - target: {fileID: 497003003458170673, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: 'managedReferences[7286859611784085618]'
+      value: Assembly-CSharp Common.EnemyRifleMotion
+      objectReference: {fileID: 0}
+    - target: {fileID: 497003003458170673, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: 'managedReferences[7286859611784085619]'
+      value: Assembly-CSharp Common.EnemyRifleMotion
+      objectReference: {fileID: 0}
+    - target: {fileID: 497003003458170673, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: managedReferences[7286859611784085617]._type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 497003003458170673, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: managedReferences[7286859611784085618]._type
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 497003003458170673, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: managedReferences[7286859611784085619]._type
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: _player
@@ -3159,7 +3212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: _enemyState.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: '_enemyState.Array.data[0]'
@@ -3168,6 +3221,10 @@ PrefabInstance:
     - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: '_enemyState.Array.data[1]'
       value: 7286859592749285770
+      objectReference: {fileID: 0}
+    - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: '_enemyState.Array.data[2]'
+      value: 7286859611784085616
       objectReference: {fileID: 0}
     - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: 'managedReferences[7286859592749285749]'
@@ -3182,11 +3239,19 @@ PrefabInstance:
       value: Assembly-CSharp InGame.Enemy.StateMachine.ChaseState
       objectReference: {fileID: 0}
     - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: 'managedReferences[7286859611784085616]'
+      value: Assembly-CSharp InGame.Enemy.StateMachine.AttackState
+      objectReference: {fileID: 0}
+    - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: managedReferences[7286859592749285765]._attackRange
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: managedReferences[7286859592749285770]._attackRange
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: managedReferences[7286859611784085616]._attackRange
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
@@ -3202,6 +3267,14 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: managedReferences[7286859611784085616]._lostDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: managedReferences[7286859611784085616]._stopDistance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: managedReferences[7286859407848636501]._waypointGroup
       value: 
       objectReference: {fileID: 1982196633}
@@ -3209,6 +3282,10 @@ PrefabInstance:
       propertyPath: managedReferences[7286859592749285749]._waypointGroup
       value: 
       objectReference: {fileID: 1982196633}
+    - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: managedReferences[7286859611784085616]._exitRangeMargin
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -3267,6 +3344,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2931331300796294044, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 615560869}
+    - targetCorrespondingSourceObject: {fileID: 4050875470358075033, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1741700029}
   m_SourcePrefab: {fileID: 100100000, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
 --- !u!1 &638004446
 GameObject:
@@ -10267,7 +10347,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8241775061212167194, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
   m_PrefabInstance: {fileID: 637672489}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 239517369}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f641aa1ee7ff43748a0ca979cefd9930, type: 3}
@@ -10278,6 +10358,21 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 3168905060015904053, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
   m_PrefabInstance: {fileID: 637672489}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1741700029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239517369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddcfa5ec66eefaf44b1b407823f536e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReloadOverride
+  _animator: {fileID: 1741700024}
+  _container: {fileID: 11400000, guid: 923ce58ec712fb84d99be080a3507a5d, type: 2}
+  _freezeBase: 0
 --- !u!4 &1756448524 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 234480625599603528, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}

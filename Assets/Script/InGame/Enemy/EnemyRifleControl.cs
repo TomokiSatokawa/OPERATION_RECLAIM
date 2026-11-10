@@ -24,10 +24,8 @@ namespace InGame.Enemy
 
         private float _nextShotTime = 0;
 
-        private void Update()
+        public void ShotUpdate()
         {
-            if (!IsShot.Flag) return;
-
             if (Time.time > _nextShotTime)
             {
                 _nextShotTime += _interval;
@@ -63,6 +61,7 @@ namespace InGame.Enemy
             if (!Physics.Raycast(ray, out var hit, _rayDistance, _rayMask))
                 return ray.origin + ray.direction * _bulletDistance;
 
+            Debug.Log(hit.collider.gameObject);
                 return hit.point;
         }
 

@@ -1,283 +1,129 @@
-using CoreKit;
+using InGame.Bot;
+using InGame.Player.Rifle;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace InGame.Enemy.StateMachine
 {
     /// <summary>
-    /// 遮蔽物へ移動し、隠れる・身を出して撃つを繰り返す攻撃ステート
+    /// ターゲットが見えている間、BotControllerで向き直して撃つステート。
+    /// 弾切れになったらリロードする。
+    /// 射程外になる、または見失った状態が続いたら追跡へ戻す
     /// </summary>
     [System.Serializable]
     public class AttackState : EnemyStateBase
     {
-        private enum AttackSubState
-        {
-            MoveToCover,
-            Hide,
-            PeekAndShoot
-        }
-        [SerializeField] private float _lostDuration = 0.5f; 
         [SerializeField] private float _attackRange = 8f;
         [SerializeField] private float _exitRangeMargin = 2f;
+        [SerializeField] private float _lostDuration = 0.5f;
 
-        private const float ArriveTolerance = 0.2f;
-        private const float HideDurationMin = 1.5f;
-        private const float HideDurationMax = 3f;
-        private const float PeekDuration = 2f;
-        private const float FireInterval = 0.4f;
-        private const float RotateSpeed = 10f;
-
-        private AttackSubState _subState;
-        private CoverPoint _currentCover;
-        private float _timer;
-        private float _fireTimer;
         private float _lostTimer;
-        private FlagToken? _shotToken;
+
+        /// <summary>
+        /// 開始条件: ターゲットが見えていて、射程内にいること
+        /// </summary>
+        public override bool CanTransition(StateContext context)
+        {
+            return IsTargetVisible(context) && IsWithinRange(context, _attackRange);
+        }
+
         protected override void OnEnter(StateContext context)
         {
-            //context.Agent.updateRotation = false;
+            _lostTimer = 0f;
 
-            //_currentCover = CoverSelector.FindBestCover(
-            //    context.Agent.transform.position, context.Player, context.Agent);
-
-            //if (_currentCover != null)
-            //{
-            //    _currentCover.TryReserve(context.Agent);
-            //}
-
-            //context.Icon.UpdateType(EnemyIcon.IconType.Battle);
-            //ChangeSubState(AttackSubState.MoveToCover, context);
+            // 向き直して撃つので、移動中の場合はその場で止まる
+            context.BotController.StopMove();
         }
+
         protected override void OnUpdate(StateContext context)
         {
-            switch (_subState)
+            BotController bot = context.BotController;
+
+            if (bot == null)
             {
-                case AttackSubState.MoveToCover:
-                    UpdateMoveToCover(context);
-                    break;
-                case AttackSubState.Hide:
-                    UpdateHide(context);
-                    break;
-                case AttackSubState.PeekAndShoot:
-                    UpdatePeekAndShoot(context);
-                    break;
-                default:
-                    Debug.LogError($"[AttackState] 未対応のサブステート: {_subState}");
-                    break;
+                RequestChangeState = nameof(ChaseState);
+                return;
             }
 
-            UpdateLostTimer(context);
-
-            if (TryRequestChase(context))
+            if (bot.RifleData == null)
             {
+                Debug.LogError($"[AttackState] 銃を持っていません: {bot.name}");
+                RequestChangeState = nameof(ChaseState);
                 return;
+            }
+
+            // 入る距離より余裕を持たせ、境界のばたつきを防ぐ
+            if (!IsWithinRange(context, _attackRange + _exitRangeMargin))
+            {
+                RequestChangeState = nameof(ChaseState);
+                return;
+            }
+
+            // 見えているかに関わらず、弾切れならリロードする
+            ReloadIfEmpty(bot);
+
+            if (IsTargetVisible(context))
+            {
+                _lostTimer = 0f;
+
+                // リロード中も向きは追い続け、向き終わって撃てる状態になったら撃つ
+                bool isFacing = bot.FaceTarget(context.Player.position);
+
+                if (isFacing && CanShoot(bot))
+                {
+                    bot.Shot();
+                }
+
+                return;
+            }
+
+            // 見えていない間は撃たない。見失った状態が続いたら追跡へ戻す
+            _lostTimer += Time.deltaTime;
+
+            if (_lostTimer >= _lostDuration)
+            {
+                RequestChangeState = nameof(ChaseState);
             }
         }
 
         protected override void OnExit(StateContext context)
         {
-            //if (_currentCover != null)
-            //{
-            //    _currentCover.Release(context.Agent);
-            //    _currentCover = null;
-            //}
 
-            //context.Agent.ResetPath();
-
-            //context.Agent.updateRotation = true;
         }
 
-        private void UpdateLostTimer(StateContext context)
+        /// <summary>
+        /// 装弾数が0で、リロード中でなければリロードを開始する
+        /// </summary>
+        private static void ReloadIfEmpty(BotController bot)
         {
-            //Vector3 attackPosition = _currentCover != null
-            //    ? _currentCover.PeekPosition
-            //    : context.Agent.transform.position;
+            RifleData rifle = bot.RifleData;
 
-            //if (CoverSelector.HasLineOfSight(attackPosition, context.Player))
-            //{
-            //    _lostTimer = 0f;
-            //    return;
-            //}
-
-            _lostTimer += Time.deltaTime;
-        }
-
-        public override bool CanTransition(StateContext context)
-        {
-            return true;
-        }
-
-        private void ChangeSubState(AttackSubState next, StateContext context)
-        {
-            //    _subState = next;
-
-            //    switch (next)
-            //    {
-            //        case AttackSubState.MoveToCover:
-            //            if (_currentCover == null)
-            //            {
-            //                // カバーが無い場合は、その場で撃つ
-            //                ChangeSubState(AttackSubState.PeekAndShoot, context);
-            //                return;
-            //            }
-            //            context.Agent.SetDestination(_currentCover.HidePosition);
-            //            break;
-
-            //        case AttackSubState.Hide:
-            //            if (_currentCover == null)
-            //            {
-            //                ChangeSubState(AttackSubState.PeekAndShoot, context);
-            //                return;
-            //            }
-            //            _timer = Random.Range(HideDurationMin, HideDurationMax);
-            //            context.Agent.SetDestination(_currentCover.HidePosition);
-
-            //            if (_shotToken != null)
-            //            {
-            //                context.RifleControl.IsShot.UnregisterFlag(_shotToken.Value);
-            //                _shotToken = null;
-            //            }
-
-            //            break;
-
-            //        case AttackSubState.PeekAndShoot:
-            //            _timer = PeekDuration;
-            //            _fireTimer = 0f;
-            //            if (_currentCover != null)
-            //            {
-            //                context.Agent.SetDestination(_currentCover.PeekPosition);
-            //            }
-
-            //            if (_shotToken != null)
-            //            {
-            //                context.RifleControl.IsShot.UnregisterFlag(_shotToken.Value);
-            //                _shotToken = null;
-            //            }
-            //            _shotToken = context.RifleControl.IsShot.RegisterFlag();
-            //            break;
-
-            //        default:
-            //            Debug.LogError($"[AttackState] 未対応のサブステート: {next}");
-            //            break;
-            //    }
-        }
-
-        private void UpdateMoveToCover(StateContext context)
-        {
-            //if (HasArrived(context.Agent))
-            //{
-            //    ChangeSubState(AttackSubState.Hide, context);
-            //}
-        }
-
-        private void UpdateHide(StateContext context)
-        {
-            _timer -= Time.deltaTime;
-            if (_timer <= 0f)
+            if (!rifle.Reloading.CurrentValue && rifle.RemainingBulletCount.CurrentValue <= 0)
             {
-                ChangeSubState(AttackSubState.PeekAndShoot, context);
+                bot.Reload();
             }
         }
 
-        private void UpdatePeekAndShoot(StateContext context)
+        /// <summary>
+        /// リロード中でなく、弾が残っているときだけ撃てる
+        /// </summary>
+        private static bool CanShoot(BotController bot)
         {
-            _timer -= Time.deltaTime;
+            RifleData rifle = bot.RifleData;
 
-            // カバーありの場合は、身を出す位置に着くまで撃たない
-            //bool isReady = _currentCover == null || HasArrived(context.Agent);
-            //if (isReady)
-            //{
-            //    FaceTarget(context);
-
-            //    //if (!CoverSelector.HasLineOfSight(context.Agent.transform.position, context.Player))
-            //    //{
-            //    //    // 射線が通らないなら撃たずに隠れ直す
-            //    //    ChangeSubState(AttackSubState.Hide, context);
-            //    //    return;
-            //    //}
-            //}
-
-            if (_timer <= 0f)
-            {
-                ChangeSubState(AttackSubState.Hide, context);
-            }
+            return !rifle.Reloading.CurrentValue && rifle.RemainingBulletCount.CurrentValue > 0;
         }
 
-        private void FaceTarget(StateContext context)
+        private static bool IsTargetVisible(StateContext context)
         {
-            ////Transform enemy = context.Agent.transform;
-            //Vector3 direction = context.Player.position - enemy.position;
-            //direction.y = 0f;
-
-            //if (direction.sqrMagnitude < Mathf.Epsilon)
-            //{
-            //    return;
-            //}
-
-            //enemy.rotation = Quaternion.Slerp(
-            //    enemy.rotation, Quaternion.LookRotation(direction), RotateSpeed * Time.deltaTime);
-        }
-
-        private static bool HasArrived(NavMeshAgent agent)
-        {
-            return !agent.pathPending
-                && agent.remainingDistance <= agent.stoppingDistance + ArriveTolerance;
-        }
-
-        private bool TryRequestChase(StateContext context)
-        {
-            // 射程外へ離れた(入る距離より余裕を持たせ、境界のばたつきを防ぐ)
-            if (!IsWithinRange(context, _attackRange + _exitRangeMargin))
-            {
-                Debug.Log("[AttackState] 追跡へ戻る: 射程外");
-                RequestChangeState = nameof(ChaseState);
-                return true;
-            }
-
-            if (_lostTimer < _lostDuration)
-            {
-                return false;
-            }
-
-            // 射線が通らない状態が続いた。先に別のカバーへの乗り換えを試す
-            if (TrySwitchCover(context))
-            {
-                Debug.Log("[AttackState] カバーを乗り換え");
-                return false;
-            }
-
-            Debug.Log("[AttackState] 追跡へ戻る: 射線喪失・乗り換え先なし");
-            RequestChangeState = nameof(ChaseState);
-            return true;
-        }
-
-        private bool TrySwitchCover(StateContext context)
-        {
-            //CoverPoint next = CoverSelector.FindBestCover(
-            //    context.Agent.transform.position, context.Player, context.Agent);
-
-            //if (next == null || next == _currentCover)
-            //{
-            //    return false;
-            //}
-
-            //if (_currentCover != null)
-            //{
-            //    _currentCover.Release(context.Agent);
-            //}
-
-            //_currentCover = next;
-            //_currentCover.TryReserve(context.Agent);
-            //_lostTimer = 0f;
-            //ChangeSubState(AttackSubState.MoveToCover, context);
+            // 視認判定はここに集約。Perceptionの実際のAPIに合わせて差し替える
             return true;
         }
 
         private static bool IsWithinRange(StateContext context, float range)
         {
-            ////Vector3 toPlayer = context.Player.position - context.Agent.transform.position;
-            //toPlayer.y = 0f;
-            return 0 <= range * range;
+            Vector3 toPlayer = context.Player.position - context.Bot.transform.position;
+            toPlayer.y = 0f;
+            return toPlayer.sqrMagnitude <= range * range;
         }
     }
 }
