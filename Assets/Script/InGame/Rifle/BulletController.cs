@@ -1,3 +1,5 @@
+using CoreKit;
+using Generated.DynamicEnums;
 using InGame.Common;
 using UnityEngine;
 
@@ -34,7 +36,6 @@ namespace InGame.Player.Rifle
             var hit = HitCheck();
             if (hit == null) return;
 
-            Debug.Log(hit.Value.collider.gameObject);
             if (hit.Value.transform.root.TryGetComponent(out IDamageable damageable))
             {
                 //同じチーム同士はダメージ無効化
@@ -43,6 +44,8 @@ namespace InGame.Player.Rifle
 
                 damageable.Damage(_damageAmount);
             }
+
+            Sound3DPlayer.Play3D(SEType.BulletWhiz, this.transform.position);
 
             CreateBulletHole(hit.Value);
             Destroy(this.gameObject);

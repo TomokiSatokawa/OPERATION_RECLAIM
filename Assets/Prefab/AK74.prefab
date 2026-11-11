@@ -269,7 +269,7 @@ MonoBehaviour:
   _shotPosition: {fileID: 2100602094169550427}
   _maxBulletCount: 30
   _reloadDuration: 2
-  _shotInterval: 0.25
+  _shotInterval: 0.1
 --- !u!1 &2688073462819826167
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using Common;
 using Common.Motion;
 using CoreKit;
+using Generated.DynamicEnums;
 using InGame.Player.Rifle;
 using UnityEngine;
 
@@ -26,21 +27,24 @@ namespace InGame.Enemy
 
         public void ShotUpdate()
         {
-            if (Time.time > _nextShotTime)
+            //まだ次の発射時間になっていない
+            if (Time.time < _nextShotTime) return;
+
+            //発射できた場合のみ、現在時刻基準で次の発射時間を更新する
+            if (TryShot())
             {
-                _nextShotTime += _interval;
-                Shot();
+                _nextShotTime = Time.time + _interval;
             }
         }
 
-        private void Shot()
+        private bool TryShot()
         {
             //残弾数0の場合は打たない
             var currentRifle = _rifleEquipper.CurrentRifle;
-            if (currentRifle.RemainingBulletCount.CurrentValue <= 0) return;
+            if (currentRifle.RemainingBulletCount.CurrentValue <= 0) return false;
 
             //リロード中は打たない
-            if (currentRifle.Reloading.CurrentValue) return;
+            if (currentRifle.Reloading.CurrentValue) return false;
 
             //弾を発射する
             var shotPos = currentRifle.ShotPosition;
@@ -50,6 +54,9 @@ namespace InGame.Enemy
             //残弾数を減らす
             currentRifle.RemoveBulletCount();
             _reloadOverride.PlayOneShot(_shotAnimation);
+
+            Sound3DPlayer.Play3D(SEType.Shot, shotPos.position);
+            return true;
         }
 
         private Vector3 GetRayPosition()
@@ -61,7 +68,7 @@ namespace InGame.Enemy
                 return ray.origin + ray.direction * _bulletDistance;
 
             Debug.Log(hit.collider.gameObject);
-                return hit.point;
+            return hit.point;
         }
 
         public void Reload()

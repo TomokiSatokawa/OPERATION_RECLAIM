@@ -1,6 +1,8 @@
 using System;
 using Common;
 using Common.Motion;
+using CoreKit;
+using Generated.DynamicEnums;
 using InGame.Player.Rifle;
 using PlayerInput;
 using R3;
@@ -89,6 +91,8 @@ public class RifleController : MonoBehaviour
 
         OnShot?.Invoke();
 
+        Sound3DPlayer.Play3D(SEType.Shot,_rifleEquipper.CurrentRifle.ShotPosition.position);
+        
         return true;
     }
 
