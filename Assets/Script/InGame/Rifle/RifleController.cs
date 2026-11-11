@@ -1,4 +1,4 @@
-using System.Linq;
+using System;
 using Common;
 using Common.Motion;
 using InGame.Player.Rifle;
@@ -6,6 +6,9 @@ using PlayerInput;
 using R3;
 using UnityEngine;
 
+/// <summary>
+/// ライフルの射撃とリロードを管理するクラス
+/// </summary>
 public class RifleController : MonoBehaviour
 {
     [SerializeField] private Transform _mainCamera;
@@ -19,29 +22,74 @@ public class RifleController : MonoBehaviour
     [SerializeField] private float _rayDistance;
     [SerializeField] private float _bulletDistance;
 
+    public event Action OnShot;
+
+    private bool _isShot;
+    private float _intervalTimer;
+
     private void Start()
     {
-        InputManager.Attack.Where(x => x).Subscribe(_ => Shot()).RegisterTo(destroyCancellationToken);
-        InputManager.Reload.Subscribe(_ => Reload()).RegisterTo(destroyCancellationToken);
+        InputManager.Attack.Subscribe(x =>
+        {
+            _isShot = x;
+
+            if (x)
+                ShotStart();
+
+        }).RegisterTo(destroyCancellationToken);
+
+        InputManager.Reload.Subscribe(_ => Reload())
+            .RegisterTo(destroyCancellationToken);
     }
 
-    private void Shot()
+    private void Update()
     {
-        //残弾数0の場合は打たない
+        if (!_isShot)
+            return;
+
+        if (Time.time < _intervalTimer)
+            return;
+
+        if (!Shot())
+        {
+            _isShot = false;
+            return;
+        }
+
+        _intervalTimer = Time.time + _rifleEquipper.CurrentRifle.ShotInterval;
+    }
+
+    private void ShotStart()
+    {
+        // 射撃開始時に即座に射撃できるようにする
+        _intervalTimer = Time.time;
+    }
+
+    private bool Shot()
+    {
         var currentRifle = _rifleEquipper.CurrentRifle;
-        if (currentRifle.RemainingBulletCount.CurrentValue <= 0) return;
 
-        //リロード中は打たない
-        if (currentRifle.Reloading.CurrentValue) return;
+        // 残弾数0の場合は撃たない
+        if (currentRifle.RemainingBulletCount.CurrentValue <= 0)
+            return false;
 
-        //弾を発射する
+        // リロード中は撃たない
+        if (currentRifle.Reloading.CurrentValue)
+            return false;
+
+        // 弾を発射する
         var shotPos = currentRifle.ShotPosition;
         var bullet = Instantiate(_bulletPrefab, shotPos.position, shotPos.rotation);
         bullet.SetData(GetRayPosition(), TeamType.Player);
 
-        //残弾数を減らす
+        // 残弾数を減らす
         currentRifle.RemoveBulletCount();
+
         _reloadOverride.PlayOneShot(_shotAnimation);
+
+        OnShot?.Invoke();
+
+        return true;
     }
 
     private void Reload()
@@ -52,7 +100,7 @@ public class RifleController : MonoBehaviour
 
     private Vector3 GetRayPosition()
     {
-        var ray = new Ray(_mainCamera.transform.position, _mainCamera.transform.forward);
+        var ray = new Ray(_mainCamera.position, _mainCamera.forward);
         Debug.DrawRay(ray.origin, ray.direction * _rayDistance);
 
         if (!Physics.Raycast(ray, out var hit, _rayDistance, _rayMask))

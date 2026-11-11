@@ -9485,6 +9485,7 @@ GameObject:
   - component: {fileID: 1636034716}
   - component: {fileID: 1636034717}
   - component: {fileID: 1636034718}
+  - component: {fileID: 1636034719}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -9733,6 +9734,25 @@ MonoBehaviour:
   _healthControl: {fileID: 1636034715}
   _collider: {fileID: 1611184753}
   _enemyIcon: {fileID: 0}
+--- !u!114 &1636034719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636034707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 953f18f8b25bafc4987b2e3f8089243b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Player.Rifle.RecoilCameraControl
+  _controller: {fileID: 1636034712}
+  _rifleController: {fileID: 1636034713}
+  _rifleEquipper: {fileID: 1636034714}
+  _pattern: {fileID: 11400000, guid: 3766c5b8198ffc748b3f843f67f2cc91, type: 2}
+  _recoilDurationOffset: 0.01
+  _recoilReturnSpeed: 10
+  _kickSmoothTime: 0.04
 --- !u!1 &1644643212
 GameObject:
   m_ObjectHideFlags: 0

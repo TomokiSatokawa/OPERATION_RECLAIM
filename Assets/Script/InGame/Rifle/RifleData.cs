@@ -15,6 +15,7 @@ namespace InGame.Player.Rifle
         [SerializeField] private Transform _shotPosition;
         [SerializeField] private int _maxBulletCount;
         [SerializeField] private float _reloadDuration;
+        [SerializeField] private float _shotInterval;
 
         public Vector3 LocalPosition => _localPosition;
         public Transform RightHandRig => _rightHandRig;
@@ -23,6 +24,7 @@ namespace InGame.Player.Rifle
         public Transform ShotPosition => _shotPosition;
         public int MaxBulletCount => _maxBulletCount;
         public float ReloadDuration => _reloadDuration;
+        public float ShotInterval => _shotInterval;
 
         private ReactiveProperty<int> _remainingBulletCount = new();
         public ReadOnlyReactiveProperty<int> RemainingBulletCount => _remainingBulletCount;
