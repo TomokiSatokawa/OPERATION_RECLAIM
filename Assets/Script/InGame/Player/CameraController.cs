@@ -26,5 +26,11 @@ namespace InGame.Player
             _currentRotation += InputManager.Look.x * _rotationSpeed;
             _player.transform.rotation = Quaternion.Euler(0, _currentRotation, 0);
         }
+
+        public void AddRotation(Vector3 amount)
+        {
+            _camera.VerticalAxis.Value += amount.x;
+            _currentRotation += amount.y;
+        }
     }
 }

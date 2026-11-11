@@ -1,20 +1,18 @@
 using System.Linq;
 using Common;
 using Common.Motion;
-using InGame.Player.Motion;
 using InGame.Player.Rifle;
 using PlayerInput;
 using R3;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class RifleController : MonoBehaviour
-{ 
+{
     [SerializeField] private Transform _mainCamera;
     [SerializeField] private BulletController _bulletPrefab;
     [SerializeField] private RifleEquipper _rifleEquipper;
     [SerializeField] private AnimationPlayer _animationPlayer;
-    [SerializeField] private PoseOverridePlayer  _reloadOverride;
+    [SerializeField] private PoseOverridePlayer _reloadOverride;
     [SerializeReference] private EnumGroupBase _reloadAnimation;
     [SerializeReference] private EnumGroupBase _shotAnimation;
     [SerializeField] private LayerMask _rayMask;
