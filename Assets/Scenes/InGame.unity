@@ -10079,6 +10079,9 @@ MonoBehaviour:
   _pattern: {fileID: 11400000, guid: 3766c5b8198ffc748b3f843f67f2cc91, type: 2}
   _recoilDurationOffset: 0.01
   _kickSmoothTime: 0.04
+  _returnRatio: 1
+  _returnSmoothTime: 0.15
+  _pitchScale: 2
 --- !u!1 &1644643212
 GameObject:
   m_ObjectHideFlags: 0

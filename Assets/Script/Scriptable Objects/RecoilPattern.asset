@@ -54,8 +54,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _yawProtectedShots: 6
-  _yawMin: 0.05
-  _yawMax: 0.2
+  _yawProtectedShots: 2
+  _yawMin: 0.1
+  _yawMax: 0.4
   _yawSwitchTime: 0.5
   _yawSwitchChance: 0.1

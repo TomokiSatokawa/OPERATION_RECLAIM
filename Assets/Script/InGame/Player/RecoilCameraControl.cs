@@ -1,4 +1,3 @@
-//AI
 using UnityEngine;
 
 namespace InGame.Player.Rifle
@@ -6,22 +5,25 @@ namespace InGame.Player.Rifle
     /// <summary>
     /// 射撃時のカメラリコイルを制御する。
     /// 1発ごとに縦横のキックを加え、連続射撃中は弾数に応じてパターンが進む。
-    /// 射撃を止めて一定時間が経つとパターンをリセットする。カメラは元の位置へは戻さない。
+    /// 縦のキックは一部が遅れて戻る。射撃を止めて一定時間が経つとパターンをリセットするが、カメラは最初の位置へは戻さない。
     /// </summary>
     public class RecoilCameraControl : MonoBehaviour
     {
-        private const float SettleThreshold = 0.0001f;
-
         [SerializeField] private CameraController _controller;
         [SerializeField] private RifleController _rifleController;
         [SerializeField] private RifleEquipper _rifleEquipper;
         [SerializeField] private RecoilPattern _pattern;
         [SerializeField] private float _recoilDurationOffset;
         [SerializeField, Min(0.001f)] private float _kickSmoothTime = 0.04f;
+        [SerializeField, Range(0f, 1f)] private float _returnRatio = 0.3f;
+        [SerializeField, Min(0.001f)] private float _returnSmoothTime = 0.15f;
+        [SerializeField, Min(0f)] private float _pitchScale = 1f;
 
-        // まだカメラへ反映していないキック量 x: 縦(上が正) / y: 横(右が正)
+        // まだカメラへ反映していない量 x: 縦(上が正) / y: 横(右が正)
         private Vector2 _pendingKick;
-        private Vector2 _velocity;
+        private Vector2 _pendingReturn;
+        private Vector2 _kickVelocity;
+        private Vector2 _returnVelocity;
         private int _shotIndex;
         private int _yawDirection = 1;
         private bool _isSpraying;
@@ -74,7 +76,11 @@ namespace InGame.Player.Rifle
                 StartSpray();
             }
 
-            _pendingKick += new Vector2(_pattern.EvaluatePitch(_shotIndex), GetYawKick());
+            Vector2 kick = new Vector2(_pattern.EvaluatePitch(_shotIndex) * _pitchScale, GetYawKick());
+            _pendingKick += kick;
+
+            // 縦のキックの一部は遅れて戻す。横は戻さない
+            _pendingReturn -= new Vector2(kick.x * _returnRatio, 0f);
         }
 
         private void StartSpray()
@@ -115,24 +121,35 @@ namespace InGame.Player.Rifle
 
         private void ApplyPendingKick()
         {
-            if (_pendingKick == Vector2.zero)
+            Vector2 step = ConsumePending(ref _pendingKick, ref _kickVelocity, _kickSmoothTime)
+                         + ConsumePending(ref _pendingReturn, ref _returnVelocity, _returnSmoothTime);
+
+            if (step != Vector2.zero)
             {
-                return;
+                // VerticalAxisは増えると下を向くため、縦は符号を反転する
+                _controller.AddRotation(new Vector3(-step.x, step.y, 0f));
+            }
+        }
+
+        private Vector2 ConsumePending(ref Vector2 pending, ref Vector2 velocity, float smoothTime)
+        {
+            if (pending == Vector2.zero)
+            {
+                return Vector2.zero;
             }
 
-            // 未反映のキック量を短い補間で素早くカメラへ反映する。マウス操作は上書きしない
-            Vector2 step = Vector2.SmoothDamp(Vector2.zero, _pendingKick, ref _velocity, _kickSmoothTime);
-            _pendingKick -= step;
+            // 未反映の量を短い補間で少しずつカメラへ反映する。マウス操作は上書きしない
+            Vector2 step = Vector2.SmoothDamp(Vector2.zero, pending, ref velocity, smoothTime);
+            pending -= step;
 
-            if (_pendingKick.sqrMagnitude < SettleThreshold)
+            if (pending.sqrMagnitude < 0.0001f)
             {
-                step += _pendingKick;
-                _pendingKick = Vector2.zero;
-                _velocity = Vector2.zero;
+                step += pending;
+                pending = Vector2.zero;
+                velocity = Vector2.zero;
             }
 
-            // VerticalAxisは増えると下を向くため、縦は符号を反転する
-            _controller.AddRotation(new Vector3(-step.x, step.y, 0f));
+            return step;
         }
     }
 }
