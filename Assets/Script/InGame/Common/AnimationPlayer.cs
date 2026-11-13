@@ -71,7 +71,7 @@ namespace Common.Motion
             //移動ミキサー(しゃがみ)。しゃがみにRunは無いので前後も3入力
             _crouchAxisMixer = AnimationMixerPlayable.Create(_graph, 2);
             _crouchHorizontalMixer = AnimationMixerPlayable.Create(_graph, 3);
-            _crouchVerticalMixer = AnimationMixerPlayable.Create(_graph, 3);
+            _crouchVerticalMixer = AnimationMixerPlayable.Create(_graph, 4);
 
             //立ち/しゃがみ切り替えミキサー
             _stanceMixer = AnimationMixerPlayable.Create(_graph, 2);
@@ -112,7 +112,7 @@ namespace Common.Motion
             //ブレンドミキサー(しゃがみ)
             _crouchAxisBlend = new(_baseBlend, 2);
             _crouchHorizontalBlend = new(_baseBlend, 3);
-            _crouchVerticalBlend = new(_baseBlend, 3);
+            _crouchVerticalBlend = new(_baseBlend, 4);
 
             //ブレンドミキサー(立ち/しゃがみ)
             _stanceBlend = new(_baseBlend, 2);
@@ -134,13 +134,20 @@ namespace Common.Motion
 
         public void Tick(Vector2 moveAmount)
         {
+
+            Vector2 clampedMoveAmount;
+
+            clampedMoveAmount.x = Mathf.Clamp(moveAmount.x, -1f, 1f) + 1f;
+            clampedMoveAmount.y = Mathf.Clamp(moveAmount.y, -1f, 2f) + 1f;
+
+            Debug.Log(clampedMoveAmount);
             //立ち
-            _horizontalBlend.Tick(_horizontalMixer, Mathf.Clamp(moveAmount.x, -1f, 1f) + 1f);
-            _verticalBlend.Tick(_verticalMixer, Mathf.Clamp(moveAmount.y, -1f, 2f) + 1f);
+            _horizontalBlend.Tick(_horizontalMixer,clampedMoveAmount.x);
+            _verticalBlend.Tick(_verticalMixer,clampedMoveAmount.y);
 
             //しゃがみ(Runが無いので前後は最大1)
-            _crouchHorizontalBlend.Tick(_crouchHorizontalMixer, Mathf.Clamp(moveAmount.x, -1f, 1f) + 1f);
-            _crouchVerticalBlend.Tick(_crouchVerticalMixer, Mathf.Clamp(moveAmount.y, -1f, 1f) + 1f);
+            _crouchHorizontalBlend.Tick(_crouchHorizontalMixer, clampedMoveAmount.x);
+            _crouchVerticalBlend.Tick(_crouchVerticalMixer, clampedMoveAmount.y);
 
             float horizontal = Mathf.Abs(moveAmount.x);
             float vertical = Mathf.Abs(moveAmount.y);
@@ -225,6 +232,7 @@ namespace Common.Motion
             var walkRight = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_crouchGroup.WalkRightClip).Clip);
             var walkLeft = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_crouchGroup.WalkLeftClip).Clip);
             var walkBack = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_crouchGroup.WalkBackClip).Clip);
+            var run = AnimationClipPlayable.Create(_graph, _container.GetAnimation(_crouchGroup.RunClip).Clip);
 
             for (int i = 0; i < _crouchHorizontalMixer.GetInputCount(); i++)
                 TryDisconnect(_crouchHorizontalMixer, i);
@@ -239,6 +247,7 @@ namespace Common.Motion
             _crouchVerticalMixer.ConnectInput(0, walkBack, 0);
             _crouchVerticalMixer.ConnectInput(1, idle2, 0);
             _crouchVerticalMixer.ConnectInput(2, walkForward, 0);
+            _crouchVerticalMixer.ConnectInput(3, run, 0);
         }
 
         private async UniTask PlayDieAsync()

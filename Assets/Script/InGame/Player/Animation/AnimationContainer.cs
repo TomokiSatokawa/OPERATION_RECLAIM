@@ -131,6 +131,6 @@ namespace InGame.Player.Motion
 
     public enum PlayerCrouchingAnimationType : byte
     {
-        Idol, Forward, Right, Left, Back
+        Idol, Forward, Right, Left, Back,Run
     }
 }

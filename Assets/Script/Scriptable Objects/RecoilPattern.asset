@@ -55,7 +55,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _yawProtectedShots: 2
-  _yawMin: 0.1
-  _yawMax: 0.4
+  _yawMin: 0.3
+  _yawMax: 1.2
   _yawSwitchTime: 0.5
   _yawSwitchChance: 0.1

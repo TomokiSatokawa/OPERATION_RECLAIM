@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d359732c76ccc643a548fb75ff6dca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Player.Rifle.BulletController
-  _moveSpeed: 50
+  _moveSpeed: 100
   _deleteDistance: 3
   _damageAmount: 10
   _rayDistance: 3

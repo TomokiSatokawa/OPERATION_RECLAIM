@@ -36,7 +36,13 @@ public class PlayerMovement : MonoBehaviour
         if (IgnoreInput)
             moveInput = Vector3.zero;
 
-        float moveSpeed = InputManager.Dash > 0f ? _dashSpeed : _moveSpeed;
+        float dashAmount = InputManager.Dash;
+
+        //æi‚Ì“ü—Í‚ª‚È‚¢A‰¡²‚ÌˆÚ“®‚ª‹­‚·‚¬‚éê‡‘–‚ç‚È‚¢
+        if (moveInput.y < 1f || Mathf.Abs(moveInput.x) > 0.9f)
+            dashAmount = 0f;
+
+            float moveSpeed = dashAmount > 0f ? _dashSpeed : _moveSpeed;
 
         Vector3 cameraInput = GetCameraDirection(moveInput);
 
@@ -52,11 +58,6 @@ public class PlayerMovement : MonoBehaviour
             _velocity = -Vector3.up * _gravityPower;
             moveInput = Vector2.zero;
         }
-
-        var dashAmount = 0f;
-
-        if (moveInput.y > 0f)
-            dashAmount = InputManager.Dash;
 
         MoveAmount = moveInput + Vector2.up * dashAmount;
         _rigidbody.linearVelocity = _velocity;

@@ -55,7 +55,7 @@ MonoBehaviour:
     _walkBackClip:
       rid: 7286859611784085596
     _runClip:
-      rid: 3847071919208661334
+      rid: 7286859641407144026
     _dieClip:
       rid: 3847072022073180269
   references:
@@ -137,3 +137,7 @@ MonoBehaviour:
       type: {class: PlayerCrouchingMotion, ns: Common, asm: Assembly-CSharp}
       data:
         _type: 4
+    - rid: 7286859641407144026
+      type: {class: PlayerCrouchingMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 5

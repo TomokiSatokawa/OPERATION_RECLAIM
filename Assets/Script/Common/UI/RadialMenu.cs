@@ -17,6 +17,7 @@ namespace Common.UI
         [SerializeField] private RadialMenuContents _radialPrefab;
         [SerializeField] private RectTransform _content;
         [SerializeField] private float _interval;
+        [SerializeField] private float _selectRange;
         [Header("Animation")]
         [SerializeField] private float _popUpSize;
         [SerializeField] private float _popUpDuration;
@@ -48,9 +49,10 @@ namespace Common.UI
 
             Select();
 
-            if (_panel.IsActive && Mouse.current.leftButton.wasPressedThisFrame)
+            if (_panel.IsActive && InputService.UI.Click.Up)
             {
                 OnClick?.Invoke(_selectedIndex);
+                UnSelect();
             }
         }
 
@@ -60,15 +62,26 @@ namespace Common.UI
             if (index == _selectedIndex) return;
 
             if (_selectedIndex >= 0)
-            {
-                _clonedPrefab[_selectedIndex].Rect.DOKill();
-                _clonedPrefab[_selectedIndex].Rect.DOScale(1f, _popUpDuration).SetEase(_ease);
-            }
+                UnSelect(_popUpDuration);
 
             _selectedIndex = index;
+
+            if (index == -1)
+                return;
+
             _clonedPrefab[index].Rect.DOScale(_popUpSize, _popUpDuration).SetEase(_ease);
         }
 
+        private void UnSelect(float duration = 0)
+        {
+            if (_selectedIndex == -1)
+                return;
+
+            _clonedPrefab[_selectedIndex].Rect.DOKill();
+            _clonedPrefab[_selectedIndex].Rect.DOScale(1f, duration).SetEase(_ease);
+        }
+
+        [ContextMenu("CreateRadial")]
         private void InitializeCamera()
         {
             var canvas = GetComponentInParent<Canvas>();
@@ -82,6 +95,7 @@ namespace Common.UI
             _canvasCamera = rootCanvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : rootCanvas.worldCamera;
         }
 
+        [ContextMenu("CreateRadial")]
         private void CreateRadial()
         {
             if (Options == null || Options.Length == 0) return;
@@ -102,10 +116,19 @@ namespace Common.UI
             }
         }
 
+        private bool IsSelectRange(Vector2 mousePosition)
+        {
+            return (Vector2.zero - mousePosition).sqrMagnitude > _selectRange * _selectRange;
+        }
+
         //AI
         private int GetSelectedIndex()
         {
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(_content, Mouse.current.position.value, _canvasCamera, out var localPoint))
+                return -1;
+
+            //選択できる範囲内
+            if(!IsSelectRange(localPoint))
                 return -1;
 
             // 上を0度、反時計回りを正とした、_content中心から見たマウスの角度

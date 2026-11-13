@@ -1,9 +1,10 @@
 using System;
+using InGame;
 using InGame.Common;
-using InGame.Enemy;
 using PlayerInput;
 using R3;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 {
@@ -22,6 +23,21 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         _healthControl.OnDie += OnDie;
     }
 
+    private void Update()
+    {
+        //Debug
+        if (Keyboard.current.uKey.wasPressedThisFrame)
+        {
+            SetPlayerStatus(PlayerStatus.UIOperation);
+            MousePointerControl.Free();
+        }
+
+        if (Keyboard.current.gKey.wasPressedThisFrame)
+        {
+            SetPlayerStatus(PlayerStatus.Normal);
+            MousePointerControl.Locked();
+        }
+    }
     public void SetMotionType(MotionType motionType)
     {
         _motionType.Value = motionType;
@@ -32,7 +48,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         _collider.enabled = false;
         _rb.isKinematic = true;
         _teamUnitRegistry.ExitTeam();
-       SetPlayerStatus(PlayerStatus.Locked);
+        SetPlayerStatus(PlayerStatus.Locked);
     }
 
     public void SetPlayerStatus(PlayerStatus status)
