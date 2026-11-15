@@ -1,15 +1,30 @@
+using System.Collections.Generic;
+using CoreKit.UI;
 using CoreKit.UI.Selector;
 using InGame.UI.SquadCommand;
 using UnityEngine;
 
-public class AllySelector : MonoBehaviour
+public class AllySelector : ScrollViewBase
 {
-    [SerializeField] private AllyInfoView[] _allyInfoViews;
+    [SerializeField] private AllyInfoView _prefab;
+    [SerializeField] private Transform[] _allyls;
 
+    private AllyInfoView[] _allyInfoViews;
     private MultiSelectionController<AllyInfoView> _selectionController;
 
     private void Start()
     {
-        _selectionController = new(_allyInfoViews, 0);
+        DeleteChildren();
+
+        var viewList = new List<AllyInfoView>();
+
+        foreach(var ally in _allyls)
+        {
+            var view = InstantiateContent(_prefab);
+            view.Initialize();
+            viewList.Add(view);
+        }
+
+        _selectionController = new(viewList.ToArray(), new int[0]);
     }
 }
