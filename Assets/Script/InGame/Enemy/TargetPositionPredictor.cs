@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace InGame.Enemy
+namespace InGame.Bot
 {
     /// <summary>
     /// ターゲットの速度と旋回を観測し、見失った後の移動先をNavMesh上で予測するクラス

@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace InGame.Enemy
+namespace InGame.Bot
 {
     /// <summary>
     /// ターゲット位置予測の調整パラメータをまとめたクラス

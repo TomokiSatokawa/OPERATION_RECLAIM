@@ -1,6 +1,7 @@
 //AI
 using UnityEngine;
 using UnityEngine.AI;
+using InGame.Bot.StateMachine;
 
 namespace InGame.Enemy.StateMachine
 {
@@ -8,7 +9,7 @@ namespace InGame.Enemy.StateMachine
     /// ターゲットを追跡するステート。視界内ならPlayerの位置、見失った後は予測位置へ向かう
     /// </summary>
     [System.Serializable]
-    public class ChaseState : EnemyStateBase
+    public class ChaseState : BotStateBase
     {
         private const float NavMeshSampleDistance = 2f;
 

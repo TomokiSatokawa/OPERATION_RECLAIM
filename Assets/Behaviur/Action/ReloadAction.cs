@@ -10,7 +10,7 @@ using InGame.Enemy;
 [NodeDescription(name: "Reload", story: "リロード [Rifle]", category: "Action", id: "aa9701d9967ac4e707ba9b31fb0169c3")]
 public partial class ReloadAction : Action
 {
-    [SerializeReference] public BlackboardVariable<EnemyRifleControl> Rifle;
+    [SerializeReference] public BlackboardVariable<BotRifleControl> Rifle;
     protected override Status OnStart()
     {
         Rifle.Value.Reload();

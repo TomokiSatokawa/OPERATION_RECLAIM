@@ -11,7 +11,7 @@ using Action = Unity.Behavior.Action;
 [NodeDescription(name: "Shooting", story: "撃つ", category: "Action", id: "57d31143192fa2d0817d6ed20a110b59")]
 public partial class ShootingAction : Action
 {
-    [SerializeReference] public BlackboardVariable<EnemyRifleControl> Rifle;
+    [SerializeReference] public BlackboardVariable<BotRifleControl> Rifle;
     [SerializeReference] public BlackboardVariable<TargetPerception> TargetPerception;
     [SerializeReference] public BlackboardVariable<BotController> BotController;
     private FlagToken _token;

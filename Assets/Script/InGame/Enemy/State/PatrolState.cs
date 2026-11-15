@@ -1,9 +1,10 @@
+using InGame.Bot.StateMachine;
 using UnityEngine;
 
 namespace InGame.Enemy.StateMachine
 {
     [System.Serializable]
-    public class PatrolState : EnemyStateBase
+    public class PatrolState : BotStateBase
     {
         [SerializeField] private WaypointGroup _waypointGroup;
         private int _currentIndex = -1;
@@ -90,5 +91,5 @@ namespace InGame.Enemy.StateMachine
 
             return startIndex;
         }
-    } 
+    }
 }

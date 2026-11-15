@@ -1,14 +1,13 @@
 using Common.Motion;
+using InGame.Bot.StateMachine;
 using InGame.Common;
-using InGame.Enemy;
-using InGame.Enemy.StateMachine;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace InGame.Ally
 {
     [System.Serializable]
-    public abstract class AllyStateBase: State<AllyContext>
+    public abstract class AllyStateBase : State<AllyContext>
     {
         [SerializeField] private float _stopDistance;
         public override void Enter(AllyContext context)

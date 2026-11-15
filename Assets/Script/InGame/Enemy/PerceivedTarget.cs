@@ -1,7 +1,7 @@
 //AI
 using UnityEngine;
 
-namespace InGame.Enemy
+namespace InGame.Bot
 {
     /// <summary>
     /// 1人のターゲットに対する認識状態(段階・位置・方向)を保持するクラス。
@@ -64,7 +64,7 @@ namespace InGame.Enemy
 }
 
 //AI
-namespace InGame.Enemy
+namespace InGame.Bot
 {
     /// <summary>ターゲットをどの程度認識しているかの段階。値が大きいほど確実に把握している</summary>
     public enum AwarenessLevel

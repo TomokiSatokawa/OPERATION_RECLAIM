@@ -1,5 +1,5 @@
 using System;
-using InGame.Enemy;
+using InGame.Bot;
 using Unity.Behavior;
 using UnityEngine;
 
@@ -7,7 +7,7 @@ using UnityEngine;
 [Condition(name: "InsufficientAmmunition", story: "弾数不足 [Rifle] [GraceCount]", category: "Conditions", id: "6e2a53f79eed56c4a9a7791cef4f2067")]
 public partial class InsufficientAmmunitionCondition : Condition
 {
-    [SerializeReference] public BlackboardVariable<EnemyRifleControl> Rifle;
+    [SerializeReference] public BlackboardVariable<BotRifleControl> Rifle;
     [SerializeReference] public BlackboardVariable<int> GraceCount;
 
     public override bool IsTrue()

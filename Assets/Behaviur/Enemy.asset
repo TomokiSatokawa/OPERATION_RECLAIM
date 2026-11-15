@@ -134,9 +134,9 @@ MonoBehaviour:
         m_Variables:
         - rid: 7286859592749285687
         - rid: 7286859592749285688
-        - rid: 7286859592749285689
+        - rid: -2
         - rid: 7286859592749285690
-        - rid: 7286859592749285691
+        - rid: -2
     - rid: 7286859592749285686
       type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -167,14 +167,6 @@ MonoBehaviour:
           m_Value1: 3188810721332248648
         Name: Bot Controller
         m_Value: {fileID: 0}
-    - rid: 7286859592749285689
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 12467426351733533729
-          m_Value1: 2551024996716324566
-        Name: Target Perception
-        m_Value: {fileID: 0}
     - rid: 7286859592749285690
       type: {class: 'BlackboardVariable`1[[State, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -183,14 +175,6 @@ MonoBehaviour:
           m_Value1: 9798482303668402675
         Name: State
         m_Value: 0
-    - rid: 7286859592749285691
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.EnemyRifleControl, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 7114455712495661096
-          m_Value1: 13707317167838646805
-        Name: Enemy Rifle Control
-        m_Value: {fileID: 0}
     - rid: 7286859592749285692
       type: {class: SetVariableValueAction, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -389,9 +373,9 @@ MonoBehaviour:
         Graph:
           rid: 7286859573774254285
         Perception:
-          rid: 7286859592749285689
+          rid: -2
         Level:
-          rid: 7286859592749285716
+          rid: -2
         IsUpper:
           rid: 7286859592749285717
     - rid: 7286859592749285706
@@ -483,7 +467,7 @@ MonoBehaviour:
         m_Parent:
           rid: 7286859592749285702
         Rifle:
-          rid: 7286859592749285691
+          rid: -2
     - rid: 7286859592749285713
       type: {class: SetVariableValueAction, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -528,14 +512,6 @@ MonoBehaviour:
           rid: 7286859591193460745
         Value:
           rid: 7286859592749285728
-    - rid: 7286859592749285716
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.AwarenessLevel, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 0
     - rid: 7286859592749285717
       type: {class: 'BlackboardVariable`1[[System.Boolean, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -557,7 +533,7 @@ MonoBehaviour:
         Controller:
           rid: 7286859592749285688
         Perception:
-          rid: 7286859592749285689
+          rid: -2
         NavMeshSampleDistance:
           rid: 7286859592749285729
     - rid: 7286859592749285719
@@ -566,9 +542,9 @@ MonoBehaviour:
         Graph:
           rid: 7286859573774254285
         Perception:
-          rid: 7286859592749285689
+          rid: -2
         Level:
-          rid: 7286859592749285730
+          rid: -2
         IsUpper:
           rid: 7286859592749285731
     - rid: 7286859592749285720
@@ -608,7 +584,7 @@ MonoBehaviour:
         Controller:
           rid: 7286859592749285688
         Perception:
-          rid: 7286859592749285689
+          rid: -2
     - rid: 7286859592749285724
       type: {class: SetVariableValueAction, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -651,9 +627,9 @@ MonoBehaviour:
         Graph:
           rid: 7286859573774254285
         Perception:
-          rid: 7286859592749285689
+          rid: -2
         Level:
-          rid: 7286859592749285735
+          rid: -2
         IsUpper:
           rid: 7286859592749285736
     - rid: 7286859592749285728
@@ -672,14 +648,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: 2
-    - rid: 7286859592749285730
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.AwarenessLevel, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 1
     - rid: 7286859592749285731
       type: {class: 'BlackboardVariable`1[[System.Boolean, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -707,9 +675,9 @@ MonoBehaviour:
         m_Parent:
           rid: 7286859592749285726
         Rifle:
-          rid: 7286859592749285691
+          rid: -2
         TargetPerception:
-          rid: 7286859592749285689
+          rid: -2
         BotController:
           rid: 7286859592749285688
     - rid: 7286859592749285734
@@ -726,14 +694,6 @@ MonoBehaviour:
           rid: 7286859592749285690
         Value:
           rid: 7286859592749285737
-    - rid: 7286859592749285735
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.AwarenessLevel, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 2
     - rid: 7286859592749285736
       type: {class: 'BlackboardVariable`1[[System.Boolean, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -898,7 +858,7 @@ MonoBehaviour:
   - rid: 7286859591193461173
   - rid: 7286859591193461508
   - rid: 7286859591193461590
-  m_VersionTimestamp: 639298416314806016
+  m_VersionTimestamp: 639303782035934720
   m_SerializedVersion: 3
   m_DebugInfo: {fileID: -3941789999045164860}
   m_RuntimeGraph: {fileID: -4673094846626622161}
@@ -1010,7 +970,7 @@ MonoBehaviour:
       Tooltip: 
     - Name: Perception
       Type:
-        m_SerializableType: InGame.Enemy.TargetPerception, Assembly-CSharp, Version=0.0.0.0,
+        m_SerializableType: InGame.Bot.TargetPerception, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
       Tooltip: 
     - Name: NavMeshSampleDistance
@@ -1050,7 +1010,7 @@ MonoBehaviour:
       Tooltip: 
     - Name: Perception
       Type:
-        m_SerializableType: InGame.Enemy.TargetPerception, Assembly-CSharp, Version=0.0.0.0,
+        m_SerializableType: InGame.Bot.TargetPerception, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
       Tooltip: 
     NamedChildren: []
@@ -1065,7 +1025,7 @@ MonoBehaviour:
     Variables:
     - Name: Rifle
       Type:
-        m_SerializableType: InGame.Enemy.EnemyRifleControl, Assembly-CSharp, Version=0.0.0.0,
+        m_SerializableType: InGame.Bot.BotRifleControl, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
       Tooltip: 
     NamedChildren: []
@@ -1080,12 +1040,12 @@ MonoBehaviour:
     Variables:
     - Name: Rifle
       Type:
-        m_SerializableType: InGame.Enemy.EnemyRifleControl, Assembly-CSharp, Version=0.0.0.0,
+        m_SerializableType: InGame.Bot.BotRifleControl, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
       Tooltip: 
     - Name: TargetPerception
       Type:
-        m_SerializableType: InGame.Enemy.TargetPerception, Assembly-CSharp, Version=0.0.0.0,
+        m_SerializableType: InGame.Bot.TargetPerception, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
       Tooltip: 
     - Name: BotController
@@ -1103,7 +1063,7 @@ MonoBehaviour:
   m_SubgraphsInfo: []
   m_BlackboardMissingManagedRef: 0
   m_GraphMissingManagedRef: 0
-  m_HasMissingTypeInManagedRef: 0
+  m_HasMissingTypeInManagedRef: 1
   m_EnumDependencyCache:
     Entries:
     - EnumTypeId: AttackState, Assembly-CSharp
@@ -1463,19 +1423,11 @@ MonoBehaviour:
           m_SerializableType: InGame.Enemy.TargetPerception, Assembly-CSharp, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         LocalValue:
-          rid: 7286859574244540595
+          rid: -2
         LinkedVariable:
-          rid: 7286859590704300503
+          rid: -2
     - rid: 7286859574244540594
       type: {class: 'BlackboardVariable`1[[InGame.Bot.BotController, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: {fileID: 0}
-    - rid: 7286859574244540595
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
           m_Value0: 0
@@ -2164,16 +2116,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: 3
-    - rid: 7286859590704300503
-      type: {class: 'TypedVariableModel`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 12467426351733533729
-          m_Value1: 2551024996716324566
-        Name: Target Perception
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
     - rid: 7286859590704300541
       type: {class: 'TypedVariableModel`1[[InGame.Bot.BotController, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -2346,9 +2288,9 @@ MonoBehaviour:
           m_SerializableType: InGame.Enemy.TargetPerception, Assembly-CSharp, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         LocalValue:
-          rid: 7286859590704300998
+          rid: -2
         LinkedVariable:
-          rid: 7286859590704300999
+          rid: -2
     - rid: 7286859590704300991
       type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -2390,24 +2332,6 @@ MonoBehaviour:
           m_Value0: 6753020613623627289
           m_Value1: 3188810721332248648
         Name: Bot Controller
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
-    - rid: 7286859590704300998
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: {fileID: 0}
-    - rid: 7286859590704300999
-      type: {class: 'TypedVariableModel`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 12467426351733533729
-          m_Value1: 2551024996716324566
-        Name: Target Perception
         IsExposed: 1
         m_IsShared: 0
         m_Value: {fileID: 0}
@@ -2674,27 +2598,9 @@ MonoBehaviour:
           m_SerializableType: InGame.Enemy.TargetPerception, Assembly-CSharp, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         LocalValue:
-          rid: 7286859590940229995
+          rid: -2
         LinkedVariable:
-          rid: 7286859590940229996
-    - rid: 7286859590940229995
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: {fileID: 0}
-    - rid: 7286859590940229996
-      type: {class: 'TypedVariableModel`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 12467426351733533729
-          m_Value1: 2551024996716324566
-        Name: Target Perception
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
+          rid: -2
     - rid: 7286859590940230039
       type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -2742,27 +2648,9 @@ MonoBehaviour:
           m_SerializableType: InGame.Enemy.EnemyRifleControl, Assembly-CSharp, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         LocalValue:
-          rid: 7286859590940230081
+          rid: -2
         LinkedVariable:
-          rid: 7286859590940230301
-    - rid: 7286859590940230081
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.EnemyRifleControl, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: {fileID: 0}
-    - rid: 7286859590940230301
-      type: {class: 'TypedVariableModel`1[[InGame.Enemy.EnemyRifleControl, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 7114455712495661096
-          m_Value1: 13707317167838646805
-        Name: Enemy Rifle Control
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
+          rid: -2
     - rid: 7286859590940230361
       type: {class: SetValueNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -3106,27 +2994,9 @@ MonoBehaviour:
           m_SerializableType: InGame.Enemy.EnemyRifleControl, Assembly-CSharp, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         LocalValue:
-          rid: 7286859591193461297
+          rid: -2
         LinkedVariable:
-          rid: 7286859591193461300
-    - rid: 7286859591193461297
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.EnemyRifleControl, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: {fileID: 0}
-    - rid: 7286859591193461300
-      type: {class: 'TypedVariableModel`1[[InGame.Enemy.EnemyRifleControl, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 7114455712495661096
-          m_Value1: 13707317167838646805
-        Name: Enemy Rifle Control
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
+          rid: -2
     - rid: 7286859591193461374
       type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -3135,9 +3005,9 @@ MonoBehaviour:
           m_SerializableType: InGame.Enemy.TargetPerception, Assembly-CSharp, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         LocalValue:
-          rid: 7286859591193461376
+          rid: -2
         LinkedVariable:
-          rid: 7286859591728758829
+          rid: -2
     - rid: 7286859591193461375
       type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -3149,14 +3019,6 @@ MonoBehaviour:
           rid: 7286859591193461377
         LinkedVariable:
           rid: 7286859591728758881
-    - rid: 7286859591193461376
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: {fileID: 0}
     - rid: 7286859591193461377
       type: {class: 'BlackboardVariable`1[[InGame.Bot.BotController, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -3291,16 +3153,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: 2
-    - rid: 7286859591728758829
-      type: {class: 'TypedVariableModel`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 12467426351733533729
-          m_Value1: 2551024996716324566
-        Name: Target Perception
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
     - rid: 7286859591728758881
       type: {class: 'TypedVariableModel`1[[InGame.Bot.BotController, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -3319,17 +3171,9 @@ MonoBehaviour:
           m_SerializableType: InGame.Enemy.AwarenessLevel, Assembly-CSharp, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         LocalValue:
-          rid: 7286859591728759424
+          rid: -2
         LinkedVariable:
           rid: -2
-    - rid: 7286859591728759424
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.AwarenessLevel, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 1
     - rid: 7286859591728759474
       type: {class: ConditionModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -3355,9 +3199,9 @@ MonoBehaviour:
           m_SerializableType: InGame.Enemy.TargetPerception, Assembly-CSharp, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         LocalValue:
-          rid: 7286859591728759477
+          rid: -2
         LinkedVariable:
-          rid: 7286859591728759521
+          rid: -2
     - rid: 7286859591728759476
       type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -3366,35 +3210,9 @@ MonoBehaviour:
           m_SerializableType: InGame.Enemy.AwarenessLevel, Assembly-CSharp, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         LocalValue:
-          rid: 7286859591728759478
+          rid: -2
         LinkedVariable:
           rid: -2
-    - rid: 7286859591728759477
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: {fileID: 0}
-    - rid: 7286859591728759478
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.AwarenessLevel, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 2
-    - rid: 7286859591728759521
-      type: {class: 'TypedVariableModel`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 12467426351733533729
-          m_Value1: 2551024996716324566
-        Name: Target Perception
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
     - rid: 7286859591728759764
       type: {class: ConditionModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -3420,9 +3238,9 @@ MonoBehaviour:
           m_SerializableType: InGame.Enemy.TargetPerception, Assembly-CSharp, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         LocalValue:
-          rid: 7286859591728759767
+          rid: -2
         LinkedVariable:
-          rid: 7286859591728759521
+          rid: -2
     - rid: 7286859591728759766
       type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -3431,25 +3249,9 @@ MonoBehaviour:
           m_SerializableType: InGame.Enemy.AwarenessLevel, Assembly-CSharp, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         LocalValue:
-          rid: 7286859591728759768
+          rid: -2
         LinkedVariable:
           rid: -2
-    - rid: 7286859591728759767
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.TargetPerception, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: {fileID: 0}
-    - rid: 7286859591728759768
-      type: {class: 'BlackboardVariable`1[[InGame.Enemy.AwarenessLevel, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 0
     - rid: 7286859592749285421
       type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:

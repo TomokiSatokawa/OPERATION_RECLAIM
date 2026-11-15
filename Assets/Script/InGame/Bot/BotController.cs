@@ -1,8 +1,8 @@
-﻿//AI
-using Common.Motion;
+﻿using Common.Motion;
 using InGame.Enemy;
 using InGame.Player.Motion;
 using InGame.Player.Rifle;
+using Unity.XR.Oculus.Input;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,7 +20,7 @@ namespace InGame.Bot
 
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private AnimationPlayer _animationPlayer;
-        [SerializeField] private EnemyRifleControl  _rifleControl;
+        [SerializeField] private BotRifleControl  _rifleControl;
         [SerializeField] private float _walkSpeed = 2f;
         [SerializeField] private float _runSpeed = 4f;
         [SerializeField] private float _runDistance = 8f;
@@ -240,6 +240,14 @@ namespace InGame.Bot
             }
 
             return Mathf.Lerp(1f, RunInputY, Mathf.InverseLerp(_walkSpeed, _runSpeed, speed));
+        }
+
+        [ContextMenu("AssignComponent")]
+        public void AssignComponent()
+        {
+            _agent = GetComponent<NavMeshAgent>();
+            _animationPlayer = GetComponentInChildren<AnimationPlayer>();
+            _rifleControl = GetComponent<BotRifleControl>();
         }
     }
 }

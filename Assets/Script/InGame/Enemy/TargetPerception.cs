@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using InGame.Common;
 using UnityEngine;
 
-namespace InGame.Enemy
+namespace InGame.Bot
 {
     /// <summary>
     /// 敵の視覚・聴覚によるターゲットの認識を管理するクラス。

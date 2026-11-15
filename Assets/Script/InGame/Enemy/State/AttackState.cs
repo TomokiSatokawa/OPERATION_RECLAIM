@@ -1,4 +1,5 @@
 using InGame.Bot;
+using InGame.Bot.StateMachine;
 using InGame.Player.Rifle;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace InGame.Enemy.StateMachine
     /// Ë’öŠO‚É‚È‚éA‚Ü‚½‚ÍŒ©¸‚Á‚½ó‘Ô‚ª‘±‚¢‚½‚ç’ÇÕ‚Ö–ß‚·
     /// </summary>
     [System.Serializable]
-    public class AttackState : EnemyStateBase
+    public class AttackState : BotStateBase
     {
         [SerializeField] private float _attackRange = 8f;
         [SerializeField] private float _exitRangeMargin = 2f;

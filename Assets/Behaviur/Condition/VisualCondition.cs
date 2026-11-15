@@ -1,5 +1,5 @@
 using System;
-using InGame.Enemy;
+using InGame.Bot;
 using Unity.Behavior;
 using UnityEngine;
 

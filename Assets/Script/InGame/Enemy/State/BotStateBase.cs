@@ -1,17 +1,16 @@
 ﻿using Common.Motion;
-using InGame.Bot;
 using InGame.Common;
+using InGame.Enemy;
 using UnityEngine;
-using UnityEngine.AI;
 
-namespace InGame.Enemy.StateMachine
+namespace InGame.Bot.StateMachine
 {
     /// <summary>
     /// 敵Stateの基底クラス。外部からの呼び出し口(Enter/Update/Exit等)を公開し、
     /// 具体的な処理は継承先がOnXxxをオーバーライドして実装する
     /// </summary>
     [System.Serializable]
-    public abstract class EnemyStateBase : State<StateContext>
+    public abstract class BotStateBase : State<StateContext>
     {
         [SerializeField] private float _stopDistance = 3f;
         [SerializeField] private float _waitSecond = 0f;
@@ -52,7 +51,7 @@ namespace InGame.Enemy.StateMachine
         public Transform Bot;
         public AnimationPlayer AnimationPlayer;
         public TargetPerception Perception;
-        public EnemyRifleControl RifleControl;
+        public BotRifleControl RifleControl;
         public EnemyIcon Icon;
 
         public BotController BotController;

@@ -5,9 +5,9 @@ using Generated.DynamicEnums;
 using InGame.Player.Rifle;
 using UnityEngine;
 
-namespace InGame.Enemy
+namespace InGame.Bot
 {
-    public class EnemyRifleControl : MonoBehaviour
+    public class BotRifleControl : MonoBehaviour
     {
         [SerializeField] private Transform _mainCamera;
         [SerializeField] private BulletController _bulletPrefab;

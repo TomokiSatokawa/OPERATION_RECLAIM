@@ -24,9 +24,17 @@ namespace InGame.Player
             if (InputService.Player.Interact.Down)
             {
                 if (_commandSelectPanel.IsActive)
+                {
+                    PlayerManager.Instance.SetPlayerStatus(PlayerManager.PlayerStatus.Normal);
+                    MousePointerControl.Locked();
                     _commandSelectPanel.OnHidden();
+                }
                 else
+                {
+                    MousePointerControl.Free();
+                    PlayerManager.Instance.SetPlayerStatus(PlayerManager.PlayerStatus.UIOperation);
                     _commandSelectPanel.OnActive();
+                }
             }
         }
     }

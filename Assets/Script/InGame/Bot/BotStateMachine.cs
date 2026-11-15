@@ -1,23 +1,22 @@
 using Common.Motion;
-using InGame.Bot;
 using InGame.Common;
+using InGame.Enemy;
 using UnityEngine;
-using UnityEngine.AI;
 
-namespace InGame.Enemy.StateMachine
+namespace InGame.Bot.StateMachine
 {
-    public class EnemyStateMachine : MonoBehaviour
+    public class BotStateMachine : MonoBehaviour
     {
-        [SerializeReference, SubclassSelector] private EnemyStateBase[] _enemyState;
+        [SerializeReference, SubclassSelector] private BotStateBase[] _enemyState;
         [SerializeField] private Transform _player;
         [SerializeField] private BotController _controller;
         [SerializeField] private AnimationPlayer _animation;
         [SerializeField] private TargetPerception _perception;
-        [SerializeField] private EnemyRifleControl _enemyRifleControl;
+        [SerializeField] private BotRifleControl _enemyRifleControl;
         [SerializeField] private HealthControl _healthControl;
         [SerializeField] private EnemyIcon _icon;
 
-        private StateMachineBase<EnemyStateBase,StateContext> _stateMachine;
+        private StateMachineBase<BotStateBase, StateContext> _stateMachine;
 
         private void Start()
         {
@@ -30,7 +29,7 @@ namespace InGame.Enemy.StateMachine
                 Perception = _perception,
                 RifleControl = _enemyRifleControl,
                 Icon = _icon,
-                BotController = _controller,    
+                BotController = _controller,
             };
 
             _stateMachine = new(_enemyState, context);
@@ -39,7 +38,7 @@ namespace InGame.Enemy.StateMachine
 
         private void Update()
         {
-            _stateMachine .Update();
+            _stateMachine.Update();
         }
     }
 }

@@ -190,12 +190,13 @@ GameObject:
   - component: {fileID: 2743518810354485803}
   - component: {fileID: 8577457225674689614}
   - component: {fileID: 8444116731928728241}
-  - component: {fileID: 8557879744182571043}
   - component: {fileID: 3395344069983108857}
-  - component: {fileID: 6244472847731167814}
   - component: {fileID: 3506577063079446552}
   - component: {fileID: 5165473270927870240}
   - component: {fileID: 1693836187169945268}
+  - component: {fileID: 6196786328192379183}
+  - component: {fileID: 4406972102753648321}
+  - component: {fileID: 8614882810002359024}
   m_Layer: 3
   m_Name: Ally
   m_TagString: Untagged
@@ -269,23 +270,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8557879744182571043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1189892605092398508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a05ecaca561143249a48463ce7c6c74e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RifleEquipper
-  _riflePrefab: {fileID: 2924405201572781825, guid: 9391e6a7ec8e74241a83db7d6ec3e24a, type: 3}
-  _cloneParent: {fileID: 6772218949379870327}
-  _rightHandRigTarget: {fileID: 7211169237357925785}
-  _leftHandRigTarget: {fileID: 7729208039206310780}
-  _lookRigTarget: {fileID: 4298827071540120931}
 --- !u!114 &3395344069983108857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,43 +285,6 @@ MonoBehaviour:
   _maxHp: 1
   _animationPlayer: {fileID: 6167305908382815879}
   _teamType: 1
---- !u!114 &6244472847731167814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1189892605092398508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7c294aed7da3964986cb082ef1f3d23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InGame.Ally.AllyStateMachine
-  _states:
-  - rid: 7286859435433787481
-  - rid: 7286859435433787478
-  - rid: 7286859475868975196
-  _player: {fileID: 0}
-  _animationPlayer: {fileID: 6167305908382815879}
-  _healthControl: {fileID: 3395344069983108857}
-  _agent: {fileID: 8444116731928728241}
-  references:
-    version: 2
-    RefIds:
-    - rid: 7286859435433787478
-      type: {class: AllyHideState, ns: InGame.Ally.State, asm: Assembly-CSharp}
-      data:
-        _stopDistance: 0
-        _maxDistance: 0
-    - rid: 7286859435433787481
-      type: {class: AllyIdleState, ns: , asm: Assembly-CSharp}
-      data:
-        _stopDistance: 0
-    - rid: 7286859475868975196
-      type: {class: AllyFollowState, ns: , asm: Assembly-CSharp}
-      data:
-        _stopDistance: 3
-        _followDistance: 3
 --- !u!114 &3506577063079446552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,6 +325,9 @@ MonoBehaviour:
   _checkInterval: 0.1
   _awarenessRadius: 2
   _lostGraceTime: 0.5
+  _directionalDuration: 6
+  _hearingRange: 20
+  _hearingErrorRadius: 3
   _predictionSettings:
     _maxPredictTime: 3
     _velocitySmoothing: 10
@@ -387,7 +337,6 @@ MonoBehaviour:
     _maxYawRate: 270
     _simulationStep: 0.1
     _navMeshSampleDistance: 1
-  _isDebugLogEnabled: 0
 --- !u!114 &1693836187169945268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,6 +353,106 @@ MonoBehaviour:
   _healthControl: {fileID: 3395344069983108857}
   _collider: {fileID: 1228603105065883367}
   _enemyIcon: {fileID: 0}
+--- !u!114 &6196786328192379183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189892605092398508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7f26d79df6bdb40becafdf07718031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Bot.BotController
+  _agent: {fileID: 8444116731928728241}
+  _animationPlayer: {fileID: 6167305908382815879}
+  _rifleControl: {fileID: 4406972102753648321}
+  _walkSpeed: 2
+  _runSpeed: 4
+  _runDistance: 8
+  _runBlend:
+    Duration: 0.5
+    Curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  _turnSpeed: 360
+  _facingAngleThreshold: 2
+--- !u!114 &4406972102753648321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189892605092398508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed78de1aa048d164c83691bbec14ea32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.EnemyRifleControl
+  _mainCamera: {fileID: 0}
+  _bulletPrefab: {fileID: 8503042438991784427, guid: da2b0ba34038fcf45983d669fec9cfd2, type: 3}
+  _reloadOverride: {fileID: 4165339885662259909}
+  _rifleEquipper: {fileID: 8614882810002359024}
+  _reloadAnimation:
+    rid: 7286859728833216852
+  _shotAnimation:
+    rid: 7286859728833216853
+  _rayMask:
+    serializedVersion: 2
+    m_Bits: 0
+  _rayDistance: 100
+  _bulletDistance: 100
+  _interval: 0.5
+  references:
+    version: 2
+    RefIds:
+    - rid: 7286859728833216852
+      type: {class: PlayerRifleMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 6
+    - rid: 7286859728833216853
+      type: {class: PlayerRifleMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 7
+--- !u!114 &8614882810002359024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189892605092398508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a05ecaca561143249a48463ce7c6c74e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RifleEquipper
+  _riflePrefab: {fileID: 2924405201572781825, guid: 9391e6a7ec8e74241a83db7d6ec3e24a, type: 3}
+  _cloneParent: {fileID: 6772218949379870327}
+  _rightHandRigTarget: {fileID: 7211169237357925785}
+  _leftHandRigTarget: {fileID: 7729208039206310780}
+  _lookRigTarget: {fileID: 4298827071540120931}
 --- !u!1 &1307997118855072311
 GameObject:
   m_ObjectHideFlags: 0
@@ -1178,6 +1227,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5958751720859123361}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4165339885662259909}
   m_SourcePrefab: {fileID: 100100000, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
 --- !u!4 &6540680532585067 stripped
 Transform:
@@ -1426,6 +1478,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   _startMotionType: 1
+  _crouchingMotionType: 0
 --- !u!114 &7765398599695303066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1439,7 +1492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.BoneRenderer
   boneShape: 1
-  drawBones: 0
+  drawBones: 1
   drawTripods: 0
   boneSize: 1
   tripodSize: 1
@@ -1566,6 +1619,21 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
+--- !u!114 &4165339885662259909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5119676706952958021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddcfa5ec66eefaf44b1b407823f536e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Common.Motion.PoseOverridePlayer
+  _animator: {fileID: 1920577085031075973}
+  _container: {fileID: 11400000, guid: 923ce58ec712fb84d99be080a3507a5d, type: 2}
+  _freezeBase: 0
 --- !u!4 &5157983561537276298 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8333627713332763490, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
