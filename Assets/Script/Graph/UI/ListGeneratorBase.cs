@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Common;
-using Common.UI;
+using CoreKit.UI;
 using UnityEngine;
 
 namespace Graph
@@ -76,6 +76,6 @@ namespace Graph
         }
 
         protected abstract IReadOnlyList<FolderData<T>> GetContents(string folder);
-        protected abstract void OnCreate(T data); 
+        protected abstract void OnCreate(T data);
     }
 }

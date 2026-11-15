@@ -1,7 +1,6 @@
-using Common.UI;
+using CoreKit.UI;
 using InGame.Ally;
-using PlayerInput;
-using R3;
+using InGame.UI.SquadCommand;
 using UnityEngine;
 
 namespace InGame.Player
@@ -11,84 +10,24 @@ namespace InGame.Player
     {
         [SerializeField] private AllyCommandData[] _commands;
         [SerializeField] private AllyStateMachine[] _state;
-        [SerializeField] private RadialMenu _radialMenu;
-        [SerializeField] private PlayerManager _playerManager;
+
+        [SerializeField] private PanelControl _commandSelectPanel;
+        [SerializeField] private CommandPointSelector _commandPointSelector;
 
         private void Awake()
         {
-            var options = new RadialMenu.Option[_commands.Length];
+            _commandPointSelector.Initialize(_commands);
+        }
 
-            for(int i  = 0; i < _commands.Length; i++)
+        private void Update()
+        {
+            if (InputService.Player.Interact.Down)
             {
-                options[i] = new();
-                options[i].Name = _commands[i].Name;
-                options[i].Type = _commands[i].Type.ToString();
-                options[i].Icon = _commands[i].Icon;
+                if (_commandSelectPanel.IsActive)
+                    _commandSelectPanel.OnHidden();
+                else
+                    _commandSelectPanel.OnActive();
             }
-            _radialMenu.Options = options;
         }
-
-        private void Start()
-        {
-            InputManager.Command.Subscribe(OnClick).RegisterTo(destroyCancellationToken);
-            _radialMenu.OnClick += Select;
-        }
-
-        private void OnClick(bool b)
-        {
-            if (b)
-                Open();
-            else
-                Clause();
-        }
-        private void Select(int index)
-        {
-            foreach(var state in _state)
-            {
-                state.ReceiveCommand((AllyCommandType)index);
-            }
-            Clause();
-        }
-        private void Clause()
-        {
-            _radialMenu.Panel.OnHidden();
-            _playerManager.SetPlayerStatus(PlayerManager.PlayerStatus.Normal);
-            MousePointerControl.Locked();
-        }
-        private void Open()
-        {
-            _radialMenu.Panel.OnActive();
-            _playerManager.SetPlayerStatus(PlayerManager.PlayerStatus.Move);
-            MousePointerControl.Free();
-        }
-    }
-
-    public enum AllyCommandType
-    {
-        /// <summary> í«è] </summary>
-        Follow, 
-
-        /// <summary> å„ëﬁ </summary>
-        Retreat, 
-
-        /// <summary> âBÇÍÇÈ </summary>
-        Hide, 
-
-        /// <summary> çUåÇ </summary>
-        Attack,
-
-        /// <summary> âáåÏ </summary>
-        ProvideSupport,
-
-        /// <summary> ë“ã@ </summary>
-        Idle,
-        
-    }
-    [System.Serializable]
-    public class AllyCommandData 
-    {
-        public AllyCommandType Type;
-        public string Name;
-        public Sprite Icon;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using CoreKit.UI;
 using DG.Tweening;
 using InGame.Common;
 using UnityEngine;
@@ -45,11 +46,14 @@ namespace Common.UI
 
         private void Update()
         {
+            if (!_panel.IsActive)
+                return;
+
             if (_clonedPrefab == null || _clonedPrefab.Length == 0) return;
 
             Select();
 
-            if (_panel.IsActive && InputService.UI.Click.Up)
+            if (InputService.UI.Click.Up)
             {
                 OnClick?.Invoke(_selectedIndex);
                 UnSelect();
@@ -79,6 +83,8 @@ namespace Common.UI
 
             _clonedPrefab[_selectedIndex].Rect.DOKill();
             _clonedPrefab[_selectedIndex].Rect.DOScale(1f, duration).SetEase(_ease);
+
+            _selectedIndex = -1;
         }
 
         [ContextMenu("CreateRadial")]

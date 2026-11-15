@@ -2186,7 +2186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 379491124}
   - component: {fileID: 379491127}
-  - component: {fileID: 379491126}
+  - component: {fileID: 379491128}
   - component: {fileID: 379491125}
   m_Layer: 5
   m_Name: RadialMenu
@@ -2226,7 +2226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b59b4d3d8928e042abb8893d78c7dcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Common.UI.RadialMenu
-  _panel: {fileID: 379491126}
+  _panel: {fileID: 379491128}
   Options:
   - Type: 
     Name: A
@@ -2250,26 +2250,6 @@ MonoBehaviour:
   _popUpSize: 1.2
   _popUpDuration: 0.3
   _ease: 9
---- !u!114 &379491126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 379491123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cec4180d85933fb46aad7393c6f6cde0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Common.UI.PanelControl
-  _rectTransform: {fileID: 379491124}
-  _canvasGroup: {fileID: 379491127}
-  _activeAction:
-    m_PersistentCalls:
-      m_Calls: []
-  _hiddenAction:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!225 &379491127
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2278,10 +2258,30 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 379491123}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &379491128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379491123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84991bd64820e254890749b27dfa7e61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CoreKit::CoreKit.UI.PanelControl
+  _rectTransform: {fileID: 379491124}
+  _canvasGroup: {fileID: 379491127}
+  _activeAction:
+    m_PersistentCalls:
+      m_Calls: []
+  _hiddenAction:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &405077622
 GameObject:
   m_ObjectHideFlags: 0
@@ -3361,6 +3361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 635524403}
   - component: {fileID: 635524406}
+  - component: {fileID: 635524408}
   - component: {fileID: 635524404}
   - component: {fileID: 635524407}
   m_Layer: 5
@@ -3406,9 +3407,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CommandPointSelector
   _rect: {fileID: 635524403}
+  _mapRect: {fileID: 45702933}
   _hoverChecker: {fileID: 45702936}
   _allySelector: {fileID: 154853166}
   _radialMenu: {fileID: 379491125}
+  _mapPinManager: {fileID: 635524407}
+  _pinData:
+    Image: {fileID: 0}
+    Color: {r: 1, g: 0.31557506, b: 0, a: 1}
+  _mapCamera: {fileID: 657252725}
+  _depth: 3.725736
 --- !u!225 &635524406
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3417,9 +3425,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 635524402}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &635524407
 MonoBehaviour:
@@ -3442,6 +3450,26 @@ MonoBehaviour:
       Image: {fileID: 0}
       Color: {r: 1, g: 0.70196915, b: 0, a: 1}
     Target: {fileID: 1636034708}
+--- !u!114 &635524408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635524402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84991bd64820e254890749b27dfa7e61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CoreKit::CoreKit.UI.PanelControl
+  _rectTransform: {fileID: 635524403}
+  _canvasGroup: {fileID: 635524406}
+  _activeAction:
+    m_PersistentCalls:
+      m_Calls: []
+  _hiddenAction:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &636502443
 GameObject:
   m_ObjectHideFlags: 0
@@ -10163,6 +10191,7 @@ GameObject:
   - component: {fileID: 1636034717}
   - component: {fileID: 1636034718}
   - component: {fileID: 1636034719}
+  - component: {fileID: 1636034720}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -10392,6 +10421,40 @@ MonoBehaviour:
   _returnRatio: 1
   _returnSmoothTime: 0.15
   _pitchScale: 4
+--- !u!114 &1636034720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636034707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5c4b757b13a1904fad7deaaa7340e53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Player.AllyCommandController
+  _commands:
+  - Type: 0
+    Name: "\u8FFD\u5F93"
+    Icon: {fileID: 0}
+  - Type: 1
+    Name: "\u5F8C\u9000"
+    Icon: {fileID: 0}
+  - Type: 2
+    Name: "\u96A0\u308C\u308B"
+    Icon: {fileID: 0}
+  - Type: 3
+    Name: "\u653B\u6483"
+    Icon: {fileID: 0}
+  - Type: 4
+    Name: "\u63F4\u8B77"
+    Icon: {fileID: 0}
+  - Type: 5
+    Name: "\u5F85\u6A5F"
+    Icon: {fileID: 0}
+  _state: []
+  _commandSelectPanel: {fileID: 635524408}
+  _commandPointSelector: {fileID: 635524404}
 --- !u!1 &1644643212
 GameObject:
   m_ObjectHideFlags: 0
