@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _velocity;
     private bool _isCrouching = false;
     public Vector2 MoveAmount { get; private set; }
+    public bool IsRun {  get; private set; }    
 
     public void Update()
     {
@@ -61,6 +62,9 @@ public class PlayerMovement : MonoBehaviour
 
         MoveAmount = moveInput + Vector2.up * dashAmount;
         _rigidbody.linearVelocity = _velocity;
+
+        IsRun = dashAmount > 0f;
+        Debug.Log(IsRun);
     }
 
     private RaycastHit? GroundRayHit()

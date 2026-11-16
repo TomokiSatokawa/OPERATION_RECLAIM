@@ -10335,8 +10335,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Player.CameraController
   _player: {fileID: 1636034708}
   _rotationSpeed: 0.1
+  _playerMovement: {fileID: 1636034709}
+  _cinemachineCamera: {fileID: 1856421491}
   _camera: {fileID: 1856421490}
   _rifleRotation: {fileID: 1287053248}
+  _fieldOfViewCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -0.015700344
+      outSlope: -0.015700344
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.4765101
+    - serializedVersion: 3
+      time: 0.5203969
+      value: 0.44930393
+      inSlope: 2.180074
+      outSlope: 2.180074
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.20040378
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _fieldOfViewSpeed: 200
+  _defaultFieldOfView: 60
+  _runFieldOfView: 70
 --- !u!114 &1636034713
 MonoBehaviour:
   m_ObjectHideFlags: 0
