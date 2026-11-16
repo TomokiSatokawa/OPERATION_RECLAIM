@@ -18,7 +18,7 @@ public class AllySelector : ScrollViewBase
 
         var viewList = new List<AllyInfoView>();
 
-        foreach(var ally in _allyls)
+        foreach (var ally in _allyls)
         {
             var view = InstantiateContent(_prefab);
             view.Initialize();
@@ -26,5 +26,18 @@ public class AllySelector : ScrollViewBase
         }
 
         _selectionController = new(viewList.ToArray(), new int[0]);
+    }
+
+    public IReadOnlyList<Transform> GetCurrentSelectAlly()
+    {
+        var selectAlly = new List<Transform>();
+
+        foreach (var index in _selectionController.GetSelectIndex())
+        {
+            var ally = _allyls[index];
+            selectAlly.Add(ally);
+        }
+
+        return selectAlly;
     }
 }

@@ -140,7 +140,6 @@ namespace Common.Motion
             clampedMoveAmount.x = Mathf.Clamp(moveAmount.x, -1f, 1f) + 1f;
             clampedMoveAmount.y = Mathf.Clamp(moveAmount.y, -1f, 2f) + 1f;
 
-            Debug.Log(clampedMoveAmount);
             //—§‚¿
             _horizontalBlend.Tick(_horizontalMixer,clampedMoveAmount.x);
             _verticalBlend.Tick(_verticalMixer,clampedMoveAmount.y);

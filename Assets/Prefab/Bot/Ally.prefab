@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 6196786328192379183}
   - component: {fileID: 4406972102753648321}
   - component: {fileID: 8614882810002359024}
+  - component: {fileID: 993473199284223969}
   m_Layer: 3
   m_Name: Ally
   m_TagString: Untagged
@@ -246,7 +247,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!195 &8444116731928728241
 NavMeshAgent:
@@ -453,6 +454,41 @@ MonoBehaviour:
   _rightHandRigTarget: {fileID: 7211169237357925785}
   _leftHandRigTarget: {fileID: 7729208039206310780}
   _lookRigTarget: {fileID: 4298827071540120931}
+--- !u!114 &993473199284223969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189892605092398508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d406a6084a9b740a645b1194ad51e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.StateMachine.EnemyStateMachine
+  _enemyState:
+  - rid: 7286859728833216864
+  - rid: 7286859728833216866
+  _player: {fileID: 0}
+  _controller: {fileID: 6196786328192379183}
+  _animation: {fileID: 6167305908382815879}
+  _perception: {fileID: 5165473270927870240}
+  _rifleControl: {fileID: 4406972102753648321}
+  _healthControl: {fileID: 3395344069983108857}
+  _icon: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 7286859728833216864
+      type: {class: AllyIdleState, ns: , asm: Assembly-CSharp}
+      data:
+        _stopDistance: 3
+        _waitSecond: 0
+    - rid: 7286859728833216866
+      type: {class: AllyMovementState, ns: , asm: Assembly-CSharp}
+      data:
+        _stopDistance: 3
+        _waitSecond: 0
 --- !u!1 &1307997118855072311
 GameObject:
   m_ObjectHideFlags: 0

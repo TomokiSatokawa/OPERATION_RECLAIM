@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 namespace InGame.Common
 {
@@ -22,11 +21,29 @@ namespace InGame.Common
 
         public void RequestChangeState(Type type)
         {
-            foreach(var state in _states)
+            foreach (var state in _states)
             {
                 if (type == state.GetType())
                 {
                     ChangeState(state);
+                    return;
+                }
+            }
+        }
+
+        public void RequestChangeState(Type type, CommandSession target)
+        {
+            foreach (var state in _states)
+            {
+                if (type == state.GetType())
+                {
+                    _currentState?.Exit(_context);
+                    _currentState = state;
+
+                    var allyCommand = _currentState as AllyCommandStateBase;
+                    allyCommand?.SetCommandSection(target);
+
+                    _currentState?.Enter(_context);
                     return;
                 }
             }

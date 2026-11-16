@@ -1,20 +1,24 @@
-using InGame.Ally;
-using UnityEngine;
+using InGame.Bot.StateMachine;
 
 [System.Serializable]
-public class AllyIdleState : AllyStateBase
+public class AllyIdleState : BotStateBase
 {
-    protected override void OnEnter(AllyContext context)
+    public override bool CanTransition(StateContext context)
+    {
+        return true;
+    }
+
+    protected override void OnEnter(StateContext context)
+    {
+        context.BotController.StopMove();
+    }
+
+    protected override void OnExit(StateContext context)
     {
 
     }
 
-    protected override void OnExit(AllyContext context)
-    {
-
-    }
-
-    protected override void OnUpdate(AllyContext context)
+    protected override void OnUpdate(StateContext context)
     {
 
     }

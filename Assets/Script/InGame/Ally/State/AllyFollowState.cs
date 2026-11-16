@@ -1,26 +1,32 @@
-using InGame.Ally;
+using InGame.Bot.StateMachine;
 using UnityEngine;
 
 [System.Serializable]
-public class AllyFollowState : AllyStateBase
+public class AllyFollowState : BotStateBase
 {
     [SerializeField] private float _followDistance;
-    protected override void OnEnter(AllyContext context)
+
+    public override bool CanTransition(StateContext context)
+    {
+        return true;
+    }
+
+    protected override void OnEnter(StateContext context)
     {
 
     }
 
-    protected override void OnExit(AllyContext context)
+    protected override void OnExit(StateContext context)
     {
-        context.Agent.ResetPath();
+
     }
 
-    protected override void OnUpdate(AllyContext context)
+    protected override void OnUpdate(StateContext context)
     {
         //追従開始距離なったらプレイヤーに向かう
-        if ((context.Ally.position - context.Player.position).sqrMagnitude >= _followDistance * _followDistance)
+        if ((context.Bot.position - context.Player.position).sqrMagnitude >= _followDistance * _followDistance)
         {
-            context.Agent.SetDestination(context.Player.position);
+            context.BotController.SetMoveTarget(context.Player.position);
         }
     }
 }

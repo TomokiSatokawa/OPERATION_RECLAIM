@@ -1,4 +1,5 @@
-﻿using Common.UI;
+﻿using System;
+using Common.UI;
 using CoreKit.UI;
 using InGame.Ally;
 using InGame.UI.Map;
@@ -21,6 +22,8 @@ namespace InGame.UI.SquadCommand
         [SerializeField] private PinData _pinData;
         [SerializeField] private Camera _mapCamera;
         [SerializeField] private float _depth = 10f;
+
+        public event Action<int, CommandSession> OnSelectCommand;
 
         private Camera _uiCamera;
         private Vector3 _selectWorldPosition;
@@ -47,7 +50,7 @@ namespace InGame.UI.SquadCommand
                     Name = allyCommands[i].Name,
                     Type = allyCommands[i].Type.ToString(),
                 };
-            } 
+            }
 
             _radialMenu.Options = options;
         }
@@ -104,6 +107,11 @@ namespace InGame.UI.SquadCommand
             target.transform.position = _selectWorldPosition;
 
             _mapPinManager.AddRuntimePin(_pinData, target.transform);
+            var command = new CommandSession(_selectWorldPosition);
+
+            command.OnFinish += () =>  _mapPinManager.RemoveRuntimePin(target.transform);
+
+            OnSelectCommand?.Invoke(index, command);
         }
     }
 }

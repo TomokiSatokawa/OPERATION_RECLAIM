@@ -1,3 +1,4 @@
+using System;
 using Common.Motion;
 using InGame.Common;
 using InGame.Enemy;
@@ -12,7 +13,7 @@ namespace InGame.Bot.StateMachine
         [SerializeField] private BotController _controller;
         [SerializeField] private AnimationPlayer _animation;
         [SerializeField] private TargetPerception _perception;
-        [SerializeField] private BotRifleControl _enemyRifleControl;
+        [SerializeField] private BotRifleControl _rifleControl;
         [SerializeField] private HealthControl _healthControl;
         [SerializeField] private EnemyIcon _icon;
 
@@ -27,7 +28,7 @@ namespace InGame.Bot.StateMachine
                 Bot = this.transform,
                 AnimationPlayer = _animation,
                 Perception = _perception,
-                RifleControl = _enemyRifleControl,
+                RifleControl = _rifleControl,
                 Icon = _icon,
                 BotController = _controller,
             };
@@ -39,6 +40,31 @@ namespace InGame.Bot.StateMachine
         private void Update()
         {
             _stateMachine.Update();
+        }
+
+        public void RequestChangeState(Type type)
+        {
+            _stateMachine.RequestChangeState(type);
+        }
+
+        public void RequestChangeState(Type type,CommandSession command)
+        {
+            _stateMachine.RequestChangeState(type, command);
+        }
+
+        private void Reset()
+        {
+            SetComponent();
+        }
+
+        [ContextMenu("SetComponent")]
+        private void SetComponent()
+        {
+            _controller = GetComponent<BotController>();
+            _animation = GetComponentInChildren<AnimationPlayer>();
+            _perception = GetComponent<TargetPerception>();
+            _rifleControl = GetComponent<BotRifleControl>();
+            _healthControl = GetComponent<HealthControl>();
         }
     }
 }

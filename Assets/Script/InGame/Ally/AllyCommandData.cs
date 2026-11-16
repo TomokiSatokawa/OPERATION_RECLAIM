@@ -12,8 +12,8 @@ namespace InGame.Ally
 
     public enum AllyCommandType
     {
-        /// <summary> í«è] </summary>
-        Follow,
+        /// <summary> à⁄ìÆ </summary>
+        Movement,
 
         /// <summary> å„ëﬁ </summary>
         Retreat,
