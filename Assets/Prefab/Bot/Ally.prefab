@@ -904,7 +904,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9101836590829714730, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: -9070493210130169274, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
       propertyPath: m_Layer
@@ -1120,7 +1120,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1467203862203779813, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1711505207429034123, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
       propertyPath: m_Layer
@@ -1224,7 +1224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8793569519224764014, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8817898888258712963, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
       propertyPath: m_Layer
@@ -1528,7 +1528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.BoneRenderer
   boneShape: 1
-  drawBones: 1
+  drawBones: 0
   drawTripods: 0
   boneSize: 1
   tripodSize: 1

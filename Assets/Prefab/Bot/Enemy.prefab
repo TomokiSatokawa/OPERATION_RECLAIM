@@ -397,6 +397,8 @@ GameObject:
   - component: {fileID: 7459990018888276483}
   - component: {fileID: 4543430948571054765}
   - component: {fileID: 7072203687365422057}
+  - component: {fileID: 3705349966932041894}
+  - component: {fileID: 9109211526205245146}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -475,36 +477,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.State.EnemyStateMachine
   _enemyState:
-  - rid: 7286859407848636501
-  - rid: 7286859407848636502
-  - rid: 7286859407848636503
+  - rid: 7286859592749285749
+  - rid: 7286859592749285770
+  - rid: 7286859611784085616
   _player: {fileID: 0}
-  _agent: {fileID: 3685777620095334476}
+  _controller: {fileID: 9109211526205245146}
   _animation: {fileID: 8241775061212167194}
   _perception: {fileID: 7459990018888276483}
-  _enemyRifleControl: {fileID: 497003003458170673}
+  _rifleControl: {fileID: 0}
   _healthControl: {fileID: 4728804458562394141}
   _icon: {fileID: 5784496095897749188}
   references:
     version: 2
     RefIds:
-    - rid: 7286859407848636501
+    - rid: 7286859592749285749
       type: {class: PatrolState, ns: InGame.Enemy.StateMachine, asm: Assembly-CSharp}
       data:
         _stopDistance: 3
+        _waitSecond: 1
         _waypointGroup: {fileID: 0}
-    - rid: 7286859407848636502
+    - rid: 7286859592749285770
       type: {class: ChaseState, ns: InGame.Enemy.StateMachine, asm: Assembly-CSharp}
       data:
         _stopDistance: 3
+        _waitSecond: 1
         _attackRange: 8
-    - rid: 7286859407848636503
+    - rid: 7286859611784085616
       type: {class: AttackState, ns: InGame.Enemy.StateMachine, asm: Assembly-CSharp}
       data:
         _stopDistance: 3
-        _lostDuration: 0.5
+        _waitSecond: 1
         _attackRange: 8
         _exitRangeMargin: 2
+        _lostDuration: 0.5
 --- !u!114 &497003003458170673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,13 +524,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.EnemyRifleControl
   _mainCamera: {fileID: 5897725788165158327}
   _bulletPrefab: {fileID: 8503042438991784427, guid: da2b0ba34038fcf45983d669fec9cfd2, type: 3}
+  _reloadOverride: {fileID: 1642518577278250}
   _rifleEquipper: {fileID: 7613165216516648273}
+  _reloadAnimation:
+    rid: 7286859611784085618
+  _shotAnimation:
+    rid: 7286859611784085619
   _rayMask:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 1919
   _rayDistance: 100
   _bulletDistance: 100
   _interval: 0.5
+  references:
+    version: 2
+    RefIds:
+    - rid: 7286859611784085618
+      type: {class: EnemyRifleMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 5
+    - rid: 7286859611784085619
+      type: {class: EnemyRifleMotion, ns: Common, asm: Assembly-CSharp}
+      data:
+        _type: 6
 --- !u!114 &4728804458562394141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -568,6 +589,9 @@ MonoBehaviour:
   _checkInterval: 0.1
   _awarenessRadius: 2
   _lostGraceTime: 0.5
+  _directionalDuration: 6
+  _hearingRange: 20
+  _hearingErrorRadius: 3
   _predictionSettings:
     _maxPredictTime: 3
     _velocitySmoothing: 10
@@ -577,7 +601,6 @@ MonoBehaviour:
     _maxYawRate: 270
     _simulationStep: 0.1
     _navMeshSampleDistance: 1
-  _isDebugLogEnabled: 0
 --- !u!114 &4543430948571054765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -607,6 +630,67 @@ MonoBehaviour:
   _healthControl: {fileID: 4728804458562394141}
   _collider: {fileID: 4371399775884338283}
   _enemyIcon: {fileID: 5784496095897749188}
+--- !u!114 &3705349966932041894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2931331300796294044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddcfa5ec66eefaf44b1b407823f536e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReloadOverride
+  _animator: {fileID: 3168905060015904053}
+  _container: {fileID: 11400000, guid: 923ce58ec712fb84d99be080a3507a5d, type: 2}
+  _freezeBase: 0
+--- !u!114 &9109211526205245146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2931331300796294044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7f26d79df6bdb40becafdf07718031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Bot.BotController
+  _agent: {fileID: 3685777620095334476}
+  _animationPlayer: {fileID: 8241775061212167194}
+  _rifleControl: {fileID: 497003003458170673}
+  _walkSpeed: 2
+  _runSpeed: 5
+  _runDistance: 8
+  _runBlend:
+    Duration: 0.3
+    Curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  _turnSpeed: 360
+  _facingAngleThreshold: 2
 --- !u!1 &3589381990387585810
 GameObject:
   m_ObjectHideFlags: 0
@@ -1347,7 +1431,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 944927156297921104, guid: 825eb6f7fb0c71145981dd4894977a7e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1082271958561512970, guid: 825eb6f7fb0c71145981dd4894977a7e, type: 3}
       propertyPath: m_Layer
@@ -1492,6 +1576,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 825eb6f7fb0c71145981dd4894977a7e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2063255788843580025}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 825eb6f7fb0c71145981dd4894977a7e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1642518577278250}
   m_SourcePrefab: {fileID: 100100000, guid: 825eb6f7fb0c71145981dd4894977a7e, type: 3}
 --- !u!4 &402870992698195315 stripped
 Transform:
@@ -1796,6 +1883,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   _startMotionType: 2
+  _crouchingMotionType: 0
 --- !u!114 &2063255788843580025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1809,6 +1897,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.EnemyAnimationManager
   _animationPlayer: {fileID: 8241775061212167194}
+--- !u!114 &1642518577278250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4050875470358075033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddcfa5ec66eefaf44b1b407823f536e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReloadOverride
+  _animator: {fileID: 3168905060015904053}
+  _container: {fileID: 11400000, guid: 923ce58ec712fb84d99be080a3507a5d, type: 2}
+  _freezeBase: 0
 --- !u!4 &4084749096482983766 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8333627713332763490, guid: 825eb6f7fb0c71145981dd4894977a7e, type: 3}
