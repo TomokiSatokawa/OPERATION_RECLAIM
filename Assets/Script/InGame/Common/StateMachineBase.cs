@@ -52,7 +52,6 @@ namespace InGame.Common
 
         private void ChangeState(TState state)
         {
-            Debug.Log(_currentState?.GetType() + " => " + state.GetType().Name);
             _currentState?.Exit(_context);
             _currentState = state;
             _currentState?.Enter(_context);

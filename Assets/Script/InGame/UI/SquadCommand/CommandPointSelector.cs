@@ -2,6 +2,8 @@
 using Common.UI;
 using CoreKit.UI;
 using InGame.Ally;
+using InGame.Command;
+using InGame.Stage;
 using InGame.UI.Map;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,13 +17,14 @@ namespace InGame.UI.SquadCommand
     {
         [SerializeField] private RectTransform _rect;
         [SerializeField] private RectTransform _mapRect;
+        [SerializeField] private CommandCameraControl _commandCamera;
+        [SerializeField] private StageLayerProvider _layerProvider;
         [SerializeField] private HoverChecker _hoverChecker;
         [SerializeField] private AllySelector _allySelector;
         [SerializeField] private RadialMenu _radialMenu;
         [SerializeField] private MapPinManager _mapPinManager;
         [SerializeField] private PinData _pinData;
         [SerializeField] private Camera _mapCamera;
-        [SerializeField] private float _depth = 10f;
 
         public event Action<int, CommandSession> OnSelectCommand;
 
@@ -80,7 +83,7 @@ namespace InGame.UI.SquadCommand
                 // クリックした瞬間にワールド座標を確定させる
                 Vector2 viewport = Rect.PointToNormalized(_mapRect.rect, mapLocalPoint);
                 Ray ray = _mapCamera.ViewportPointToRay(new Vector3(viewport.x, viewport.y, 0f));
-                Plane plane = new Plane(Vector3.up, new Vector3(0f, _depth, 0f));
+                Plane plane = new Plane(Vector3.up, new Vector3(0f, GetDepth(), 0f));
 
                 _hasSelectPoint = plane.Raycast(ray, out float distance);
                 if (_hasSelectPoint)
@@ -109,9 +112,14 @@ namespace InGame.UI.SquadCommand
             _mapPinManager.AddRuntimePin(_pinData, target.transform);
             var command = new CommandSession(_selectWorldPosition);
 
-            command.OnFinish += () =>  _mapPinManager.RemoveRuntimePin(target.transform);
+            command.OnFinish += () => _mapPinManager.RemoveRuntimePin(target.transform);
 
             OnSelectCommand?.Invoke(index, command);
+        }
+
+        private float GetDepth()
+        {
+            return _commandCamera.IsSecondFloor ? _layerProvider.SecondFloorY : _layerProvider.FirstFloorY;
         }
     }
 }

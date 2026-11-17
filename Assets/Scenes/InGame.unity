@@ -2858,6 +2858,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5465940246521907071, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
   m_PrefabInstance: {fileID: 1406103527}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &508196439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 508196440}
+  m_Layer: 8
+  m_Name: SecondFloor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &508196440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508196439}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.44728565, y: 6.121683, z: 11.444838}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 881360653}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &510464343
 GameObject:
   m_ObjectHideFlags: 0
@@ -3326,6 +3357,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CommandPointSelector
   _rect: {fileID: 635524403}
   _mapRect: {fileID: 45702933}
+  _commandCamera: {fileID: 657252727}
+  _layerProvider: {fileID: 1197456273}
   _hoverChecker: {fileID: 45702936}
   _allySelector: {fileID: 154853166}
   _radialMenu: {fileID: 379491125}
@@ -3334,7 +3367,6 @@ MonoBehaviour:
     Image: {fileID: 0}
     Color: {r: 1, g: 0.31557506, b: 0, a: 1}
   _mapCamera: {fileID: 657252725}
-  _depth: 3.725736
 --- !u!225 &635524406
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3658,6 +3690,7 @@ GameObject:
   - component: {fileID: 657252726}
   - component: {fileID: 657252725}
   - component: {fileID: 657252724}
+  - component: {fileID: 657252727}
   m_Layer: 0
   m_Name: FullMapCamera
   m_TagString: Untagged
@@ -3775,6 +3808,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &657252727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657252723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3639e039ade7be47b86893f448590a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Command.CommandCameraControl
+  _camera: {fileID: 657252725}
+  _stageLayerProvider: {fileID: 1197456273}
 --- !u!1 &658087331
 GameObject:
   m_ObjectHideFlags: 0
@@ -6534,6 +6581,34 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -6768225281626788248, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
   m_PrefabInstance: {fileID: 1406103527}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1197456271 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3821559247060428586, guid: fb64f483beab74f4b8c483631a46d5ef, type: 3}
+  m_PrefabInstance: {fileID: 5966135514127349269}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1197456273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197456271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29186ffdfc46e294a89034fa205509a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Stage.StageLayerProvider
+  _firstFloorLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  _secondFloorLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  _sharedLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  _firstFloorTransform: {fileID: 1696642228}
+  _secondFloorTransform: {fileID: 508196440}
 --- !u!1 &1199233512
 GameObject:
   m_ObjectHideFlags: 0
@@ -10604,6 +10679,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.StateMachine.CoverPoint
   _peekOffset: {x: 3, y: 0, z: 0}
+--- !u!1 &1696642227
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1696642228}
+  m_Layer: 8
+  m_Name: FirstFloor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1696642228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696642227}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.8002639, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 881360653}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1702282688
 GameObject:
   m_ObjectHideFlags: 0
@@ -12677,6 +12783,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 113ff41121ed16c459dae8262c211c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.UI.Map.MapCameraControl
+  _stageLayerProvider: {fileID: 1197456273}
   _mapCamera: {fileID: 405077625}
   _player: {fileID: 1636034708}
   _cameraPosY: 30
@@ -13823,10 +13930,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5579945560195107010, guid: fb64f483beab74f4b8c483631a46d5ef, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8961292862651540112, guid: fb64f483beab74f4b8c483631a46d5ef, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4486490469917080976, guid: fb64f483beab74f4b8c483631a46d5ef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1696642228}
+    - targetCorrespondingSourceObject: {fileID: 4486490469917080976, guid: fb64f483beab74f4b8c483631a46d5ef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 508196440}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3821559247060428586, guid: fb64f483beab74f4b8c483631a46d5ef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1197456273}
   m_SourcePrefab: {fileID: 100100000, guid: fb64f483beab74f4b8c483631a46d5ef, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

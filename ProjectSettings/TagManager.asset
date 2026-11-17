@@ -13,7 +13,7 @@ TagManager:
   - UI
   - Line
   - Enemy
-  - Cover
+  - Stage
   - Stage1F
   - Stage2F
   - EnemyOutline
