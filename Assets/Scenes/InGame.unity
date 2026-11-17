@@ -3470,6 +3470,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1636034708}
     - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: _rifleControl
+      value: 
+      objectReference: {fileID: 903317841}
+    - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: managedReferences[7286859592749285749]._waypointGroup
       value: 
       objectReference: {fileID: 1982196633}
@@ -4850,6 +4854,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -5665043316445423941, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
   m_PrefabInstance: {fileID: 1406103527}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &903317841 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 497003003458170673, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+  m_PrefabInstance: {fileID: 637672489}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed78de1aa048d164c83691bbec14ea32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.EnemyRifleControl
 --- !u!4 &907002281 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3945598086791027091, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}

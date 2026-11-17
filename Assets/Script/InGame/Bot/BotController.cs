@@ -1,8 +1,6 @@
 ﻿using Common.Motion;
-using InGame.Enemy;
 using InGame.Player.Motion;
 using InGame.Player.Rifle;
-using Unity.XR.Oculus.Input;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,7 +18,7 @@ namespace InGame.Bot
 
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private AnimationPlayer _animationPlayer;
-        [SerializeField] private BotRifleControl  _rifleControl;
+        [SerializeField] private BotRifleControl _rifleControl;
         [SerializeField] private float _walkSpeed = 2f;
         [SerializeField] private float _runSpeed = 4f;
         [SerializeField] private float _runDistance = 8f;
@@ -38,7 +36,7 @@ namespace InGame.Bot
         private Transform _lookTarget;
 
         public RifleData RifleData => _rifleControl.CurrentRifle;
-        public bool HasArrived => _hasMoveTarget && !_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance;
+        public bool HasArrived => !_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance;
         public Vector3 Velocity => _agent.velocity;
 
         private void Reset()
@@ -85,6 +83,11 @@ namespace InGame.Bot
             return true;
         }
 
+        public void SetStopDistance(float distance)
+        {
+            _agent.stoppingDistance = distance;
+        }
+
         public void StopMove()
         {
             if (!_agent.isOnNavMesh)
@@ -119,7 +122,6 @@ namespace InGame.Bot
 
         public void Shot()
         {
-            Debug.Log("Shot");
             _rifleControl.ShotUpdate();
         }
 
@@ -204,6 +206,7 @@ namespace InGame.Bot
         /// </summary>
         private void EndMove()
         {
+            Debug.Log("EndMove");
             _hasMoveTarget = false;
             _lookTarget = null;
             _agent.updateRotation = true;

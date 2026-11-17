@@ -67,7 +67,6 @@ namespace InGame.Bot
             if (!Physics.Raycast(ray, out var hit, _rayDistance, _rayMask))
                 return ray.origin + ray.direction * _bulletDistance;
 
-            Debug.Log(hit.collider.gameObject);
             return hit.point;
         }
 

@@ -19,7 +19,10 @@ namespace InGame.Enemy.StateMachine
 
             _currentIndex = FindStartIndex(context);
             if (_currentIndex == -1)
+            {
+                Debug.LogError("waypoint");
                 return;
+            }
 
             context.Icon.UpdateType(EnemyIcon.IconType.None);
             MoveToCurrentPoint(context);
@@ -33,8 +36,8 @@ namespace InGame.Enemy.StateMachine
             if (context.BotController.HasArrived)
             {
                 _currentIndex = (_currentIndex + 1) % _waypointGroup.Points.Count;
-                MoveToCurrentPoint(context);
             }
+            MoveToCurrentPoint(context);
 
             if (context.Perception.CanSeeTarget)
                 RequestChangeState = nameof(ChaseState);

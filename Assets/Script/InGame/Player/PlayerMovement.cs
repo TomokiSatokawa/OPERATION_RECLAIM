@@ -64,7 +64,6 @@ public class PlayerMovement : MonoBehaviour
         _rigidbody.linearVelocity = _velocity;
 
         IsRun = dashAmount > 0f;
-        Debug.Log(IsRun);
     }
 
     private RaycastHit? GroundRayHit()

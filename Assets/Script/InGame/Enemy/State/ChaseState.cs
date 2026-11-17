@@ -1,7 +1,7 @@
 //AI
+using InGame.Bot.StateMachine;
 using UnityEngine;
 using UnityEngine.AI;
-using InGame.Bot.StateMachine;
 
 namespace InGame.Enemy.StateMachine
 {
@@ -14,7 +14,9 @@ namespace InGame.Enemy.StateMachine
         private const float NavMeshSampleDistance = 2f;
 
         [SerializeField] private float _attackRange = 8f;
+        [SerializeField] private float _lostDuration;
 
+        private float _lostTimer;
         private bool _isLost;
 
         protected override void OnEnter(StateContext context)
@@ -41,6 +43,17 @@ namespace InGame.Enemy.StateMachine
                 ChaseVisibleTarget(context);
                 return;
             }
+
+            //ターゲットがいない
+            if(context.Perception.PrimaryTarget == null)
+            {
+                _lostTimer -= Time.deltaTime;
+
+                if (_lostTimer <= 0)
+                    RequestChangeState = nameof(PatrolState);
+            }
+            else
+                _lostTimer = _lostDuration;
 
             _isLost = true;
             MoveTo(context, context.Perception.PredictedPosition);
@@ -80,7 +93,7 @@ namespace InGame.Enemy.StateMachine
                 return;
             }
 
-            context.BotController.SetMoveTarget(hit.position,true);
+            context.BotController.SetMoveTarget(hit.position, true);
         }
     }
 }

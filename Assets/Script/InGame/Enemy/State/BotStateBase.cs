@@ -20,6 +20,7 @@ namespace InGame.Bot.StateMachine
         {
             RequestChangeState = null;
             _waitTime = _waitSecond + Time.time;
+            context.BotController.SetStopDistance(_stopDistance);
             OnEnter(context);
         }
 
