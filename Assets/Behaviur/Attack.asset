@@ -78,7 +78,7 @@ MonoBehaviour:
   - rid: 7286859574244541140
   - rid: 7286859574244541160
   - rid: 7286859590704300708
-  m_VersionTimestamp: 639304468308936117
+  m_VersionTimestamp: 639304678306371226
   m_SerializedVersion: 3
   m_DebugInfo: {fileID: -4516077772379509540}
   m_RuntimeGraph: {fileID: 7246911014055893580}
@@ -172,8 +172,8 @@ MonoBehaviour:
     m_Commands: []
   m_SubgraphsInfo: []
   m_BlackboardMissingManagedRef: 0
-  m_GraphMissingManagedRef: 1
-  m_HasMissingTypeInManagedRef: 1
+  m_GraphMissingManagedRef: 0
+  m_HasMissingTypeInManagedRef: 0
   m_EnumDependencyCache:
     Entries:
     - EnumTypeId: AttackState, Assembly-CSharp
@@ -784,7 +784,7 @@ MonoBehaviour:
         - rid: 7286859590940230289
         Root:
           rid: 7286859590940230290
-        m_VersionTimestamp: 639298340229623249
+        m_VersionTimestamp: 639304678306371226
     - rid: 7286859574244540978
       type: {class: BlackboardReference, ns: Unity.Behavior, asm: Unity.Behavior}
       data:

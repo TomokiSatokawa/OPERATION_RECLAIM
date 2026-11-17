@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Generic;
+using InGame.Bot.StateMachine;
 using UnityEngine;
 
 public class CommandSession : IDisposable
 {
+    private readonly HashSet<Transform> _allies = new();
+
     public event Action OnComplete;
     public event Action OnCancel;
     public event Action OnFinish;
@@ -13,6 +17,26 @@ public class CommandSession : IDisposable
     public CommandSession(Vector3 position)
     {
         TargetPosition = position;
+    }
+
+    public void AddAlly(Transform ally)
+    {
+        if (_isDisposed)
+            return;
+
+        _allies.Add(ally);
+    }
+
+    public void RemoveAlly(Transform ally)
+    {
+        if (_isDisposed)
+            return;
+
+        if (!_allies.Remove(ally))
+            return;
+
+        if (_allies.Count == 0)
+            Cancel();
     }
 
     public void Complete()

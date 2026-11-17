@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using CoreKit.UI;
 using InGame.Ally;
 using InGame.Bot.StateMachine;
@@ -8,7 +8,9 @@ using UnityEngine;
 
 namespace InGame.Player
 {
-
+    /// <summary>
+    /// プレイヤーから味方Botへのコマンド指示(UI表示切替、コマンド割り当て、終了時の復帰)を管理する
+    /// </summary>
     public class AllyCommandController : MonoBehaviour
     {
         [SerializeField] private AllyCommandData[] _commands;
@@ -18,8 +20,19 @@ namespace InGame.Player
         [SerializeField] private CommandPointSelector _commandPointSelector;
         [SerializeField] private AllySelector _allySelector;
 
+        private readonly Dictionary<Transform, BotStateMachine> _stateMap = new();
+        private readonly List<CommandSession> _activeCommand = new();
+
         private void Awake()
         {
+            foreach (var state in _state)
+            {
+                if (state == null)
+                    continue;
+
+                _stateMap[state.transform] = state;
+            }
+
             _commandPointSelector.Initialize(_commands);
             _commandPointSelector.OnSelectCommand += OnSelectCommand;
         }
@@ -28,32 +41,31 @@ namespace InGame.Player
         {
             if (InputService.Player.Interact.Down)
             {
-                if (_commandSelectPanel.IsActive)
-                {
-                    PlayerManager.Instance.SetPlayerStatus(PlayerManager.PlayerStatus.Normal);
-                    MousePointerControl.Locked();
-                    _commandSelectPanel.OnHidden();
-                }
-                else
-                {
-                    MousePointerControl.Free();
-                    PlayerManager.Instance.SetPlayerStatus(PlayerManager.PlayerStatus.UIOperation);
-                    _commandSelectPanel.OnActive();
-                }
+                ToggleCommandPanel();
             }
         }
 
-        private void OnSelectCommand(int index,CommandSession command)
+        private void OnDestroy()
         {
-            foreach (var ally in _allySelector.GetCurrentSelectAlly())
+            if (_commandPointSelector != null)
             {
-                var state = _state.FirstOrDefault(x => x.transform == ally.transform);
+                _commandPointSelector.OnSelectCommand -= OnSelectCommand;
+            }
+        }
 
-                if (state == null)
-                    return;
-
-                command.OnFinish += () => state.RequestChangeState(typeof(AllyIdleState));
-                state.RequestChangeState(GetCommandType(index), command);
+        private void ToggleCommandPanel()
+        {
+            if (_commandSelectPanel.IsActive)
+            {
+                PlayerManager.Instance.SetPlayerStatus(PlayerManager.PlayerStatus.Normal);
+                MousePointerControl.Locked();
+                _commandSelectPanel.OnHidden();
+            }
+            else
+            {
+                MousePointerControl.Free();
+                PlayerManager.Instance.SetPlayerStatus(PlayerManager.PlayerStatus.UIOperation);
+                _commandSelectPanel.OnActive();
             }
         }
 
@@ -67,6 +79,50 @@ namespace InGame.Player
                 default:
                     return null;
             }
+        }
+
+        private void OnSelectCommand(int index, CommandSession command)
+        {
+            var commandType = GetCommandType(index);
+            if (commandType == null)
+            {
+                Debug.LogError($"[AllyCommandController] 未対応のコマンドです。index: {index}");
+                return;
+            }
+
+            var targetStates = new List<BotStateMachine>();
+
+            foreach (var ally in _allySelector.GetCurrentSelectAlly())
+            {
+                if (!_stateMap.TryGetValue(ally.transform, out var state))
+                    continue;
+
+                // 既存コマンドから外してから新しいコマンドに追加する
+                for (var i = _activeCommand.Count - 1; i >= 0; i--)
+                {
+                    _activeCommand[i].RemoveAlly(ally);
+                }
+
+                state.RequestChangeState(commandType, command);
+                command.AddAlly(ally);
+                targetStates.Add(state);
+            }
+
+            if (targetStates.Count == 0)
+                return;
+
+            _activeCommand.Add(command);
+
+            // 購読はコマンドにつき1回だけ
+            command.OnFinish += () =>
+            {
+                foreach (var state in targetStates)
+                {
+                    state.RequestChangeState(typeof(AllyIdleState));
+                }
+
+                _activeCommand.Remove(command);
+            };
         }
     }
 }
