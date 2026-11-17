@@ -92,7 +92,15 @@ namespace InGame.Player
 
             var targetStates = new List<BotStateMachine>();
 
-            foreach (var ally in _allySelector.GetCurrentSelectAlly())
+            var allies = _allySelector.GetCurrentSelectAlly();
+
+            if(allies.Count == 0)
+            {
+                command.Cancel();
+                return;
+            }
+
+            foreach (var ally in allies)
             {
                 if (!_stateMap.TryGetValue(ally.transform, out var state))
                     continue;
