@@ -10,5 +10,11 @@ namespace Generated.DynamicEnums
         public static readonly CoreKit.DynamicEnum.DynamicEnumValue BulletWhiz =
             new CoreKit.DynamicEnum.DynamicEnumValue("6757cf9c4f664d449882abf3d3f66dc4");
 
+        public static readonly CoreKit.DynamicEnum.DynamicEnumValue FootSteps =
+            new CoreKit.DynamicEnum.DynamicEnumValue("e06f6bf9bd50434da7824dd21b91a431");
+
+        public static readonly CoreKit.DynamicEnum.DynamicEnumValue New_Element =
+            new CoreKit.DynamicEnum.DynamicEnumValue("715b4b597e83436cb4fe941b5d738f37");
+
     }
 }

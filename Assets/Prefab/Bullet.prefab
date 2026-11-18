@@ -54,6 +54,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   _bulletHole: {fileID: 7942318127120524119, guid: ddc9f465775ec3e4e8cca7f115482199, type: 3}
+  _bulletWhizSoundDistance: 5
 --- !u!96 &8380687029116701619
 TrailRenderer:
   serializedVersion: 4

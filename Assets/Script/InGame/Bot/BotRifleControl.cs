@@ -1,6 +1,7 @@
 using Common;
 using Common.Motion;
 using CoreKit;
+using CoreKit.Sound;
 using Generated.DynamicEnums;
 using InGame.Player.Rifle;
 using UnityEngine;

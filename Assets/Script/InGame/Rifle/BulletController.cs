@@ -1,4 +1,4 @@
-using CoreKit;
+using CoreKit.Sound;
 using Generated.DynamicEnums;
 using InGame.Common;
 using UnityEngine;
@@ -15,9 +15,20 @@ namespace InGame.Player.Rifle
         [SerializeField] private float _rayDistance;
         [SerializeField] private LayerMask _rayMask;
         [SerializeField] private GameObject _bulletHole;
+        [SerializeField] private float _bulletWhizSoundDistance;
 
         private Vector3 _targetPosition;
         private TeamType _teamType;
+        private static Sound3DSetting _setting;
+
+        private void Start()
+        {
+            if (_setting == null)
+            {
+                _setting = new Sound3DSetting();
+                _setting.MaxDistance = _bulletWhizSoundDistance;
+            }
+        }
 
         private void FixedUpdate()
         {
@@ -45,7 +56,7 @@ namespace InGame.Player.Rifle
                 damageable.Damage(_damageAmount);
             }
 
-            Sound3DPlayer.Play3D(SEType.BulletWhiz, this.transform.position);
+            Sound3DPlayer.Play3D(SEType.BulletWhiz, this.transform.position, _setting);
 
             CreateBulletHole(hit.Value);
             Destroy(this.gameObject);

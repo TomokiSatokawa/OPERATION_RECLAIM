@@ -18,4 +18,8 @@ MonoBehaviour:
     Guid: c39d2ef51c7d48b586388727a92afeb8
   - Name: BulletWhiz
     Guid: 6757cf9c4f664d449882abf3d3f66dc4
+  - Name: FootSteps
+    Guid: e06f6bf9bd50434da7824dd21b91a431
+  - Name: New Element
+    Guid: 715b4b597e83436cb4fe941b5d738f37
   _previousClassName: SEType
