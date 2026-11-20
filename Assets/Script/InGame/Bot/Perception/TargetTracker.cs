@@ -14,9 +14,12 @@ namespace InGame.Bot.Perception
         private const float MinYawRate = 10f;
         private const float SideProbeDistance = 3f;
         private const float SnapDistance = 0.5f;
+        private const float MinSpeed = 0.1f;
+        private const float MinSqrSpeed = MinSpeed * MinSpeed;
 
         private Vector3 _lastSeenPosition;
-        private int _visibleFrame;
+        private Vector3 _previousPosition;
+        private bool _hasPreviousPosition;
 
         private bool _isVisible;
         private bool _wasVisible;
@@ -43,6 +46,25 @@ namespace InGame.Bot.Perception
         public void Track(Vector3 position, float deltaTime)
         {
             _lastSeenPosition = position;
+            _trajectory.Clear();
+
+            if (!_hasPreviousPosition || deltaTime <= 0f)
+            {
+                _previousPosition = position;
+                _hasPreviousPosition = true;
+                _isVisible = true;
+                return;
+            }
+
+            Vector3 rawVelocity = (position - _previousPosition) / deltaTime;
+            rawVelocity.y = 0f;
+
+            Vector3 previousVelocity = _smoothedVelocity;
+            float velocityBlend = 1f - Mathf.Exp(-_settings.VelocitySmoothing * deltaTime);
+            _smoothedVelocity = Vector3.Lerp(previousVelocity, rawVelocity, velocityBlend);
+            UpdateYawRate(previousVelocity, deltaTime);
+
+            _previousPosition = position;
             _isVisible = true;
         }
 
@@ -51,6 +73,9 @@ namespace InGame.Bot.Perception
             if (!_isVisible && _wasVisible)
             {
                 Capture(_lastSeenPosition);
+                _hasPreviousPosition = false;
+                _smoothedVelocity = Vector3.zero;
+                _smoothedYawRate = 0f;
             }
 
             _wasVisible = _isVisible;
@@ -60,11 +85,26 @@ namespace InGame.Bot.Perception
         /// <summary>計算した軌道をGizmosで描画する(OnDrawGizmos系から呼ぶ)</summary>
         public void DrawGizmos()
         {
-            Debug.Log("G");
+            Debug.Log($"DrawGizmos: {_trajectory.Count}");
+
+            if (_trajectory.Count == 0)
+            {
+                return;
+            }
+
+            Gizmos.color = Color.cyan;
             for (int i = 1; i < _trajectory.Count; i++)
             {
                 Debug.Log("D");
                 Gizmos.DrawLine(_trajectory[i - 1], _trajectory[i]);
+            }
+
+            // 速度が小さく線分を作れない場合でも、予測開始点を確認できるようにする。
+            Gizmos.DrawSphere(_trajectory[0], 0.15f);
+
+            if (_trajectory.Count > 1)
+            {
+                Gizmos.DrawSphere(_trajectory[_trajectory.Count - 1], 0.15f);
             }
         }
 
@@ -79,7 +119,7 @@ namespace InGame.Bot.Perception
             float step = _settings.SimulationStep;
             if (step <= 0f)
             {
-                Debug.LogError($"[TargetPositionPredictor] SimulationStep が0以下です。 value={step}");
+                Debug.LogError($"[TargetTracker] SimulationStep が0以下です。 value={step}");
                 return;
             }
 
@@ -94,7 +134,7 @@ namespace InGame.Bot.Perception
             _trajectory[0] = position;
 
             float speed = _smoothedVelocity.magnitude;
-            if (speed < 0.1f)
+            if (speed < MinSpeed)
             {
                 return;
             }
@@ -114,6 +154,19 @@ namespace InGame.Bot.Perception
                 position = SnapToNavMesh(position);
                 _trajectory.Add(position);
             }
+        }
+
+        private void UpdateYawRate(Vector3 previousVelocity, float deltaTime)
+        {
+            float targetYawRate = 0f;
+            if (previousVelocity.sqrMagnitude > MinSqrSpeed && _smoothedVelocity.sqrMagnitude > MinSqrSpeed)
+            {
+                float angle = Vector3.SignedAngle(previousVelocity, _smoothedVelocity, Vector3.up);
+                targetYawRate = Mathf.Clamp(angle / deltaTime, -_settings.MaxYawRate, _settings.MaxYawRate);
+            }
+
+            float turnBlend = 1f - Mathf.Exp(-_settings.TurnSmoothing * deltaTime);
+            _smoothedYawRate = Mathf.Lerp(_smoothedYawRate, targetYawRate, turnBlend);
         }
 
         // NavMesh上を進む。壁(NavMeshの端)に当たったら、残りの移動を壁に沿わせる

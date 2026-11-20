@@ -1613,8 +1613,7 @@ MonoBehaviour:
       _turnDecay: 1.5
       _maxYawRate: 270
       _simulationStep: 0.1
-      _navMeshSampleDistance: 1
-    _lostGraceTime: 5
+      _navMeshSampleDistance: 3
 --- !u!136 &342698061
 CapsuleCollider:
   m_ObjectHideFlags: 0

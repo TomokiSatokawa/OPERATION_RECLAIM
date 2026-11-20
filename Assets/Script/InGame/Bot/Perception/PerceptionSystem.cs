@@ -21,7 +21,10 @@ namespace InGame.Bot.Perception
 
             foreach (var target in TeamUnitDatabase.GetUnit(_perceptionBaseData.TargetTeam))
             {
-                _targetTrackerDictionary.Add(target, _targetTracker.Clone(target));
+                if (target != null && !_targetTrackerDictionary.ContainsKey(target))
+                {
+                    _targetTrackerDictionary.Add(target, _targetTracker.Clone(target));
+                }
             }
         }
 
@@ -31,7 +34,19 @@ namespace InGame.Bot.Perception
 
             foreach (var target in _visionSensor.VisibleTargets)
             {
-                _targetTrackerDictionary[target].Track(target.position, Time.deltaTime);
+                if (target == null)
+                {
+                    continue;
+                }
+
+                if (!_targetTrackerDictionary.TryGetValue(target, out var tracker))
+                {
+                    // Also register targets that join after startup.
+                    tracker = _targetTracker.Clone(target);
+                    _targetTrackerDictionary.Add(target, tracker);
+                }
+
+                tracker.Track(target.position, Time.deltaTime);
             }
 
             foreach (var tracker in _targetTrackerDictionary.Values)
@@ -42,7 +57,10 @@ namespace InGame.Bot.Perception
 
         private void OnDrawGizmos()
         {
-            _visionSensor.DrawGizmos();
+            if (_visionSensor != null)
+            {
+                _visionSensor.DrawGizmos();
+            }
 
             foreach (var tracker in _targetTrackerDictionary.Values)
             {
