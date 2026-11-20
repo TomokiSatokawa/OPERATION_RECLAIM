@@ -1,5 +1,6 @@
 using CoreKit.DynamicEnum;
 using CoreKit.Sound;
+using InGame.Bot;
 using UnityEngine;
 
 namespace InGame.Player
@@ -26,6 +27,7 @@ namespace InGame.Player
             if (collision.gameObject.CompareTag(_groundTag))
             {
                 Sound3DPlayer.Play3D(_groundSound, this.transform.position, _setting);
+                TargetPerceptionManager.HearNoise(this.transform.root, this.transform.position);
             }
         }
 
@@ -35,6 +37,7 @@ namespace InGame.Player
             if (other.gameObject.CompareTag(_groundTag))
             {
                 Sound3DPlayer.Play3D(_groundSound, this.transform.position, _setting);
+                TargetPerceptionManager.HearNoise(this.transform.root, this.transform.position);
             }
         }
     }
