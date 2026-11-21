@@ -399,6 +399,7 @@ GameObject:
   - component: {fileID: 7072203687365422057}
   - component: {fileID: 3705349966932041894}
   - component: {fileID: 9109211526205245146}
+  - component: {fileID: 6168932859389573492}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -661,6 +662,7 @@ MonoBehaviour:
   _agent: {fileID: 3685777620095334476}
   _animationPlayer: {fileID: 8241775061212167194}
   _rifleControl: {fileID: 497003003458170673}
+  _perceptionSystem: {fileID: 0}
   _walkSpeed: 2
   _runSpeed: 5
   _runDistance: 8
@@ -692,6 +694,50 @@ MonoBehaviour:
       m_RotationOrder: 4
   _turnSpeed: 360
   _facingAngleThreshold: 2
+--- !u!114 &6168932859389573492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2931331300796294044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ae12321d878a48478ef52c32919d4a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.Bot.Perception.PerceptionSystem
+  _perceptionBaseData:
+    _targetTeam: 1
+    _botTransform: {fileID: 6328415949865296972}
+  _visionSensor:
+    _visionDistance: 50
+    _fieldOfView: 120
+    _obstacleLayer:
+      serializedVersion: 2
+      m_Bits: 1792
+    _detectionDuration: 0.5
+    _detectionRecoveryRate: 0.5
+    _headHeight: 1
+    _visionPartDatas:
+    - PartName: "\u982D"
+      Height: 1
+      Visibility: 0.5
+    - PartName: "\u80F4\u4F53"
+      Height: 0
+      Visibility: 0.1
+    - PartName: "\u8DB3"
+      Height: -1
+      Visibility: 0.5
+  _targetTracker:
+    _settings:
+      _maxPredictTime: 3
+      _velocitySmoothing: 10
+      _turnSmoothing: 6
+      _speedDecay: 0.3
+      _turnDecay: 1.5
+      _maxYawRate: 270
+      _simulationStep: 0.1
+      _navMeshSampleDistance: 3
 --- !u!1 &3589381990387585810
 GameObject:
   m_ObjectHideFlags: 0

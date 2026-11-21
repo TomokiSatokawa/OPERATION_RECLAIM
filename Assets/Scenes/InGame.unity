@@ -5329,18 +5329,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_Constraints
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_LinearDamping
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_AngularDamping
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7730,18 +7718,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_Constraints
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_LinearDamping
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_AngularDamping
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8690,18 +8666,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_Constraints
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_LinearDamping
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_AngularDamping
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8801,18 +8765,6 @@ PrefabInstance:
     - target: {fileID: 2743518810354485803, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_Constraints
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_LinearDamping
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_AngularDamping
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8959,18 +8911,6 @@ PrefabInstance:
     - target: {fileID: 2743518810354485803, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_Constraints
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_LinearDamping
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_AngularDamping
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11131,22 +11071,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3261130753893819686, guid: 792854589715e854eb177f0df0281107, type: 3}
+      propertyPath: _perceptionBaseData._botTransform
+      value: 
+      objectReference: {fileID: 342698064}
     - target: {fileID: 4406972102753648321, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: _mainCamera
       value: 
       objectReference: {fileID: 1922853098}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_Constraints
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_LinearDamping
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8577457225674689614, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_AngularDamping
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
