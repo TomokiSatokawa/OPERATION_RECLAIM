@@ -17,35 +17,38 @@ namespace InGame.Enemy.StateMachine
         [SerializeField] private float _lostDuration;
 
         private float _lostTimer;
-        private bool _isLost;
+        private Transform _target;
 
         protected override void OnEnter(StateContext context)
         {
-            _isLost = false;
-
             if (context.Perception == null)
             {
                 Debug.LogError("[ChaseState] Perception が未設定です。");
                 return;
             }
+
+            _target = context.BotController.Perception.GetBestTarget();
         }
 
         protected override void OnUpdate(StateContext context)
         {
-            if (context.Perception == null)
+            if (context.BotController.Perception == null)
             {
                 return;
             }
 
-            if (context.Perception.CanSeeTarget)
+            var chase = context.BotController.Perception.TryGetTargetCurrentPosition(_target, out var position);
+
+            if (chase)
             {
-                _isLost = false;
-                ChaseVisibleTarget(context);
+                ChaseVisibleTarget(context, position);
                 return;
             }
+
+            _target = context.BotController.Perception.GetBestTarget();
 
             //ターゲットがいない
-            if(context.Perception.PrimaryTarget == null)
+            if (_target == null)
             {
                 _lostTimer -= Time.deltaTime;
 
@@ -54,9 +57,6 @@ namespace InGame.Enemy.StateMachine
             }
             else
                 _lostTimer = _lostDuration;
-
-            _isLost = true;
-            MoveTo(context, context.Perception.PredictedPosition);
         }
 
         public override bool CanTransition(StateContext context)
@@ -70,19 +70,19 @@ namespace InGame.Enemy.StateMachine
             context.BotController.StopMove();
         }
 
-        private void ChaseVisibleTarget(StateContext context)
+        private void ChaseVisibleTarget(StateContext context, Vector3 position)
         {
-            Vector3 targetPosition = context.Player.position;
-            float sqrDistance = (targetPosition - context.Bot.position).sqrMagnitude;
+            float sqrDistance = (position - context.Bot.position).sqrMagnitude;
 
             // 攻撃範囲に入ったら攻撃ステートへ
-            if (sqrDistance <= _attackRange * _attackRange)
+            if (context.BotController.Perception.CheckTargetVisibility(_target)
+                && sqrDistance <= _attackRange * _attackRange)
             {
                 RequestChangeState = nameof(AttackState);
                 return;
             }
 
-            MoveTo(context, targetPosition);
+            MoveTo(context, position);
         }
 
         private void MoveTo(StateContext context, Vector3 position)

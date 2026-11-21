@@ -7,6 +7,7 @@ namespace InGame.Bot.Perception
     [System.Serializable]
     public class TargetTracker
     {
+        [SerializeField] private float _deleteDistance;
         [SerializeField] private TargetPredictionSettings _settings;
 
         private const float MinSlideRatio = 0.2f;
@@ -25,6 +26,7 @@ namespace InGame.Bot.Perception
         private bool _wasVisible;
 
         private Transform _target;
+        private PerceptionBaseData _baseData;
 
         private Vector3 _smoothedVelocity;
         private float _smoothedYawRate;
@@ -33,15 +35,17 @@ namespace InGame.Bot.Perception
 
         private float _lostTime;
 
-        private TargetTracker(Transform target, TargetPredictionSettings settings)
+        private TargetTracker(Transform target, TargetPredictionSettings settings, float deleteDistance, PerceptionBaseData baseData)
         {
             _target = target;
             _settings = settings;
+            _baseData = baseData;
+            _deleteDistance = deleteDistance;
         }
 
-        public TargetTracker Clone(Transform target)
+        public TargetTracker Clone(Transform target, PerceptionBaseData baseData)
         {
-            return new(target, _settings);
+            return new(target, _settings, _deleteDistance, baseData);
         }
 
         public void Track(Vector3 position, float deltaTime)
@@ -83,11 +87,11 @@ namespace InGame.Bot.Perception
             _wasVisible = _isVisible;
             _isVisible = false;
 
-            float elapsed = Time.time - _lostTime;
-            //予測時間オーバー
-            if (_trajectory.Count > 0 && elapsed > _settings.MaxPredictTime)
+            //軌道の最終点に近づいた
+            if (_trajectory.Count > 0 &&
+                (_trajectory[_trajectory.Count - 1] - _baseData.BotTransform.position).sqrMagnitude < _deleteDistance * _deleteDistance)
             {
-                _trajectory.Clear();
+                DeleteTrajectory();
             }
         }
 
@@ -116,18 +120,25 @@ namespace InGame.Bot.Perception
 
             float elapsed = Time.time - _lostTime;
 
-            //予測時間オーバー
-            if (elapsed > _settings.MaxPredictTime)
-                return false;
+            ////予測時間オーバー
+            //if (elapsed > _settings.MaxPredictTime)
+            //    return false;
 
             return true;
+        }
+
+        /// <summary>
+        /// 軌道を削除する
+        /// </summary>
+        public void DeleteTrajectory()
+        {
+            Debug.Log("軌道削除");
+            _trajectory.Clear();
         }
 
         /// <summary>計算した軌道をGizmosで描画する(OnDrawGizmos系から呼ぶ)</summary>
         public void DrawGizmos()
         {
-            Debug.Log($"DrawGizmos: {_trajectory.Count}");
-
             if (_trajectory.Count == 0)
             {
                 return;
@@ -136,7 +147,6 @@ namespace InGame.Bot.Perception
             Gizmos.color = Color.cyan;
             for (int i = 1; i < _trajectory.Count; i++)
             {
-                Debug.Log("D");
                 Gizmos.DrawLine(_trajectory[i - 1], _trajectory[i]);
             }
 

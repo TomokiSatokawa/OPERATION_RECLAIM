@@ -28,7 +28,7 @@ namespace InGame.Bot.Perception
             {
                 if (target != null && !_targetTrackerDictionary.ContainsKey(target))
                 {
-                    _targetTrackerDictionary.Add(target, _targetTracker.Clone(target));
+                    _targetTrackerDictionary.Add(target, _targetTracker.Clone(target, _perceptionBaseData));
                 }
             }
         }
@@ -47,7 +47,7 @@ namespace InGame.Bot.Perception
                 if (!_targetTrackerDictionary.TryGetValue(target, out var tracker))
                 {
                     // Also register targets that join after startup.
-                    tracker = _targetTracker.Clone(target);
+                    tracker = _targetTracker.Clone(target, _perceptionBaseData);
                     _targetTrackerDictionary.Add(target, tracker);
                 }
 
@@ -121,6 +121,9 @@ namespace InGame.Bot.Perception
                 //ˆê”Ô‹ß‚¢“G‚·
                 foreach (var kv in _targetTrackerDictionary)
                 {
+                    if (!kv.Value.HasPrediction())
+                        continue;
+
                     var sqr = (_perceptionBaseData.BotTransform.position - kv.Value.GetPositionAtTime()).sqrMagnitude;
                     if (sqr < nearestSqr)
                     {
@@ -133,14 +136,12 @@ namespace InGame.Bot.Perception
             //“Gî•ñ‚È‚µ
             else
                 return null;
-
-            return null;
         }
 
         /// <summary>
         /// ‘ÎÛ‚Ì“G‚ğ‹”F‚µ‚Ä‚¢‚é‚©
         /// </summary>
-        public bool CheckEnemyVisibility(Transform target)
+        public bool CheckTargetVisibility(Transform target)
         {
             return _visionSensor.VisibleTargets.Contains(target);
         }
@@ -148,9 +149,12 @@ namespace InGame.Bot.Perception
         /// <summary>
         /// ‘ÎÛ‚Ì“G‚Ì—\‘ªˆÊ’u‚ğæ“¾
         /// </summary>
-        public bool TryGetEnemyPredictedPosition(Transform target, out Vector3 position)
+        public bool TryGetTargetPredictedPosition(Transform target, out Vector3 position)
         {
             position = Vector3.zero;
+
+            if (target == null)
+                return false;
 
             if (!_targetTrackerDictionary.TryGetValue(target, out var tracker))
                 return false;
@@ -165,17 +169,17 @@ namespace InGame.Bot.Perception
         /// <summary>
         /// ‘ÎÛ‚Ì“G‚É‘Î‚·‚éÅ“K‚ÈˆÊ’u‚ğ•Ô‚·
         /// </summary>
-        public bool TryGetEnemyCurrentPosition(Transform target, out Vector3 position)
+        public bool TryGetTargetCurrentPosition(Transform target, out Vector3 position)
         {
             //‹”F‚µ‚Ä‚¢‚é‚È‚ç‚»‚Ì‚Ü‚Ü‚ÌˆÊ’u
-            if (CheckEnemyVisibility(target))
+            if (CheckTargetVisibility(target))
             {
                 position = target.position;
                 return true;
             }
 
             //—\‘zŸ‘æ
-            return TryGetEnemyPredictedPosition(target, out position);
+            return TryGetTargetPredictedPosition(target, out position);
         }
     }
 }

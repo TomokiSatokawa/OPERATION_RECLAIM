@@ -39,7 +39,8 @@ namespace InGame.Enemy.StateMachine
             }
             MoveToCurrentPoint(context);
 
-            if (context.Perception.CanSeeTarget)
+            //éãîFÇµÇΩÇÁí«ê’
+            if (context.BotController.Perception.IsVisible)
                 RequestChangeState = nameof(ChaseState);
         }
 

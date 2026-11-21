@@ -662,7 +662,7 @@ MonoBehaviour:
   _agent: {fileID: 3685777620095334476}
   _animationPlayer: {fileID: 8241775061212167194}
   _rifleControl: {fileID: 497003003458170673}
-  _perceptionSystem: {fileID: 0}
+  _perceptionSystem: {fileID: 6168932859389573492}
   _walkSpeed: 2
   _runSpeed: 5
   _runDistance: 8

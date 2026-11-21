@@ -209,7 +209,6 @@ namespace InGame.Bot
         /// </summary>
         private void EndMove()
         {
-            Debug.Log("EndMove");
             _hasMoveTarget = false;
             _lookTarget = null;
             _agent.updateRotation = true;
