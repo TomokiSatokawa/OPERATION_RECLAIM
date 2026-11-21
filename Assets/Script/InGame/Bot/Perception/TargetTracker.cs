@@ -26,11 +26,12 @@ namespace InGame.Bot.Perception
 
         private Transform _target;
 
-
         private Vector3 _smoothedVelocity;
         private float _smoothedYawRate;
         private Vector3 _capturedPosition;
         private readonly List<Vector3> _trajectory = new List<Vector3>();
+
+        private float _lostTime;
 
         private TargetTracker(Transform target, TargetPredictionSettings settings)
         {
@@ -70,6 +71,7 @@ namespace InGame.Bot.Perception
 
         public void Tick(float deltaTime)
         {
+            //見失った瞬間1f
             if (!_isVisible && _wasVisible)
             {
                 Capture(_lastSeenPosition);
@@ -80,6 +82,45 @@ namespace InGame.Bot.Perception
 
             _wasVisible = _isVisible;
             _isVisible = false;
+
+            float elapsed = Time.time - _lostTime;
+            //予測時間オーバー
+            if (_trajectory.Count > 0 && elapsed > _settings.MaxPredictTime)
+            {
+                _trajectory.Clear();
+            }
+        }
+
+        public Vector3 GetPositionAtTime()
+        {
+            if (_trajectory.Count == 0)
+            {
+                Debug.LogError("[TargetTracker] 予測軌道がないのに予想位置を取得しようとしました");
+                return Vector3.zero;
+            }
+
+            float elapsed = Time.time - _lostTime;
+
+            float clamped = Mathf.Clamp(elapsed, 0f, _settings.MaxPredictTime);
+            float index = clamped / _settings.SimulationStep;
+            int lower = Mathf.Min(Mathf.FloorToInt(index), _trajectory.Count - 1);
+            int upper = Mathf.Min(lower + 1, _trajectory.Count - 1);
+            return Vector3.Lerp(_trajectory[lower], _trajectory[upper], index - lower);
+        }
+
+        public bool HasPrediction()
+        {
+            //予測軌道なし
+            if (_trajectory.Count == 0)
+                return false;
+
+            float elapsed = Time.time - _lostTime;
+
+            //予測時間オーバー
+            if (elapsed > _settings.MaxPredictTime)
+                return false;
+
+            return true;
         }
 
         /// <summary>計算した軌道をGizmosで描画する(OnDrawGizmos系から呼ぶ)</summary>
@@ -106,6 +147,8 @@ namespace InGame.Bot.Perception
             {
                 Gizmos.DrawSphere(_trajectory[_trajectory.Count - 1], 0.15f);
             }
+
+            Gizmos.DrawWireSphere(GetPositionAtTime(), 0.15f);
         }
 
         //以下AI
@@ -154,6 +197,8 @@ namespace InGame.Bot.Perception
                 position = SnapToNavMesh(position);
                 _trajectory.Add(position);
             }
+
+            _lostTime = Time.time;
         }
 
         private void UpdateYawRate(Vector3 previousVelocity, float deltaTime)

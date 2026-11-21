@@ -1,4 +1,5 @@
 ﻿using Common.Motion;
+using InGame.Bot.Perception;
 using InGame.Player.Motion;
 using InGame.Player.Rifle;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace InGame.Bot
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private AnimationPlayer _animationPlayer;
         [SerializeField] private BotRifleControl _rifleControl;
+        [SerializeField] private PerceptionSystem _perceptionSystem;
         [SerializeField] private float _walkSpeed = 2f;
         [SerializeField] private float _runSpeed = 4f;
         [SerializeField] private float _runDistance = 8f;
@@ -38,6 +40,7 @@ namespace InGame.Bot
         public RifleData RifleData => _rifleControl.CurrentRifle;
         public bool HasArrived => !_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance;
         public Vector3 Velocity => _agent.velocity;
+        public PerceptionSystem Perception => _perceptionSystem;
 
         private void Reset()
         {
