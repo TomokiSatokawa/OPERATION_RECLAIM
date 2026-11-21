@@ -21,7 +21,7 @@ namespace InGame.Enemy.StateMachine
 
         protected override void OnEnter(StateContext context)
         {
-            if (context.Perception == null)
+            if (context.BotController.Perception == null)
             {
                 Debug.LogError("[ChaseState] Perception Ç™ñ¢ê›íËÇ≈Ç∑ÅB");
                 return;
@@ -62,7 +62,7 @@ namespace InGame.Enemy.StateMachine
         public override bool CanTransition(StateContext context)
         {
             // PlayerÇ™å©Ç¶ÇΩÇÁäJénÇ∑ÇÈ
-            return context.Perception != null && context.Perception.CanSeeTarget;
+            return context.BotController.Perception != null && context.BotController.Perception.IsVisible;
         }
 
         protected override void OnExit(StateContext context)

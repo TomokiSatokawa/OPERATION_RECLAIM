@@ -394,7 +394,6 @@ GameObject:
   - component: {fileID: 2120555540202077822}
   - component: {fileID: 497003003458170673}
   - component: {fileID: 4728804458562394141}
-  - component: {fileID: 7459990018888276483}
   - component: {fileID: 4543430948571054765}
   - component: {fileID: 7072203687365422057}
   - component: {fileID: 3705349966932041894}
@@ -484,7 +483,6 @@ MonoBehaviour:
   _player: {fileID: 0}
   _controller: {fileID: 9109211526205245146}
   _animation: {fileID: 8241775061212167194}
-  _perception: {fileID: 7459990018888276483}
   _rifleControl: {fileID: 497003003458170673}
   _healthControl: {fileID: 4728804458562394141}
   _icon: {fileID: 5784496095897749188}
@@ -500,7 +498,7 @@ MonoBehaviour:
     - rid: 7286859592749285770
       type: {class: ChaseState, ns: InGame.Enemy.StateMachine, asm: Assembly-CSharp}
       data:
-        _stopDistance: 3
+        _stopDistance: 1
         _waitSecond: 1
         _attackRange: 8
         _lostDuration: 0
@@ -564,45 +562,6 @@ MonoBehaviour:
   _maxHp: 1
   _animationPlayer: {fileID: 8241775061212167194}
   _teamType: 2
---- !u!114 &7459990018888276483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2931331300796294044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606dbcbe143c84445804a893906319cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.EnemyPerception
-  _targetTeam: 1
-  _viewDistance: 50
-  _viewAngle: 120.08616
-  _eyeOffset: {x: 0, y: 1.6, z: 0}
-  _targetOffset: {x: 0, y: 1, z: 0}
-  _obstacleMask:
-    serializedVersion: 2
-    m_Bits: 1919
-  _targetMask:
-    serializedVersion: 2
-    m_Bits: 8
-  _castRadius: 0.2
-  _checkInterval: 0.1
-  _awarenessRadius: 2
-  _lostGraceTime: 0.5
-  _directionalDuration: 6
-  _hearingRange: 20
-  _hearingErrorRadius: 3
-  _predictionSettings:
-    _maxPredictTime: 3
-    _velocitySmoothing: 10
-    _turnSmoothing: 6
-    _speedDecay: 0.3
-    _turnDecay: 1.5
-    _maxYawRate: 270
-    _simulationStep: 0.1
-    _navMeshSampleDistance: 1
 --- !u!114 &4543430948571054765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -729,6 +688,7 @@ MonoBehaviour:
       Height: -1
       Visibility: 0.5
   _targetTracker:
+    _deleteDistance: 2
     _settings:
       _maxPredictTime: 3
       _velocitySmoothing: 10

@@ -51,7 +51,6 @@ namespace InGame.Bot.StateMachine
         public Transform Player;
         public Transform Bot;
         public AnimationPlayer AnimationPlayer;
-        public TargetPerception Perception;
         public BotRifleControl RifleControl;
         public EnemyIcon Icon;
 

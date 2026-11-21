@@ -12,7 +12,6 @@ namespace InGame.Bot.StateMachine
         [SerializeField] private Transform _player;
         [SerializeField] private BotController _controller;
         [SerializeField] private AnimationPlayer _animation;
-        [SerializeField] private TargetPerception _perception;
         [SerializeField] private BotRifleControl _rifleControl;
         [SerializeField] private HealthControl _healthControl;
         [SerializeField] private EnemyIcon _icon;
@@ -27,7 +26,6 @@ namespace InGame.Bot.StateMachine
                 Player = _player,
                 Bot = this.transform,
                 AnimationPlayer = _animation,
-                Perception = _perception,
                 RifleControl = _rifleControl,
                 Icon = _icon,
                 BotController = _controller,
@@ -47,7 +45,7 @@ namespace InGame.Bot.StateMachine
             _stateMachine.RequestChangeState(type);
         }
 
-        public void RequestChangeState(Type type,CommandSession command)
+        public void RequestChangeState(Type type, CommandSession command)
         {
             _stateMachine.RequestChangeState(type, command);
         }
@@ -62,7 +60,6 @@ namespace InGame.Bot.StateMachine
         {
             _controller = GetComponent<BotController>();
             _animation = GetComponentInChildren<AnimationPlayer>();
-            _perception = GetComponent<TargetPerception>();
             _rifleControl = GetComponent<BotRifleControl>();
             _healthControl = GetComponent<HealthControl>();
         }

@@ -192,7 +192,6 @@ GameObject:
   - component: {fileID: 8444116731928728241}
   - component: {fileID: 3395344069983108857}
   - component: {fileID: 3506577063079446552}
-  - component: {fileID: 5165473270927870240}
   - component: {fileID: 1693836187169945268}
   - component: {fileID: 6196786328192379183}
   - component: {fileID: 4406972102753648321}
@@ -300,45 +299,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGame.Common.TeamUnitRegistry
   _team: 1
---- !u!114 &5165473270927870240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1189892605092398508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606dbcbe143c84445804a893906319cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InGame.Enemy.EnemyPerception
-  _targetTeam: 2
-  _viewDistance: 50
-  _viewAngle: 120.08616
-  _eyeOffset: {x: 0, y: 1.6, z: 0}
-  _targetOffset: {x: 0, y: 1, z: 0}
-  _obstacleMask:
-    serializedVersion: 2
-    m_Bits: 2039
-  _targetMask:
-    serializedVersion: 2
-    m_Bits: 8
-  _castRadius: 0.2
-  _checkInterval: 0.1
-  _awarenessRadius: 2
-  _lostGraceTime: 0.5
-  _directionalDuration: 6
-  _hearingRange: 20
-  _hearingErrorRadius: 3
-  _predictionSettings:
-    _maxPredictTime: 3
-    _velocitySmoothing: 10
-    _turnSmoothing: 6
-    _speedDecay: 0.3
-    _turnDecay: 1.5
-    _maxYawRate: 270
-    _simulationStep: 0.1
-    _navMeshSampleDistance: 1
 --- !u!114 &1693836187169945268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,7 +434,6 @@ MonoBehaviour:
   _player: {fileID: 0}
   _controller: {fileID: 6196786328192379183}
   _animation: {fileID: 6167305908382815879}
-  _perception: {fileID: 5165473270927870240}
   _rifleControl: {fileID: 4406972102753648321}
   _healthControl: {fileID: 3395344069983108857}
   _icon: {fileID: 0}
@@ -526,6 +485,7 @@ MonoBehaviour:
       Height: -1
       Visibility: 0.5
   _targetTracker:
+    _deleteDistance: 0
     _settings:
       _maxPredictTime: 3
       _velocitySmoothing: 10
