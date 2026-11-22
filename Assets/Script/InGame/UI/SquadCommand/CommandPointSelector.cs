@@ -108,11 +108,10 @@ namespace InGame.UI.SquadCommand
             //TODO:Pool化する
             var target = new GameObject();
             target.transform.position = _selectWorldPosition;
-
-            _mapPinManager.AddRuntimePin(_pinData, target.transform);
+            var trackingData = MapPinRegistry.RegisterPin(_pinData, _selectWorldPosition);
             var command = new CommandSession(_selectWorldPosition);
 
-            command.OnFinish += () => _mapPinManager.RemoveRuntimePin(target.transform);
+            command.OnFinish += () => MapPinRegistry.TryUnregisterPin(trackingData);
 
             OnSelectCommand?.Invoke(index, command);
         }

@@ -2272,11 +2272,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8447082967072642302, guid: 22bab11d4a6cfbb45a7ad80d04ad4b79, type: 3}
   m_PrefabInstance: {fileID: 1406103527}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &615560867 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6328415949865296972, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
-  m_PrefabInstance: {fileID: 637672489}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &635524402
 GameObject:
   m_ObjectHideFlags: 0
@@ -2372,35 +2367,10 @@ MonoBehaviour:
   _mapRect: {fileID: 45702933}
   _poolManager: {fileID: 1520556322}
   _pinPrefab: {fileID: 6066380951358409434, guid: 1be9a3fb460deec438aece878583e9fc, type: 3}
-  _trackingDatas:
-  - PinData:
-      Image: {fileID: 0}
-      Color: {r: 1, g: 0.70196915, b: 0, a: 1}
-    Target: {fileID: 1636034708}
-  - PinData:
-      Image: {fileID: 0}
-      Color: {r: 0, g: 0.4696021, b: 1, a: 1}
-    Target: {fileID: 790601701}
-  - PinData:
-      Image: {fileID: 0}
-      Color: {r: 0, g: 0.47058824, b: 1, a: 1}
-    Target: {fileID: 1670768985}
-  - PinData:
-      Image: {fileID: 0}
-      Color: {r: 0, g: 0.47058824, b: 1, a: 1}
-    Target: {fileID: 1679190182}
-  - PinData:
-      Image: {fileID: 0}
-      Color: {r: 0, g: 0.47058824, b: 1, a: 1}
-    Target: {fileID: 1738916685}
-  - PinData:
-      Image: {fileID: 0}
-      Color: {r: 0, g: 0.47058824, b: 1, a: 1}
-    Target: {fileID: 1307269681}
-  - PinData:
-      Image: {fileID: 0}
-      Color: {r: 0, g: 0.47058824, b: 1, a: 1}
-    Target: {fileID: 1590376951}
+  _trackingDatas: []
+  _pinData:
+    Image: {fileID: 21300000, guid: cc7c20308e8a3df41a0b2a18dc7b632a, type: 3}
+    Color: {r: 0, g: 0.17575979, b: 1, a: 1}
 --- !u!114 &635524408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10055,38 +10025,16 @@ MonoBehaviour:
   _poolManager: {fileID: 1520556322}
   _pinPrefab: {fileID: 6066380951358409434, guid: 9eff8053cdb89b04eaeb9c677b9968b2, type: 3}
   _trackingDatas:
-  - PinData:
-      Image: {fileID: 21300000, guid: e512a6bc7581a6345b8a137a160f4369, type: 3}
-      Color: {r: 0.9622642, g: 0.47671014, b: 0.0127091, a: 1}
-    Target: {fileID: 1636034708}
-  - PinData:
-      Image: {fileID: 21300000, guid: e512a6bc7581a6345b8a137a160f4369, type: 3}
-      Color: {r: 0, g: 0.41960785, b: 0.8352941, a: 1}
-    Target: {fileID: 790601701}
-  - PinData:
-      Image: {fileID: 21300000, guid: e512a6bc7581a6345b8a137a160f4369, type: 3}
-      Color: {r: 0, g: 0.41960785, b: 0.8352941, a: 1}
-    Target: {fileID: 1670768985}
-  - PinData:
-      Image: {fileID: 21300000, guid: e512a6bc7581a6345b8a137a160f4369, type: 3}
-      Color: {r: 0, g: 0.41960785, b: 0.8352941, a: 1}
-    Target: {fileID: 1679190182}
-  - PinData:
-      Image: {fileID: 21300000, guid: e512a6bc7581a6345b8a137a160f4369, type: 3}
-      Color: {r: 0, g: 0.41960785, b: 0.8352941, a: 1}
-    Target: {fileID: 1738916685}
-  - PinData:
-      Image: {fileID: 21300000, guid: e512a6bc7581a6345b8a137a160f4369, type: 3}
-      Color: {r: 0, g: 0.41960785, b: 0.8352941, a: 1}
-    Target: {fileID: 1307269681}
-  - PinData:
-      Image: {fileID: 21300000, guid: e512a6bc7581a6345b8a137a160f4369, type: 3}
-      Color: {r: 0, g: 0.41960785, b: 0.8352941, a: 1}
-    Target: {fileID: 1590376951}
-  - PinData:
-      Image: {fileID: 21300000, guid: e512a6bc7581a6345b8a137a160f4369, type: 3}
-      Color: {r: 0.8352941, g: 0.04833383, b: 0, a: 1}
-    Target: {fileID: 615560867}
+  - {fileID: 1636034708}
+  - {fileID: 790601701}
+  - {fileID: 1670768985}
+  - {fileID: 1679190182}
+  - {fileID: 1738916685}
+  - {fileID: 1307269681}
+  - {fileID: 1590376951}
+  _pinData:
+    Image: {fileID: 21300000, guid: cc7c20308e8a3df41a0b2a18dc7b632a, type: 3}
+    Color: {r: 0, g: 0.44508076, b: 1, a: 1}
 --- !u!1 &2020117043 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3257157329665961673, guid: 3c61731c91f88364196a4223daee2386, type: 3}

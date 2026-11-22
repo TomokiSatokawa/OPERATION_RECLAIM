@@ -10,14 +10,14 @@ namespace InGame.UI.Map
         [SerializeField] private Image _image;
         [SerializeField] private float _range;
         private Camera _mapCamera;
-        private Transform _target;
+        private TrackingBaseData _target;
         private RectTransform _mapRect;
         private FloatRange _viewRange = FloatRange.Create(0, 1);
 
-        public void Initialize(Camera mapCamera, Transform target, RectTransform mapRect,PinData pinData)
+        public void Initialize(Camera mapCamera, TrackingBaseData tracking, RectTransform mapRect,PinData pinData)
         {
             _mapCamera = mapCamera;
-            _target = target;
+            _target = tracking;
             _mapRect = mapRect;
             _image.sprite = pinData.Image;
             _image.color = pinData.Color;
@@ -28,7 +28,7 @@ namespace InGame.UI.Map
 
         private void FixedUpdate()
         {
-            Vector3 viewport = _mapCamera.WorldToViewportPoint(_target.position);
+            Vector3 viewport = _mapCamera.WorldToViewportPoint(_target.GetPosition());
 
             var size = _mapRect.rect.size;
             var pos = new Vector2((viewport.x - 0.5f) * size.x, (viewport.y - 0.5f) * size.y);
