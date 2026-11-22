@@ -13,18 +13,28 @@ namespace InGame.Bot.Perception
         [SerializeField] private VisionSensor _visionSensor;
         [Header("—\‘ª")]
         [SerializeField] private TargetTracker _targetTracker;
+        [Header("’®Šo")]
+        [SerializeField] private SoundSensor _soundSensor;
 
         //ŠO•”API
         /// <summary> “G‚ğ’¼‹‚µ‚Ä‚¢‚é‚© </summary>
         public bool IsVisible => _visionSensor.VisibleTargets.Count > 0;
+        public bool HasSoundData => _soundSensor.SoundDataCount > 0;
 
-        private readonly Dictionary<Transform, TargetTracker> _targetTrackerDictionary = new();
+        private readonly Dictionary<ITrackingData, TargetTracker> _targetTrackerDictionary = new();
+        private readonly Dictionary<Transform, TrackingTarget> _trackingDictionary = new();
 
         private void Start()
         {
-            _visionSensor.Initialize(_perceptionBaseData);
-
             foreach (var target in TeamUnitDatabase.GetUnit(_perceptionBaseData.TargetTeam))
+            {
+                _trackingDictionary.Add(target, new() { Target = target });
+            }
+
+            _visionSensor.Initialize(_perceptionBaseData, _trackingDictionary.Values);
+            _soundSensor.Initialize(_perceptionBaseData);
+
+            foreach (var target in _trackingDictionary.Values)
             {
                 if (target != null && !_targetTrackerDictionary.ContainsKey(target))
                 {
@@ -36,6 +46,7 @@ namespace InGame.Bot.Perception
         private void Update()
         {
             _visionSensor.Tick(Time.deltaTime);
+            _soundSensor.Tick(Time.deltaTime);
 
             foreach (var target in _visionSensor.VisibleTargets)
             {
@@ -51,7 +62,7 @@ namespace InGame.Bot.Perception
                     _targetTrackerDictionary.Add(target, tracker);
                 }
 
-                tracker.Track(target.position, Time.deltaTime);
+                tracker.Track(target.Position, Time.deltaTime);
             }
 
             foreach (var tracker in _targetTrackerDictionary.Values)
@@ -92,18 +103,18 @@ namespace InGame.Bot.Perception
         /// <summary>
         /// Å“K‚È“G‚ğæ“¾
         /// </summary>
-        public Transform GetBestTarget()
+        public ITrackingData GetBestTarget()
         {
             //‹”F‚µ‚Ä‚¢‚é‚à‚Ì‚©‚ç’T‚·
             if (IsVisible)
             {
                 float nearestSqr = float.MaxValue;
-                Transform nearestTransfrom = null;
+                ITrackingData nearestTransfrom = null;
 
                 //ˆê”Ô‹ß‚¢“G‚ğ’T‚·
                 foreach (var target in _visionSensor.VisibleTargets)
                 {
-                    var sqr = (_perceptionBaseData.BotTransform.position - target.transform.position).sqrMagnitude;
+                    var sqr = (_perceptionBaseData.BotTransform.position - target.Position).sqrMagnitude;
                     if (sqr < nearestSqr)
                     {
                         nearestTransfrom = target;
@@ -116,7 +127,7 @@ namespace InGame.Bot.Perception
             else if (HasTracking())
             {
                 float nearestSqr = float.MaxValue;
-                Transform nearestTransfrom = null;
+                ITrackingData nearestTarget = null;
 
                 //ˆê”Ô‹ß‚¢“G‚·
                 foreach (var kv in _targetTrackerDictionary)
@@ -127,21 +138,29 @@ namespace InGame.Bot.Perception
                     var sqr = (_perceptionBaseData.BotTransform.position - kv.Value.GetPositionAtTime()).sqrMagnitude;
                     if (sqr < nearestSqr)
                     {
-                        nearestTransfrom = kv.Key;
+                        nearestTarget = kv.Key;
                         nearestSqr = sqr;
                     }
                 }
-                return nearestTransfrom;
+                return nearestTarget;
             }
+            //’®Šoî•ñ‚©‚ç’T‚·
+            else if (HasSoundData)
+            {
+                if (_soundSensor.TryGetNearestPosition(out var position))
+                {
+                    return new TrackingPosition() { TargetPosition = position };
+                }
+            }
+
             //“Gî•ñ‚È‚µ
-            else
-                return null;
+            return null;
         }
 
         /// <summary>
         /// ‘ÎÛ‚Ì“G‚ğ‹”F‚µ‚Ä‚¢‚é‚©
         /// </summary>
-        public bool CheckTargetVisibility(Transform target)
+        public bool CheckTargetVisibility(ITrackingData target)
         {
             return _visionSensor.VisibleTargets.Contains(target);
         }
@@ -149,12 +168,18 @@ namespace InGame.Bot.Perception
         /// <summary>
         /// ‘ÎÛ‚Ì“G‚Ì—\‘ªˆÊ’u‚ğæ“¾
         /// </summary>
-        public bool TryGetTargetPredictedPosition(Transform target, out Vector3 position)
+        public bool TryGetTargetPredictedPosition(ITrackingData target, out Vector3 position)
         {
             position = Vector3.zero;
 
             if (target == null)
                 return false;
+
+            if(target is TrackingPosition pos)
+            {
+                position = pos.TargetPosition;
+                return true;
+            }
 
             if (!_targetTrackerDictionary.TryGetValue(target, out var tracker))
                 return false;
@@ -169,12 +194,12 @@ namespace InGame.Bot.Perception
         /// <summary>
         /// ‘ÎÛ‚Ì“G‚É‘Î‚·‚éÅ“K‚ÈˆÊ’u‚ğ•Ô‚·
         /// </summary>
-        public bool TryGetTargetCurrentPosition(Transform target, out Vector3 position)
+        public bool TryGetTargetCurrentPosition(ITrackingData target, out Vector3 position)
         {
             //‹”F‚µ‚Ä‚¢‚é‚È‚ç‚»‚Ì‚Ü‚Ü‚ÌˆÊ’u
             if (CheckTargetVisibility(target))
             {
-                position = target.position;
+                position = target.Position;
                 return true;
             }
 

@@ -2434,10 +2434,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1636034708}
     - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
-      propertyPath: managedReferences[7286859592749285770]._stopDistance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2120555540202077822, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: managedReferences[7286859592749285749]._waypointGroup
       value: 
       objectReference: {fileID: 1982196633}
@@ -2445,9 +2441,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 5473223042424693513, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: _radius
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6168932859389573492, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
-      propertyPath: _targetTracker._deleteDistance
-      value: 2
+      propertyPath: _soundSensor._validDuration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6168932859389573492, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: _soundSensor._cancelDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6295840060708022503, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: _radius
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6328415949865296972, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5036,6 +5044,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3261130753893819686, guid: 792854589715e854eb177f0df0281107, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7425,6 +7437,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3261130753893819686, guid: 792854589715e854eb177f0df0281107, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8155,6 +8171,7 @@ MonoBehaviour:
   _shotSe:
     _definition: {fileID: 11400000, guid: 121d87b9277ee1547861505a2d9f0664, type: 2}
     _guid: c39d2ef51c7d48b586388727a92afeb8
+  _radius: 50
   references:
     version: 2
     RefIds:
@@ -8373,6 +8390,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3261130753893819686, guid: 792854589715e854eb177f0df0281107, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8471,6 +8492,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2743518810354485803, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3261130753893819686, guid: 792854589715e854eb177f0df0281107, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -8617,6 +8642,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2743518810354485803, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3261130753893819686, guid: 792854589715e854eb177f0df0281107, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -10776,6 +10805,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2743518810354485803, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3261130753893819686, guid: 792854589715e854eb177f0df0281107, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4406972102753648321, guid: 792854589715e854eb177f0df0281107, type: 3}

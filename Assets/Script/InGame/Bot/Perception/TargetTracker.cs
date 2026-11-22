@@ -25,7 +25,7 @@ namespace InGame.Bot.Perception
         private bool _isVisible;
         private bool _wasVisible;
 
-        private Transform _target;
+        private TrackingTarget _target;
         private PerceptionBaseData _baseData;
 
         private Vector3 _smoothedVelocity;
@@ -35,7 +35,7 @@ namespace InGame.Bot.Perception
 
         private float _lostTime;
 
-        private TargetTracker(Transform target, TargetPredictionSettings settings, float deleteDistance, PerceptionBaseData baseData)
+        private TargetTracker(TrackingTarget target, TargetPredictionSettings settings, float deleteDistance, PerceptionBaseData baseData)
         {
             _target = target;
             _settings = settings;
@@ -43,7 +43,7 @@ namespace InGame.Bot.Perception
             _deleteDistance = deleteDistance;
         }
 
-        public TargetTracker Clone(Transform target, PerceptionBaseData baseData)
+        public TargetTracker Clone(TrackingTarget target, PerceptionBaseData baseData)
         {
             return new(target, _settings, _deleteDistance, baseData);
         }

@@ -23,16 +23,17 @@ namespace InGame.Bot.Perception
         [SerializeField] private VisionPartData[] _visionPartDatas;
 
         private PerceptionBaseData _baseData;
+        private IEnumerable<TrackingTarget> _targetUnit;
 
-        private readonly Dictionary<Transform, VisionDetectionData> _detectionDatas = new();
-        private readonly List<Transform> _visibleTargets = new();
-        private readonly HashSet<Transform> _currentTargets = new();
-        private readonly List<Transform> _removeTargets = new();
+        private readonly Dictionary<TrackingTarget, VisionDetectionData> _detectionDatas = new();
+        private readonly List<TrackingTarget> _visibleTargets = new();
+        private readonly HashSet<TrackingTarget> _currentTargets = new();
+        private readonly List<TrackingTarget> _removeTargets = new();
 
         private readonly List<PartGizmoData> _partGizmoDatas = new();
 
         /// <summary> 見えている敵 </summary>
-        public IReadOnlyList<Transform> VisibleTargets => _visibleTargets;
+        public IReadOnlyList<TrackingTarget> VisibleTargets => _visibleTargets;
 
         /// <summary>
         /// 部位別視認データ
@@ -64,9 +65,10 @@ namespace InGame.Bot.Perception
             public PartState State;
         }
 
-        public void Initialize(PerceptionBaseData baseData)
+        public void Initialize(PerceptionBaseData baseData, IEnumerable<TrackingTarget> targetUnit)
         {
             _baseData = baseData;
+            _targetUnit = targetUnit;
 
             if (_visionPartDatas == null || _visionPartDatas.Length == 0)
             {
@@ -85,7 +87,7 @@ namespace InGame.Bot.Perception
             _currentTargets.Clear();
             _partGizmoDatas.Clear();
 
-            foreach (var target in TeamUnitDatabase.GetUnit(_baseData.TargetTeam))
+            foreach (var target in _targetUnit)
             {
                 if (target == null)
                     continue;
@@ -118,9 +120,9 @@ namespace InGame.Bot.Perception
         /// <summary>
         /// 対象が視野角内に存在するか
         /// </summary>
-        public bool IsInFieldOfView(Transform target)
+        public bool IsInFieldOfView(TrackingTarget target)
         {
-            Vector3 toTarget = target.position - _baseData.BotTransform.position;
+            Vector3 toTarget = target.Position - _baseData.BotTransform.position;
             toTarget.y = 0f;
 
             if (toTarget.sqrMagnitude < Mathf.Epsilon)
@@ -240,10 +242,10 @@ namespace InGame.Bot.Perception
         /// 視認度の高い部位から遮蔽を確認し、見えた時点で打ち切って視認度を返す(見えない場合は0)
         /// 確認済みの部位はGizmo用データに記録する
         /// </summary>
-        private float EvaluateParts(Transform target)
+        private float EvaluateParts(TrackingTarget target)
         {
             //視界範囲外
-            if ((target.position - _baseData.BotTransform.position).sqrMagnitude > _visionDistance * _visionDistance)
+            if ((target.Position - _baseData.BotTransform.position).sqrMagnitude > _visionDistance * _visionDistance)
                 return 0f;
 
             if (!IsInFieldOfView(target))
@@ -255,7 +257,7 @@ namespace InGame.Bot.Perception
 
                 _partGizmoDatas.Add(new PartGizmoData
                 {
-                    EndPoint = target.position + Vector3.up * partData.Height,
+                    EndPoint = target.Position + Vector3.up * partData.Height,
                     State = isShielded ? PartState.Shielded : PartState.Detecting,
                 });
 
@@ -289,10 +291,10 @@ namespace InGame.Bot.Perception
         /// <summary>
         /// Botの目から対象の部位までの間に遮蔽物があるか
         /// </summary>
-        private bool IsShielding(Transform target, float targetPartHeight)
+        private bool IsShielding(TrackingTarget target, float targetPartHeight)
         {
             Vector3 origin = _baseData.BotTransform.position + Vector3.up * _headHeight;
-            Vector3 targetPosition = target.position + Vector3.up * targetPartHeight;
+            Vector3 targetPosition = target.Position + Vector3.up * targetPartHeight;
 
             Vector3 direction = targetPosition - origin;
             float distance = direction.magnitude;

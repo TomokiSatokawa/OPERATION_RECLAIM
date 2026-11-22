@@ -1,9 +1,8 @@
 using System;
 using Common;
 using Common.Motion;
-using CoreKit;
 using CoreKit.DynamicEnum;
-using Generated.DynamicEnums;
+using InGame.Bot.Perception;
 using InGame.Player.Rifle;
 using PlayerInput;
 using R3;
@@ -25,6 +24,7 @@ public class RifleController : MonoBehaviour
     [SerializeField] private float _rayDistance;
     [SerializeField] private float _bulletDistance;
     [SerializeField] private DynamicEnumValue _shotSe;
+    [SerializeField] private float _radius = 50f;
 
     public event Action OnShot;
 
@@ -94,8 +94,9 @@ public class RifleController : MonoBehaviour
         OnShot?.Invoke();
 
         SoundManager.SE.PlayOneShot(_shotSe);
-        //Sound3DPlayer.Play3D(SEType.Shot,_rifleEquipper.CurrentRifle.ShotPosition.position);
-        
+
+        SoundSensor.AddSoundData(this.transform.position, _radius, TeamType.Player);
+
         return true;
     }
 

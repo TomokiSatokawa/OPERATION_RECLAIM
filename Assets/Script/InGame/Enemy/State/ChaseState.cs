@@ -1,4 +1,5 @@
 //AI
+using InGame.Bot.Perception;
 using InGame.Bot.StateMachine;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,7 +18,7 @@ namespace InGame.Enemy.StateMachine
         [SerializeField] private float _lostDuration;
 
         private float _lostTimer;
-        private Transform _target;
+        private ITrackingData _target;
 
         protected override void OnEnter(StateContext context)
         {
@@ -31,10 +32,16 @@ namespace InGame.Enemy.StateMachine
         }
 
         protected override void OnUpdate(StateContext context)
-        {
+        {           
             if (context.BotController.Perception == null)
             {
                 return;
+            }
+
+            //情報の信頼度が低かったらターゲットを再検索
+            if(_target.Confidence == TrackingConfidence.Low)
+            {
+                _target = context.BotController.Perception.GetBestTarget();
             }
 
             var chase = context.BotController.Perception.TryGetTargetCurrentPosition(_target, out var position);
@@ -78,7 +85,13 @@ namespace InGame.Enemy.StateMachine
             if (context.BotController.Perception.CheckTargetVisibility(_target)
                 && sqrDistance <= _attackRange * _attackRange)
             {
-                RequestChangeState = nameof(AttackState);
+
+                if (_target.GetType() == typeof(TrackingTarget))
+                {
+                    RequestChangeState = nameof(AttackState);
+                    return;
+                }
+                RequestChangeState = nameof(PatrolState);
                 return;
             }
 

@@ -42,6 +42,10 @@ namespace InGame.Enemy.StateMachine
             //‹”F‚µ‚½‚ç’ÇÕ
             if (context.BotController.Perception.IsVisible)
                 RequestChangeState = nameof(ChaseState);
+
+            //‰¹‚ğ•·‚¢‚½‚ç’ÇÕ
+            if (context.BotController.Perception.HasSoundData)
+                RequestChangeState = nameof(ChaseState);
         }
 
 

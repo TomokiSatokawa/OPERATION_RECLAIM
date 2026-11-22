@@ -1,15 +1,18 @@
 using CoreKit.DynamicEnum;
 using CoreKit.Sound;
 using InGame.Bot;
+using InGame.Bot.Perception;
 using UnityEngine;
 
 namespace InGame.Player
 {
     public class FootSound : MonoBehaviour
     {
+        [SerializeField] private TeamType _myTeam;
         [SerializeField] private string _groundTag;
         [SerializeField] private DynamicEnumValue _groundSound;
         [SerializeField] private float _distance;
+        [SerializeField] private float _radius;
 
         private Sound3DSetting _setting;
 
@@ -28,6 +31,7 @@ namespace InGame.Player
             {
                 Sound3DPlayer.Play3D(_groundSound, this.transform.position, _setting);
                 TargetPerceptionManager.HearNoise(this.transform.root, this.transform.position);
+                SoundSensor.AddSoundData(this.transform.position, InputService.Player.Dash.Key ? _radius : 0, _myTeam);
             }
         }
 
@@ -38,6 +42,7 @@ namespace InGame.Player
             {
                 Sound3DPlayer.Play3D(_groundSound, this.transform.position, _setting);
                 TargetPerceptionManager.HearNoise(this.transform.root, this.transform.position);
+                SoundSensor.AddSoundData(this.transform.position, InputService.Player.Dash.Key ? _radius : 0, _myTeam);
             }
         }
     }

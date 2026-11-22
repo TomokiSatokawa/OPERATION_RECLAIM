@@ -25,7 +25,7 @@ MonoBehaviour:
         _type:
           _definition: {fileID: 11400000, guid: 121d87b9277ee1547861505a2d9f0664, type: 2}
           _guid: c39d2ef51c7d48b586388727a92afeb8
-        _volume: 0.5
+        _volume: 0.279
         _clipEntry:
         - _clip: {fileID: 8300000, guid: 93ee6d41cd4427442800cfd26eda360e, type: 3}
           _volume: 1
@@ -53,7 +53,7 @@ MonoBehaviour:
         _type:
           _definition: {fileID: 11400000, guid: 121d87b9277ee1547861505a2d9f0664, type: 2}
           _guid: e06f6bf9bd50434da7824dd21b91a431
-        _volume: 0.71
+        _volume: 1
         _clipEntry:
         - _clip: {fileID: 8300000, guid: 667ad4d6e304b4a41974138a32d10805, type: 3}
           _volume: 1

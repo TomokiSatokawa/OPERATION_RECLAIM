@@ -7,13 +7,13 @@ namespace InGame.Bot.Perception
     /// </summary>
     public class VisionDetectionData
     {
-        public Transform Target { get; private set; }
+        public TrackingTarget Target { get; private set; }
 
         public float Progress { get; private set; }
 
         public bool IsDetected { get; private set; }
 
-        public VisionDetectionData(Transform target)
+        public VisionDetectionData(TrackingTarget target)
         {
             Target = target;
         }
