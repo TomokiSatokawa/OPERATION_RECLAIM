@@ -10033,7 +10033,7 @@ MonoBehaviour:
   - {fileID: 1307269681}
   - {fileID: 1590376951}
   _pinData:
-    Image: {fileID: 21300000, guid: cc7c20308e8a3df41a0b2a18dc7b632a, type: 3}
+    Image: {fileID: 21300000, guid: e512a6bc7581a6345b8a137a160f4369, type: 3}
     Color: {r: 0, g: 0.44508076, b: 1, a: 1}
 --- !u!1 &2020117043 stripped
 GameObject:

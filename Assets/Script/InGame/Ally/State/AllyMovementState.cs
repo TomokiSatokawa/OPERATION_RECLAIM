@@ -22,7 +22,7 @@ public class AllyMovementState : AllyCommandStateBase
     {
         if(context.BotController.HasArrived)
         {
-            _command.Complete();
+            _command.RemoveAlly(context.Bot);
         }
     }
 }
