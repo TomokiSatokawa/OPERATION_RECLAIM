@@ -72,6 +72,10 @@ namespace InGame.UI.Map
 
         public TransformMapPin (PinData pinData, Transform target)
         {
+            if(target == null)
+            {
+                Debug.LogError("Target‚ªnull‚Å‚·");
+            }
             _pinData = pinData;
             _target = target;
         }
