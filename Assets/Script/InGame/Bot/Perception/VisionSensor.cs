@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Generic;
-using InGame.Common;
 using UnityEngine;
 
 namespace InGame.Bot.Perception
 {
+    public interface IReadOnlyVisionSensor
+    {
+        public IReadOnlyList<TrackingTarget> VisibleTargets { get; }
+    }
+
     /// <summary>
     /// 視認判定
     /// </summary>
     [Serializable]
-    public class VisionSensor
+    public class VisionSensor : IReadOnlyVisionSensor
     {
         [Header("視認基本情報")]
         [SerializeField] private float _visionDistance = 50;
@@ -17,7 +21,7 @@ namespace InGame.Bot.Perception
         [SerializeField] private LayerMask _obstacleLayer;
         [Header("認識時間")]
         [SerializeField] private float _detectionDuration = 0.5f;
-        [SerializeField] private float _detectionRecoveryRate = 0.5f;
+        [SerializeField,Min(0.0001f)] private float _detectionRecoveryRate = 0.5f;
         [Header("部位")]
         [SerializeField] private float _headHeight;
         [SerializeField] private VisionPartData[] _visionPartDatas;

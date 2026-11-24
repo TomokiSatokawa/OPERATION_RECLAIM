@@ -1,3 +1,4 @@
+using InGame.UI.Map;
 using UnityEngine;
 
 namespace InGame
@@ -8,6 +9,11 @@ namespace InGame
         private void Start()
         {
             MousePointerControl.Locked();
+        }
+
+        private void OnDestroy()
+        {
+            MapPinRegistry.Dispose();
         }
     }
 }

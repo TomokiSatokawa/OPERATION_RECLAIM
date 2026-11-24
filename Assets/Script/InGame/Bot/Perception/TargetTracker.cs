@@ -4,8 +4,18 @@ using UnityEngine.AI;
 
 namespace InGame.Bot.Perception
 {
+    public interface IReadOnlyTargetTracker
+    {
+        public TrackingTarget Target { get; }
+        public Vector3 GetPositionAtTime();
+        public bool HasPrediction();
+    }
+
+    /// <summary>
+    /// 敵の位置を予測する
+    /// </summary>
     [System.Serializable]
-    public class TargetTracker
+    public class TargetTracker : IReadOnlyTargetTracker
     {
         [SerializeField] private float _deleteDistance;
         [SerializeField] private TargetPredictionSettings _settings;
@@ -34,6 +44,8 @@ namespace InGame.Bot.Perception
         private readonly List<Vector3> _trajectory = new List<Vector3>();
 
         private float _lostTime;
+
+        public TrackingTarget Target => _target;
 
         private TargetTracker(TrackingTarget target, TargetPredictionSettings settings, float deleteDistance, PerceptionBaseData baseData)
         {
@@ -118,11 +130,16 @@ namespace InGame.Bot.Perception
             if (_trajectory.Count == 0)
                 return false;
 
+            return true;
+        }
+
+        public bool IsRangePredictionTime()
+        {
             float elapsed = Time.time - _lostTime;
 
-            ////予測時間オーバー
-            //if (elapsed > _settings.MaxPredictTime)
-            //    return false;
+            //予測時間オーバー
+            if (elapsed > _settings.MaxPredictTime)
+                return false;
 
             return true;
         }

@@ -75,6 +75,9 @@ namespace InGame.Player
             {
                 case AllyCommandType.Movement:
                     return typeof(AllyMovementState);
+                case AllyCommandType.Idle:
+                    return typeof(AllyIdleState);
+                   
 
                 default:
                     return null;

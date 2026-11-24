@@ -698,6 +698,9 @@ MonoBehaviour:
       _maxYawRate: 270
       _simulationStep: 0.1
       _navMeshSampleDistance: 3
+  _soundSensor:
+    _validDuration: 5
+    _cancelDistance: 1
 --- !u!1 &3589381990387585810
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,6 +2136,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2057948945744100704}
     m_Modifications:
+    - target: {fileID: 3445531654755334759, guid: d46b81756b3966e469297e14d2a8bb87, type: 3}
+      propertyPath: _radius
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6243673104410583695, guid: d46b81756b3966e469297e14d2a8bb87, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2195,6 +2202,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7888737743614335846}
     m_Modifications:
+    - target: {fileID: 3445531654755334759, guid: d46b81756b3966e469297e14d2a8bb87, type: 3}
+      propertyPath: _radius
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3445531654755334759, guid: d46b81756b3966e469297e14d2a8bb87, type: 3}
       propertyPath: _distance
       value: 10

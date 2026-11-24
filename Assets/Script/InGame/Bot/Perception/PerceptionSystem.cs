@@ -20,6 +20,9 @@ namespace InGame.Bot.Perception
         /// <summary> “G‚ð’¼Ž‹‚µ‚Ä‚¢‚é‚© </summary>
         public bool IsVisible => _visionSensor.VisibleTargets.Count > 0;
         public bool HasSoundData => _soundSensor.SoundDataCount > 0;
+        public IReadOnlyVisionSensor VisionSensor => _visionSensor;
+        //TODO:IReadOnly‚ðŽg—p‚·‚é
+        public IReadOnlyDictionary<ITrackingData,TargetTracker> TargetTracker => _targetTrackerDictionary;
 
         private readonly Dictionary<ITrackingData, TargetTracker> _targetTrackerDictionary = new();
         private readonly Dictionary<Transform, TrackingTarget> _trackingDictionary = new();

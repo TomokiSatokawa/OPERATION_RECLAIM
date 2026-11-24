@@ -42,6 +42,11 @@ namespace InGame.UI.Map
 
             return b;
         }
+
+        public static void Dispose()
+        {
+            _pins.Clear();
+        }
     }
 
     [System.Serializable]

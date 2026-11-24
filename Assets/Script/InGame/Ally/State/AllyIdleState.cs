@@ -1,7 +1,7 @@
 using InGame.Bot.StateMachine;
 
 [System.Serializable]
-public class AllyIdleState : BotStateBase
+public class AllyIdleState : AllyCommandStateBase
 {
     public override bool CanTransition(StateContext context)
     {
@@ -11,6 +11,7 @@ public class AllyIdleState : BotStateBase
     protected override void OnEnter(StateContext context)
     {
         context.BotController.StopMove();
+        _command?.RemoveAlly(context.Bot);
     }
 
     protected override void OnExit(StateContext context)
