@@ -17,3 +17,5 @@ MonoBehaviour:
     _count: 0
   - _prefab: {fileID: 6066380951358409434, guid: 1be9a3fb460deec438aece878583e9fc, type: 3}
     _count: 0
+  - _prefab: {fileID: 3773955119973053465, guid: 972075a3825df6242b0ce1b24b06734c, type: 3}
+    _count: 0

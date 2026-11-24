@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ namespace InGame.Bot.Perception
         private PerceptionBaseData _baseData;
         private bool _isInitialized;
 
+        public static event Action<SoundData> OnAddSound;
         public int SoundDataCount => _soundDatas.Count;
 
         public void Initialize(PerceptionBaseData baseData)
@@ -75,6 +77,7 @@ namespace InGame.Bot.Perception
             {
                 Position = position,
                 Time = Time.time,
+                Radius = radius,
                 Team = team,
             };
 
@@ -94,6 +97,8 @@ namespace InGame.Bot.Perception
 
                 sensor._soundDatas.Add(soundData);
             }
+
+            OnAddSound?.Invoke(soundData);
         }
 
         public bool TryGetNearestPosition(out Vector3 position)
@@ -115,10 +120,11 @@ namespace InGame.Bot.Perception
             return nearestSqr != float.MaxValue;
         }
 
-        private struct SoundData
+        public struct SoundData
         {
             public Vector3 Position;
             public float Time;
+            public float Radius;
             public TeamType Team;
         }
     }

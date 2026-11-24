@@ -8053,7 +8053,7 @@ MonoBehaviour:
   _shotSe:
     _definition: {fileID: 11400000, guid: 121d87b9277ee1547861505a2d9f0664, type: 2}
     _guid: c39d2ef51c7d48b586388727a92afeb8
-  _radius: 50
+  _radius: 10
   references:
     version: 2
     RefIds:
@@ -9868,6 +9868,7 @@ GameObject:
   - component: {fileID: 2003708807}
   - component: {fileID: 2003708808}
   - component: {fileID: 2003708809}
+  - component: {fileID: 2003708810}
   m_Layer: 5
   m_Name: MinMap
   m_TagString: Untagged
@@ -9936,6 +9937,23 @@ MonoBehaviour:
   _pinData:
     Image: {fileID: 21300000, guid: e512a6bc7581a6345b8a137a160f4369, type: 3}
     Color: {r: 0, g: 0.44508076, b: 1, a: 1}
+--- !u!114 &2003708810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003708806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c45e3c7c28bab74b9034e21f7b94cf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.UI.Map.SoundIndicator
+  _prefab: {fileID: 3773955119973053465, guid: 972075a3825df6242b0ce1b24b06734c, type: 3}
+  _poolManager: {fileID: 1520556322}
+  _content: {fileID: 1008093134}
+  _mapRect: {fileID: 1008093134}
+  _mapCamera: {fileID: 405077625}
 --- !u!1 &2020117043 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3257157329665961673, guid: 3c61731c91f88364196a4223daee2386, type: 3}
