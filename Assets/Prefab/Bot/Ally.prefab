@@ -198,6 +198,7 @@ GameObject:
   - component: {fileID: 8614882810002359024}
   - component: {fileID: 993473199284223969}
   - component: {fileID: 3261130753893819686}
+  - component: {fileID: 1560749861909997656}
   m_Layer: 3
   m_Name: Ally
   m_TagString: Untagged
@@ -471,7 +472,7 @@ MonoBehaviour:
     _obstacleLayer:
       serializedVersion: 2
       m_Bits: 1792
-    _detectionDuration: 0.5
+    _detectionDuration: 0.3
     _detectionRecoveryRate: 0.5
     _headHeight: 1
     _visionPartDatas:
@@ -487,14 +488,38 @@ MonoBehaviour:
   _targetTracker:
     _deleteDistance: 0
     _settings:
-      _maxPredictTime: 3
+      _maxPredictTime: 5
       _velocitySmoothing: 10
       _turnSmoothing: 6
-      _speedDecay: 0.3
+      _speedDecay: 0
       _turnDecay: 1.5
       _maxYawRate: 270
       _simulationStep: 0.1
       _navMeshSampleDistance: 3
+  _soundSensor:
+    _validDuration: 0
+    _cancelDistance: 0
+--- !u!114 &1560749861909997656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189892605092398508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61109a47cc2cfeb458436f2edd5d964c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGame.UI.Map.VisionMapPresenter
+  _targetTeam: 2
+  _perceptionSystem: {fileID: 3261130753893819686}
+  _overwriteSharedPinData: 0
+  _lowPin:
+    Image: {fileID: 0}
+    Color: {r: 0.041580677, g: 0, b: 1, a: 1}
+  _highPin:
+    Image: {fileID: 0}
+    Color: {r: 1, g: 0, b: 0.092609406, a: 1}
 --- !u!1 &1307997118855072311
 GameObject:
   m_ObjectHideFlags: 0

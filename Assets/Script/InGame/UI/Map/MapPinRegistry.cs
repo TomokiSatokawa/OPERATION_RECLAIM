@@ -6,34 +6,41 @@ namespace InGame.UI.Map
 {
     public static class MapPinRegistry
     {
-        private static List<TrackingBaseData> _pins = new();
+        private static List<MapPinBase> _pins = new();
 
-        public static IReadOnlyList<TrackingBaseData> Pins => _pins;
+        public static IReadOnlyList<MapPinBase> Pins => _pins;
 
-        public static event Action<TrackingBaseData> OnCreate;
-        public static event Action<TrackingBaseData> OnDelete;
+        public static event Action<MapPinBase> OnCreate;
+        public static event Action<MapPinBase> OnDelete;
 
-        public static TrackingBaseData RegisterPin(PinData pinData, Vector3 position)
+        public static MapPinBase RegisterPin(PinData pinData, Vector3 position)
         {
-            var trackingData = new PositionTracking(pinData, position);
+            var trackingData = new FixedPositionMapPin (pinData, position);
             RegisterPin(trackingData);
             return trackingData;
         }
 
-        public static TrackingBaseData RegisterPin(PinData pinData, Transform target)
+        public static MapPinBase RegisterPin(PinData pinData, Transform target)
         {
-            var trackingData = new TargetTracking(pinData, target);
+            var trackingData = new TransformMapPin (pinData, target);
             RegisterPin(trackingData);
             return trackingData;
         }
 
-        private static void RegisterPin(TrackingBaseData pin)
+        public static MapPinBase RegisterPin(PinData pinData, Func<Vector3> func)
+        {
+            var trackingData = new FuncPositionMapPin(pinData, func);
+            RegisterPin(trackingData);
+            return trackingData;
+        }
+
+        private static void RegisterPin(MapPinBase pin)
         {
             OnCreate?.Invoke(pin);
             _pins.Add(pin);
         }
 
-        public static bool TryUnregisterPin(TrackingBaseData pin)
+        public static bool TryUnregisterPin(MapPinBase pin)
         {
             bool b = _pins.Remove(pin);
 
@@ -50,7 +57,7 @@ namespace InGame.UI.Map
     }
 
     [System.Serializable]
-    public abstract class TrackingBaseData
+    public abstract class MapPinBase
     {
         [SerializeField] protected PinData _pinData;
         public PinData PinData => _pinData;
@@ -58,12 +65,12 @@ namespace InGame.UI.Map
     }
 
     [System.Serializable]
-    public class TargetTracking : TrackingBaseData
+    public class TransformMapPin  : MapPinBase
     {
         [SerializeField] private Transform _target;
         public Transform Target => _target;
 
-        public TargetTracking(PinData pinData, Transform target)
+        public TransformMapPin (PinData pinData, Transform target)
         {
             _pinData = pinData;
             _target = target;
@@ -76,11 +83,11 @@ namespace InGame.UI.Map
     }
 
     [System.Serializable]
-    public class PositionTracking : TrackingBaseData
+    public class FixedPositionMapPin  : MapPinBase
     {
         [SerializeField] private Vector3 _position;
 
-        public PositionTracking(PinData pinData, Vector3 pos)
+        public FixedPositionMapPin (PinData pinData, Vector3 pos)
         {
             _pinData = pinData;
             _position = pos;
@@ -89,6 +96,31 @@ namespace InGame.UI.Map
         public override Vector3 GetPosition()
         {
             return _position;
+        }
+    }
+
+    [System.Serializable]
+    public class FuncPositionMapPin : MapPinBase
+    {
+        private readonly Func<Vector3> _positionGetter;
+
+        public FuncPositionMapPin(PinData pinData, Func<Vector3> positionGetter)
+        {
+            _pinData = pinData;
+            _positionGetter = positionGetter;
+        }
+
+        public override Vector3 GetPosition()
+        {
+            if (_positionGetter == null)
+            {
+                Debug.LogError("[FuncPositionMapPin] positionGetterÇ™ñ¢ê›íËÇ≈Ç∑");
+                return Vector3.zero;
+            }
+
+            Debug.Log("update");
+
+            return _positionGetter();
         }
     }
 }

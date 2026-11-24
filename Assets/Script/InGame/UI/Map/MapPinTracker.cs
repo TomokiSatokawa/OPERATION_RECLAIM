@@ -10,11 +10,11 @@ namespace InGame.UI.Map
         [SerializeField] private Image _image;
         [SerializeField] private float _range;
         private Camera _mapCamera;
-        private TrackingBaseData _target;
+        private MapPinBase _target;
         private RectTransform _mapRect;
         private FloatRange _viewRange = FloatRange.Create(0, 1);
 
-        public void Initialize(Camera mapCamera, TrackingBaseData tracking, RectTransform mapRect,PinData pinData)
+        public void Initialize(Camera mapCamera, MapPinBase tracking, RectTransform mapRect,PinData pinData)
         {
             _mapCamera = mapCamera;
             _target = tracking;

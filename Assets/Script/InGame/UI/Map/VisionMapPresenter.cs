@@ -11,9 +11,9 @@ namespace InGame.UI.Map
     {
         private static PinData _sharedLowPinData;
         private static PinData _sharedHighPinData;
-        private static readonly Dictionary<TrackingTarget, Dictionary<object, VisionState>> _reportsByTarget = new();
-        private static readonly Dictionary<TrackingTarget, VisionState> _sharedStates = new();
-        private static readonly Dictionary<TrackingTarget, TrackingBaseData> _registeredPins = new();
+        private static readonly Dictionary<TrackingTarget, Dictionary<PerceptionSystem, VisionState>> _reportsByTarget = new();
+        private static readonly Dictionary<TrackingTarget, (PerceptionSystem, VisionState)> _sharedStates = new();
+        private static readonly Dictionary<TrackingTarget, MapPinBase> _registeredPins = new();
         private static readonly List<TrackingTarget> _changedTargetBuffer = new();
 
         [SerializeField] private TeamType _targetTeam;
@@ -63,19 +63,17 @@ namespace InGame.UI.Map
                     && _perceptionSystem.TargetTracker[target].IsRangePredictionTime())
                     nextState = VisionState.Tracking;
 
-                Debug.Log(nextState);
-
                 //自分の中で変化があった時だけ共有へ反映
                 if (_localStates[target] == nextState) continue;
 
                 _localStates[target] = nextState;
-                ReportState(target, this, nextState);
+                ReportState(target, _perceptionSystem, nextState);
             }
         }
 
         private void OnDisable()
         {
-            RemoveReporter(this);
+            RemoveReporter(_perceptionSystem);
             _localStates.Clear();
         }
 
@@ -89,14 +87,14 @@ namespace InGame.UI.Map
             _registeredPins.Clear();
         }
 
-        private static void ReportState(TrackingTarget target, object reporter, VisionState state)
+        private static void ReportState(TrackingTarget target, PerceptionSystem reporter, VisionState state)
         {
-            var reporterName = reporter is Component component ? component.gameObject.name : reporter.ToString();
-            Debug.Log($"[VisionMapPresenter] {reporterName} → {target} : {state}");
+            //var reporterName = reporter is Component component ? component.gameObject.name : reporter.ToString();
+            //Debug.Log($"[VisionMapPresenter] {reporterName} → {target} : {state}");
 
             if (!_reportsByTarget.TryGetValue(target, out var reporterStates))
             {
-                reporterStates = new Dictionary<object, VisionState>();
+                reporterStates = new Dictionary<PerceptionSystem, VisionState>();
                 _reportsByTarget[target] = reporterStates;
             }
 
@@ -105,10 +103,10 @@ namespace InGame.UI.Map
             else
                 reporterStates[reporter] = state;
 
-            RefreshSharedPin(target);
+            RefreshSharedPin(target, reporter);
         }
 
-        private static void RemoveReporter(object reporter)
+        private static void RemoveReporter(PerceptionSystem reporter)
         {
             _changedTargetBuffer.Clear();
             foreach (var entry in _reportsByTarget)
@@ -119,11 +117,11 @@ namespace InGame.UI.Map
 
             foreach (var target in _changedTargetBuffer)
             {
-                RefreshSharedPin(target);
+                RefreshSharedPin(target, reporter);
             }
         }
 
-        private static void RefreshSharedPin(TrackingTarget target)
+        private static void RefreshSharedPin(TrackingTarget target, PerceptionSystem reporter)
         {
             //一番優先度の高い状態を採用
             var nextState = VisionState.None;
@@ -136,10 +134,10 @@ namespace InGame.UI.Map
             }
 
             //前回の共有状態と同じなら何もしない
-            var previousState = _sharedStates.TryGetValue(target, out var storedState) ? storedState : VisionState.None;
+            var previousState = _sharedStates.TryGetValue(target, out var stored) ? stored.Item2 : VisionState.None;
             if (previousState == nextState) return;
 
-            _sharedStates[target] = nextState;
+            _sharedStates[target] = (reporter, nextState);
 
             //古いPinを外す
             if (_registeredPins.TryGetValue(target, out var oldPin))
@@ -164,7 +162,7 @@ namespace InGame.UI.Map
             }
         }
 
-        private static TrackingBaseData RegisterTargetPin(PinData pinData, TrackingTarget target)
+        private static MapPinBase RegisterTargetPin(PinData pinData, TrackingTarget target)
         {
             if (pinData == null)
             {
@@ -172,7 +170,24 @@ namespace InGame.UI.Map
                 return null;
             }
 
-            return MapPinRegistry.RegisterPin(pinData, target.Target);
+            return MapPinRegistry.RegisterPin(pinData, () => GetPosition(target));
+        }
+
+        private static Vector3 GetPosition(TrackingTarget target)
+        {
+            var shard = _sharedStates[target];
+
+            if (shard.Item2 == VisionState.Tracking)
+            {
+                var targetTracker = shard.Item1.TargetTracker[target];
+                if (!targetTracker.HasPrediction())
+                {
+                    return Vector3.zero;
+                }
+                return targetTracker.GetPositionAtTime();
+            }
+            else
+                return target.Position;
         }
 
         public enum VisionState

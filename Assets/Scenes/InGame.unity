@@ -2411,6 +2411,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 6168932859389573492, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: _targetTracker._settings._speedDecay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6168932859389573492, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
+      propertyPath: _targetTracker._settings._maxPredictTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6328415949865296972, guid: 70d6527e4368e3242b0674b6b4c0bdcd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 26.44915
@@ -5000,7 +5008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3261130753893819686, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7393,7 +7401,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3261130753893819686, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8302,10 +8310,10 @@ MonoBehaviour:
       _maxPredictTime: 5
       _velocitySmoothing: 10
       _turnSmoothing: 6
-      _speedDecay: 0.3
+      _speedDecay: 0
       _turnDecay: 1.5
       _maxYawRate: 270
-      _simulationStep: 0.1
+      _simulationStep: 0.01
       _navMeshSampleDistance: 3
   _soundSensor:
     _validDuration: 5
@@ -8417,7 +8425,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3261130753893819686, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8521,7 +8529,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3261130753893819686, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8671,7 +8679,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3261130753893819686, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10808,10 +10816,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2743518810354485803, guid: 792854589715e854eb177f0df0281107, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3261130753893819686, guid: 792854589715e854eb177f0df0281107, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4406972102753648321, guid: 792854589715e854eb177f0df0281107, type: 3}

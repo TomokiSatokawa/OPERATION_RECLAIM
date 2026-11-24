@@ -14,7 +14,7 @@ namespace InGame.UI.Map
         [SerializeField] private Transform[] _trackingDatas;
         [SerializeField] private PinData _pinData;
 
-        private Dictionary<TrackingBaseData, PoolObject> _poolDic = new();
+        private Dictionary<MapPinBase, PoolObject> _poolDic = new();
 
         private void Start()
         {
@@ -27,7 +27,7 @@ namespace InGame.UI.Map
             }
         }
 
-        private void CreatePin(TrackingBaseData data)
+        private void CreatePin(MapPinBase data)
         {
             var poolObject = _poolManager.Get(_pinPrefab);
             var pin = poolObject.GetCustomComponent<MapPinTracker>();
@@ -37,7 +37,7 @@ namespace InGame.UI.Map
             _poolDic.Add(data, poolObject);
         }
 
-        private void DeletePin(TrackingBaseData data )
+        private void DeletePin(MapPinBase data )
         {
             _poolManager.Release(_poolDic[data]);
             _poolDic.Remove(data);
