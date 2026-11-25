@@ -9954,6 +9954,9 @@ MonoBehaviour:
   _content: {fileID: 1008093134}
   _mapRect: {fileID: 1008093134}
   _mapCamera: {fileID: 405077625}
+  _pinData:
+    Image: {fileID: 21300000, guid: 1d7b83083f9146f46be692f967b1a623, type: 3}
+    Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2020117043 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3257157329665961673, guid: 3c61731c91f88364196a4223daee2386, type: 3}

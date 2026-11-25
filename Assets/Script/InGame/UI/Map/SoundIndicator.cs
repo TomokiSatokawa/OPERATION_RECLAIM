@@ -14,6 +14,7 @@ namespace InGame.UI.Map
         [SerializeField] private RectTransform _content;
         [SerializeField] private RectTransform _mapRect;
         [SerializeField] private Camera _mapCamera;
+        [SerializeField] private PinData _pinData;
 
         private void Start()
         {
@@ -59,6 +60,9 @@ namespace InGame.UI.Map
             var radius = WorldToMapRadius(sound.Position, sound.Radius);
             rect.anchoredPosition = WorldToMapPosition(sound.Position);
             rect.sizeDelta = Vector2.one * radius * 2f;
+
+            var tracker = indicator.GetCustomComponent<MapPinTracker>();
+            tracker.Initialize(_mapCamera, new FixedPositionMapPin(_pinData, sound.Position), _mapRect, _pinData);
         }
     }
 }
